@@ -1,253 +1,1797 @@
-import { reactive, getCurrentInstance, toRef, isRef, inject, defineComponent, computed, ref, h, resolveComponent, version, useSSRContext, mergeProps, defineAsyncComponent, provide, onErrorCaptured, unref, createApp } from "vue";
-import { $fetch } from "ofetch";
-import { useRuntimeConfig as useRuntimeConfig$1 } from "#internal/nitro";
-import { createHooks } from "hookable";
-import { getContext } from "unctx";
-import "destr";
-import { hasProtocol, parseURL, joinURL, isEqual, stringifyParsedURL, stringifyQuery, parseQuery } from "ufo";
-import { createError as createError$1, sendRedirect } from "h3";
-import { createHead as createHead$1, useHead as useHead$1 } from "@unhead/vue";
-import { renderDOMHead, debouncedRenderDOMHead } from "@unhead/dom";
-import { ssrRenderAttrs, ssrRenderSuspense, ssrRenderComponent } from "vue/server-renderer";
-const appConfig = useRuntimeConfig$1().app;
-const baseURL = () => appConfig.baseURL;
-const nuxtAppCtx = getContext("nuxt-app");
-const NuxtPluginIndicator = "__nuxt_plugin";
-function createNuxtApp(options) {
-  let hydratingCount = 0;
-  const nuxtApp = {
-    provide: void 0,
-    globalName: "nuxt",
-    payload: reactive({
-      data: {},
-      state: {},
-      _errors: {},
-      ...{ serverRendered: true }
-    }),
-    static: {
-      data: {}
-    },
-    isHydrating: false,
-    deferHydration() {
-      if (!nuxtApp.isHydrating) {
-        return () => {
-        };
+import * as __WEBPACK_EXTERNAL_MODULE__unhead_dom_2b61a37b__ from "@unhead/dom";
+import * as __WEBPACK_EXTERNAL_MODULE__unhead_ssr_a0c369cc__ from "@unhead/ssr";
+import * as __WEBPACK_EXTERNAL_MODULE__unhead_vue_609689db__ from "@unhead/vue";
+import * as __WEBPACK_EXTERNAL_MODULE_cookie_es_d37e758b__ from "cookie-es";
+import * as __WEBPACK_EXTERNAL_MODULE_defu__ from "defu";
+import * as __WEBPACK_EXTERNAL_MODULE_destr__ from "destr";
+import * as __WEBPACK_EXTERNAL_MODULE_h3__ from "h3";
+import * as __WEBPACK_EXTERNAL_MODULE_hookable__ from "hookable";
+import * as __WEBPACK_EXTERNAL_MODULE_ofetch__ from "ofetch";
+import * as __WEBPACK_EXTERNAL_MODULE_ohash__ from "ohash";
+import * as __WEBPACK_EXTERNAL_MODULE_ufo__ from "ufo";
+import * as __WEBPACK_EXTERNAL_MODULE_unctx__ from "unctx";
+import * as __WEBPACK_EXTERNAL_MODULE_url__ from "url";
+import * as __WEBPACK_EXTERNAL_MODULE_vue__ from "vue";
+import * as __WEBPACK_EXTERNAL_MODULE_vue_router_6389ad97__ from "vue-router";
+import * as __WEBPACK_EXTERNAL_MODULE_vue_server_renderer_f488d186__ from "vue/server-renderer";
+/******/ var __webpack_modules__ = ({
+
+/***/ "./node_modules/css-loader/dist/runtime/api.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/api.js ***!
+  \*****************************************************/
+/***/ ((module) => {
+
+
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+*/
+module.exports = function (cssWithMappingToString) {
+  var list = [];
+
+  // return the list of modules as css string
+  list.toString = function toString() {
+    return this.map(function (item) {
+      var content = "";
+      var needLayer = typeof item[5] !== "undefined";
+      if (item[4]) {
+        content += "@supports (".concat(item[4], ") {");
       }
-      hydratingCount++;
-      let called = false;
+      if (item[2]) {
+        content += "@media ".concat(item[2], " {");
+      }
+      if (needLayer) {
+        content += "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {");
+      }
+      content += cssWithMappingToString(item);
+      if (needLayer) {
+        content += "}";
+      }
+      if (item[2]) {
+        content += "}";
+      }
+      if (item[4]) {
+        content += "}";
+      }
+      return content;
+    }).join("");
+  };
+
+  // import a list of modules into the list
+  list.i = function i(modules, media, dedupe, supports, layer) {
+    if (typeof modules === "string") {
+      modules = [[null, modules, undefined]];
+    }
+    var alreadyImportedModules = {};
+    if (dedupe) {
+      for (var k = 0; k < this.length; k++) {
+        var id = this[k][0];
+        if (id != null) {
+          alreadyImportedModules[id] = true;
+        }
+      }
+    }
+    for (var _k = 0; _k < modules.length; _k++) {
+      var item = [].concat(modules[_k]);
+      if (dedupe && alreadyImportedModules[item[0]]) {
+        continue;
+      }
+      if (typeof layer !== "undefined") {
+        if (typeof item[5] === "undefined") {
+          item[5] = layer;
+        } else {
+          item[1] = "@layer".concat(item[5].length > 0 ? " ".concat(item[5]) : "", " {").concat(item[1], "}");
+          item[5] = layer;
+        }
+      }
+      if (media) {
+        if (!item[2]) {
+          item[2] = media;
+        } else {
+          item[1] = "@media ".concat(item[2], " {").concat(item[1], "}");
+          item[2] = media;
+        }
+      }
+      if (supports) {
+        if (!item[4]) {
+          item[4] = "".concat(supports);
+        } else {
+          item[1] = "@supports (".concat(item[4], ") {").concat(item[1], "}");
+          item[4] = supports;
+        }
+      }
+      list.push(item);
+    }
+  };
+  return list;
+};
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/runtime/noSourceMaps.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/noSourceMaps.js ***!
+  \**************************************************************/
+/***/ ((module) => {
+
+
+
+module.exports = function (i) {
+  return i[1];
+};
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/dist/exportHelper.js":
+/*!******************************************************!*\
+  !*** ./node_modules/vue-loader/dist/exportHelper.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, exports) => {
+
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+// runtime helper for setting properties on components
+// in a tree-shakable way
+exports["default"] = (sfc, props) => {
+    const target = sfc.__vccOpts || sfc;
+    for (const [key, val] of props) {
+        target[key] = val;
+    }
+    return target;
+};
+
+
+/***/ }),
+
+/***/ "./assets/css/index.scss":
+/*!*******************************!*\
+  !*** ./assets/css/index.scss ***!
+  \*******************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+// Imports
+var ___CSS_LOADER_API_NO_SOURCEMAP_IMPORT___ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/noSourceMaps.js */ "./node_modules/css-loader/dist/runtime/noSourceMaps.js");
+var ___CSS_LOADER_API_IMPORT___ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+var ___CSS_LOADER_EXPORT___ = ___CSS_LOADER_API_IMPORT___(___CSS_LOADER_API_NO_SOURCEMAP_IMPORT___);
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, "body {\n  margin: 0px; }\n\n.main {\n  width: 1800px; }\n\n.c {\n  display: flex;\n  justify-content: center;\n  justify-items: center; }\n\n.e {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.s {\n  display: flex;\n  justify-items: center;\n  align-items: center; }\n\n.sc {\n  display: flex;\n  flex-direction: column;\n  justify-items: center;\n  align-items: center; }\n\n.f {\n  align-items: center; }\n\n.flex {\n  display: flex; }\n\n.flex1 {\n  flex: 1; }\n\n.row-s {\n  display: flex;\n  justify-content: flex-start; }\n\n.row-e {\n  display: flex;\n  justify-content: flex-end; }\n\n.row-c {\n  display: flex;\n  justify-content: center; }\n\n.row-sp {\n  display: flex;\n  justify-content: space-around; }\n\n.row-b {\n  display: flex;\n  justify-content: space-between; }\n\n.col-s {\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-start; }\n\n.col-e {\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end; }\n\n.col-c {\n  display: flex;\n  flex-direction: column;\n  justify-content: center; }\n\n.col-sp {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-around; }\n\n.col-b {\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between; }\n\n.col-12 {\n  width: 100%; }\n\n.col-11 {\n  width: 91.3%; }\n\n.col-11b {\n  width: 90.3%; }\n\n.col-115 {\n  width: 95.3%; }\n\n.col-10 {\n  width: 83.3%; }\n\n.col-105 {\n  width: 86.3%; }\n\n.col-9 {\n  width: 74.7%; }\n\n.col-95 {\n  width: 80.9%; }\n\n.col-8 {\n  width: 66.4%; }\n\n.col-7 {\n  width: 58.1%; }\n\n.col-65 {\n  width: 54.1%; }\n\n.col-6 {\n  width: 49.8%; }\n\n.col-55 {\n  width: 43.5%; }\n\n.col-5 {\n  width: 41.5%; }\n\n.col-4 {\n  width: 33.2%; }\n\n.col-41 {\n  width: 33.5%; }\n\n.col-3 {\n  width: 24.9%; }\n\n.col-25 {\n  width: 20.6%; }\n\n.col-2 {\n  width: 16.6%; }\n\n.col-29 {\n  width: 23.1%; }\n\n.col-21 {\n  width: 16.79%; }\n\n.col-1 {\n  width: 8.3%; }\n\n.ml {\n  margin-left: 8.3%; }\n\n.mr {\n  margin-right: 8.3%; }\n\n.mt {\n  margin-top: 8.3%; }\n\n.mb {\n  margin-bottom: 8.3%; }\n\n.pl {\n  padding-left: 8.3%; }\n\n.pr {\n  padding-right: 8.3%; }\n\n.pt {\n  padding-top: 8.3%; }\n\n.pb {\n  padding-bottom: 8.3%; }\n\n@media screen and (max-width: 1400px) {\n  .main {\n    width: 1400px; } }\n\n@media screen and (max-width: 800px) {\n  .main {\n    width: 800px; } }\n", ""]);
+// Exports
+module.exports = ___CSS_LOADER_EXPORT___;
+
+
+/***/ }),
+
+/***/ "./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Adynamic-base-path!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Aimports-transform!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Acomponents-loader!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Atree-shake-template!./node_modules/nuxt/dist/app/components/nuxt-root.vue?vue&type=script&setup=true&lang=js":
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Adynamic-base-path!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Aimports-transform!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Acomponents-loader!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Atree-shake-template!./node_modules/nuxt/dist/app/components/nuxt-root.vue?vue&type=script&setup=true&lang=js ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! #app */ "./node_modules/nuxt/dist/app/index.mjs");
+/* harmony import */ var _build_app_component_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! #build/app-component.mjs */ "./.nuxt/app-component.mjs");
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  __name: 'nuxt-root',
+  setup(__props, { expose }) {
+  expose();
+
+const ErrorComponent = (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineAsyncComponent)(() => __webpack_require__.e(/*! import() */ "_nuxt_error-component_mjs").then(__webpack_require__.bind(__webpack_require__, /*! #build/error-component.mjs */ "./.nuxt/error-component.mjs")).then(r => r.default || r))
+
+const nuxtApp = (0,_app__WEBPACK_IMPORTED_MODULE_1__.useNuxtApp)()
+const onResolve = nuxtApp.deferHydration()
+
+// Inject default route (outside of pages) as active route
+;(0,vue__WEBPACK_IMPORTED_MODULE_0__.provide)('_route', (0,_app__WEBPACK_IMPORTED_MODULE_1__.useRoute)())
+
+// vue:setup hook
+const results = nuxtApp.hooks.callHookWith(hooks => hooks.map(hook => hook()), 'vue:setup')
+if ( true && results && results.some(i => i && 'then' in i)) {
+  console.error('[nuxt] Error in `vue:setup`. Callbacks must be synchronous.')
+}
+
+// error handling
+const error = (0,_app__WEBPACK_IMPORTED_MODULE_1__.useError)()
+;(0,vue__WEBPACK_IMPORTED_MODULE_0__.onErrorCaptured)((err, target, info) => {
+  nuxtApp.hooks.callHook('vue:error', err, target, info).catch(hookError => console.error('[nuxt] Error in `vue:error` hook', hookError))
+  if (true) {
+    (0,_app__WEBPACK_IMPORTED_MODULE_1__.callWithNuxt)(nuxtApp, _app__WEBPACK_IMPORTED_MODULE_1__.showError, [err])
+  }
+})
+
+const __returned__ = { ErrorComponent, nuxtApp, onResolve, results, error, defineAsyncComponent: vue__WEBPACK_IMPORTED_MODULE_0__.defineAsyncComponent, onErrorCaptured: vue__WEBPACK_IMPORTED_MODULE_0__.onErrorCaptured, provide: vue__WEBPACK_IMPORTED_MODULE_0__.provide, get callWithNuxt() { return _app__WEBPACK_IMPORTED_MODULE_1__.callWithNuxt }, get isNuxtError() { return _app__WEBPACK_IMPORTED_MODULE_1__.isNuxtError }, get showError() { return _app__WEBPACK_IMPORTED_MODULE_1__.showError }, get useError() { return _app__WEBPACK_IMPORTED_MODULE_1__.useError }, get useRoute() { return _app__WEBPACK_IMPORTED_MODULE_1__.useRoute }, get useNuxtApp() { return _app__WEBPACK_IMPORTED_MODULE_1__.useNuxtApp }, get AppComponent() { return _build_app_component_mjs__WEBPACK_IMPORTED_MODULE_2__["default"] } }
+Object.defineProperty(__returned__, '__isScriptSetup', { enumerable: false, value: true })
+return __returned__
+}
+
+});
+
+/***/ }),
+
+/***/ "./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Adynamic-base-path!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Aimports-transform!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Acomponents-loader!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[9]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Atree-shake-template!./node_modules/nuxt/dist/app/components/nuxt-root.vue?vue&type=template&id=e2ce4b36":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Adynamic-base-path!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Aimports-transform!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Acomponents-loader!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[9]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Atree-shake-template!./node_modules/nuxt/dist/app/components/nuxt-root.vue?vue&type=template&id=e2ce4b36 ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ssrRender": () => (/* binding */ ssrRender)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue/server-renderer */ "vue/server-renderer");
+
+
+
+function ssrRender(_ctx, _push, _parent, _attrs, $props, $setup, $data, $options) {
+  (0,vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__.ssrRenderSuspense)(_push, {
+    default: () => {
+      if ($setup.error) {
+        _push((0,vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__.ssrRenderComponent)($setup["ErrorComponent"], { error: $setup.error }, null, _parent))
+      } else {
+        _push((0,vue_server_renderer__WEBPACK_IMPORTED_MODULE_1__.ssrRenderComponent)($setup["AppComponent"], null, null, _parent))
+      }
+    },
+    _: 1 /* STABLE */
+  })
+}
+
+/***/ }),
+
+/***/ "./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Adynamic-base-path!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Aimports-transform!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Acomponents-loader!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[9]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Atree-shake-template!./node_modules/nuxt/dist/pages/runtime/app.vue?vue&type=template&id=62b2decb":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Adynamic-base-path!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Aimports-transform!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Acomponents-loader!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[9]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Atree-shake-template!./node_modules/nuxt/dist/pages/runtime/app.vue?vue&type=template&id=62b2decb ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ssrRender": () => (/* binding */ ssrRender)
+/* harmony export */ });
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_app_components_layout__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/nuxt/dist/app/components/layout */ "./node_modules/nuxt/dist/app/components/layout.mjs");
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_pages_runtime_page__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/nuxt/dist/pages/runtime/page */ "./node_modules/nuxt/dist/pages/runtime/page.mjs");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var vue_server_renderer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue/server-renderer */ "vue/server-renderer");
+
+
+
+
+
+function ssrRender(_ctx, _push, _parent, _attrs) {
+  const _component_NuxtLayout = C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_app_components_layout__WEBPACK_IMPORTED_MODULE_0__["default"]
+  const _component_NuxtPage = C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_pages_runtime_page__WEBPACK_IMPORTED_MODULE_1__["default"]
+
+  _push((0,vue_server_renderer__WEBPACK_IMPORTED_MODULE_3__.ssrRenderComponent)(_component_NuxtLayout, _attrs, {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_2__.withCtx)((_, _push, _parent, _scopeId) => {
+      if (_push) {
+        _push((0,vue_server_renderer__WEBPACK_IMPORTED_MODULE_3__.ssrRenderComponent)(_component_NuxtPage, null, null, _parent, _scopeId))
+      } else {
+        return [
+          (0,vue__WEBPACK_IMPORTED_MODULE_2__.createVNode)(_component_NuxtPage)
+        ]
+      }
+    }),
+    _: 1 /* STABLE */
+  }, _parent))
+}
+
+/***/ }),
+
+/***/ "./pages/index.vue?macro=true":
+/*!************************************!*\
+  !*** ./pages/index.vue?macro=true ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+
+const __nuxt_page_meta = {}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__nuxt_page_meta);
+
+// Vite
+if (false) {}
+// Webpack
+if (false) {}
+
+/***/ }),
+
+/***/ "./pages/university/search.vue?macro=true":
+/*!************************************************!*\
+  !*** ./pages/university/search.vue?macro=true ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+
+const __nuxt_page_meta = {}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__nuxt_page_meta);
+
+// Vite
+if (false) {}
+// Webpack
+if (false) {}
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/components/nuxt-root.vue":
+/*!*************************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/components/nuxt-root.vue ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _nuxt_root_vue_vue_type_template_id_e2ce4b36__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nuxt-root.vue?vue&type=template&id=e2ce4b36 */ "./node_modules/nuxt/dist/app/components/nuxt-root.vue?vue&type=template&id=e2ce4b36");
+/* harmony import */ var _nuxt_root_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nuxt-root.vue?vue&type=script&setup=true&lang=js */ "./node_modules/nuxt/dist/app/components/nuxt-root.vue?vue&type=script&setup=true&lang=js");
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+const __exports__ = /*#__PURE__*/(0,C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_2__["default"])(_nuxt_root_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['ssrRender',_nuxt_root_vue_vue_type_template_id_e2ce4b36__WEBPACK_IMPORTED_MODULE_0__.ssrRender],['__file',"node_modules/nuxt/dist/app/components/nuxt-root.vue"]])
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/pages/runtime/app.vue":
+/*!******************************************************!*\
+  !*** ./node_modules/nuxt/dist/pages/runtime/app.vue ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _app_vue_vue_type_template_id_62b2decb__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./app.vue?vue&type=template&id=62b2decb */ "./node_modules/nuxt/dist/pages/runtime/app.vue?vue&type=template&id=62b2decb");
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+const script = {}
+
+;
+const __exports__ = /*#__PURE__*/(0,C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__["default"])(script, [['ssrRender',_app_vue_vue_type_template_id_62b2decb__WEBPACK_IMPORTED_MODULE_0__.ssrRender],['__file',"node_modules/nuxt/dist/pages/runtime/app.vue"]])
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/components/nuxt-root.vue?vue&type=script&setup=true&lang=js":
+/*!************************************************************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/components/nuxt-root.vue?vue&type=script&setup=true&lang=js ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Adynamic_base_path_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Aimports_transform_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Acomponents_loader_vue_loader_dist_index_js_ruleSet_0_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Atree_shake_template_nuxt_root_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Adynamic_base_path_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Aimports_transform_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Acomponents_loader_vue_loader_dist_index_js_ruleSet_0_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Atree_shake_template_nuxt_root_vue_vue_type_script_setup_true_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Adynamic-base-path!../../../../unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Aimports-transform!../../../../unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Acomponents-loader!../../../../vue-loader/dist/index.js??ruleSet[0]!../../../../unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Atree-shake-template!./nuxt-root.vue?vue&type=script&setup=true&lang=js */ "./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Adynamic-base-path!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Aimports-transform!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Acomponents-loader!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Atree-shake-template!./node_modules/nuxt/dist/app/components/nuxt-root.vue?vue&type=script&setup=true&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/components/nuxt-root.vue?vue&type=template&id=e2ce4b36":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/components/nuxt-root.vue?vue&type=template&id=e2ce4b36 ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ssrRender": () => (/* reexport safe */ _unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Adynamic_base_path_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Aimports_transform_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Acomponents_loader_vue_loader_dist_templateLoader_js_ruleSet_1_rules_9_vue_loader_dist_index_js_ruleSet_0_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Atree_shake_template_nuxt_root_vue_vue_type_template_id_e2ce4b36__WEBPACK_IMPORTED_MODULE_0__.ssrRender)
+/* harmony export */ });
+/* harmony import */ var _unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Adynamic_base_path_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Aimports_transform_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Acomponents_loader_vue_loader_dist_templateLoader_js_ruleSet_1_rules_9_vue_loader_dist_index_js_ruleSet_0_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Atree_shake_template_nuxt_root_vue_vue_type_template_id_e2ce4b36__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Adynamic-base-path!../../../../unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Aimports-transform!../../../../unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Acomponents-loader!../../../../vue-loader/dist/templateLoader.js??ruleSet[1].rules[9]!../../../../vue-loader/dist/index.js??ruleSet[0]!../../../../unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Atree-shake-template!./nuxt-root.vue?vue&type=template&id=e2ce4b36 */ "./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Adynamic-base-path!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Aimports-transform!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Acomponents-loader!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[9]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Atree-shake-template!./node_modules/nuxt/dist/app/components/nuxt-root.vue?vue&type=template&id=e2ce4b36");
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/pages/runtime/app.vue?vue&type=template&id=62b2decb":
+/*!************************************************************************************!*\
+  !*** ./node_modules/nuxt/dist/pages/runtime/app.vue?vue&type=template&id=62b2decb ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "ssrRender": () => (/* reexport safe */ _unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Adynamic_base_path_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Aimports_transform_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Acomponents_loader_vue_loader_dist_templateLoader_js_ruleSet_1_rules_9_vue_loader_dist_index_js_ruleSet_0_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Atree_shake_template_app_vue_vue_type_template_id_62b2decb__WEBPACK_IMPORTED_MODULE_0__.ssrRender)
+/* harmony export */ });
+/* harmony import */ var _unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Adynamic_base_path_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Aimports_transform_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Acomponents_loader_vue_loader_dist_templateLoader_js_ruleSet_1_rules_9_vue_loader_dist_index_js_ruleSet_0_unplugin_dist_webpack_loaders_transform_js_unpluginName_nuxt_3Atree_shake_template_app_vue_vue_type_template_id_62b2decb__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Adynamic-base-path!../../../../unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Aimports-transform!../../../../unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Acomponents-loader!../../../../vue-loader/dist/templateLoader.js??ruleSet[1].rules[9]!../../../../vue-loader/dist/index.js??ruleSet[0]!../../../../unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Atree-shake-template!./app.vue?vue&type=template&id=62b2decb */ "./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Adynamic-base-path!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Aimports-transform!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Acomponents-loader!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[9]!./node_modules/vue-loader/dist/index.js??ruleSet[0]!./node_modules/unplugin/dist/webpack/loaders/transform.js?unpluginName=nuxt%3Atree-shake-template!./node_modules/nuxt/dist/pages/runtime/app.vue?vue&type=template&id=62b2decb");
+
+
+/***/ }),
+
+/***/ "@unhead/dom":
+/*!******************************!*\
+  !*** external "@unhead/dom" ***!
+  \******************************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE__unhead_dom_2b61a37b__;
+
+/***/ }),
+
+/***/ "@unhead/ssr":
+/*!******************************!*\
+  !*** external "@unhead/ssr" ***!
+  \******************************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE__unhead_ssr_a0c369cc__;
+
+/***/ }),
+
+/***/ "@unhead/vue":
+/*!******************************!*\
+  !*** external "@unhead/vue" ***!
+  \******************************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE__unhead_vue_609689db__;
+
+/***/ }),
+
+/***/ "cookie-es":
+/*!****************************!*\
+  !*** external "cookie-es" ***!
+  \****************************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE_cookie_es_d37e758b__;
+
+/***/ }),
+
+/***/ "defu":
+/*!***********************!*\
+  !*** external "defu" ***!
+  \***********************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE_defu__;
+
+/***/ }),
+
+/***/ "destr":
+/*!************************!*\
+  !*** external "destr" ***!
+  \************************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE_destr__;
+
+/***/ }),
+
+/***/ "h3":
+/*!*********************!*\
+  !*** external "h3" ***!
+  \*********************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE_h3__;
+
+/***/ }),
+
+/***/ "hookable":
+/*!***************************!*\
+  !*** external "hookable" ***!
+  \***************************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE_hookable__;
+
+/***/ }),
+
+/***/ "ofetch":
+/*!*************************!*\
+  !*** external "ofetch" ***!
+  \*************************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE_ofetch__;
+
+/***/ }),
+
+/***/ "ohash":
+/*!************************!*\
+  !*** external "ohash" ***!
+  \************************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE_ohash__;
+
+/***/ }),
+
+/***/ "ufo":
+/*!**********************!*\
+  !*** external "ufo" ***!
+  \**********************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE_ufo__;
+
+/***/ }),
+
+/***/ "unctx":
+/*!************************!*\
+  !*** external "unctx" ***!
+  \************************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE_unctx__;
+
+/***/ }),
+
+/***/ "url":
+/*!**********************!*\
+  !*** external "url" ***!
+  \**********************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE_url__;
+
+/***/ }),
+
+/***/ "vue":
+/*!**********************!*\
+  !*** external "vue" ***!
+  \**********************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE_vue__;
+
+/***/ }),
+
+/***/ "vue-router":
+/*!*****************************!*\
+  !*** external "vue-router" ***!
+  \*****************************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE_vue_router_6389ad97__;
+
+/***/ }),
+
+/***/ "vue/server-renderer":
+/*!**************************************!*\
+  !*** external "vue/server-renderer" ***!
+  \**************************************/
+/***/ ((module) => {
+
+var x = y => { var x = {}; __webpack_require__.d(x, y); return x; }
+var y = x => () => x
+module.exports = __WEBPACK_EXTERNAL_MODULE_vue_server_renderer_f488d186__;
+
+/***/ }),
+
+/***/ "./node_modules/@vueuse/head/dist/index.mjs":
+/*!**************************************************!*\
+  !*** ./node_modules/@vueuse/head/dist/index.mjs ***!
+  \**************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Head": () => (/* binding */ Head),
+/* harmony export */   "HeadVuePlugin": () => (/* binding */ HeadVuePlugin),
+/* harmony export */   "Vue2ProvideUnheadPlugin": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.Vue2ProvideUnheadPlugin),
+/* harmony export */   "VueHeadMixin": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.VueHeadMixin),
+/* harmony export */   "createHead": () => (/* binding */ createHead),
+/* harmony export */   "createHeadCore": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.createHeadCore),
+/* harmony export */   "injectHead": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.injectHead),
+/* harmony export */   "renderHeadToString": () => (/* binding */ renderHeadToString),
+/* harmony export */   "unheadVueComposablesImports": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.unheadVueComposablesImports),
+/* harmony export */   "useBodyAttrs": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useBodyAttrs),
+/* harmony export */   "useHead": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useHead),
+/* harmony export */   "useHtmlAttrs": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useHtmlAttrs),
+/* harmony export */   "useSeoMeta": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useSeoMeta),
+/* harmony export */   "useServerBodyAttrs": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useServerBodyAttrs),
+/* harmony export */   "useServerHead": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useServerHead),
+/* harmony export */   "useServerHtmlAttrs": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useServerHtmlAttrs),
+/* harmony export */   "useServerTagBase": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useServerTagBase),
+/* harmony export */   "useServerTagLink": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useServerTagLink),
+/* harmony export */   "useServerTagMeta": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useServerTagMeta),
+/* harmony export */   "useServerTagMetaFlat": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useServerTagMetaFlat),
+/* harmony export */   "useServerTagNoscript": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useServerTagNoscript),
+/* harmony export */   "useServerTagScript": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useServerTagScript),
+/* harmony export */   "useServerTagStyle": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useServerTagStyle),
+/* harmony export */   "useServerTagTitle": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useServerTagTitle),
+/* harmony export */   "useServerTitleTemplate": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useServerTitleTemplate),
+/* harmony export */   "useTagBase": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useTagBase),
+/* harmony export */   "useTagLink": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useTagLink),
+/* harmony export */   "useTagMeta": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useTagMeta),
+/* harmony export */   "useTagMetaFlat": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useTagMetaFlat),
+/* harmony export */   "useTagNoscript": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useTagNoscript),
+/* harmony export */   "useTagScript": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useTagScript),
+/* harmony export */   "useTagStyle": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useTagStyle),
+/* harmony export */   "useTagTitle": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useTagTitle),
+/* harmony export */   "useTitleTemplate": () => (/* reexport safe */ _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useTitleTemplate)
+/* harmony export */ });
+/* harmony import */ var _unhead_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @unhead/vue */ "@unhead/vue");
+/* harmony import */ var _unhead_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @unhead/dom */ "@unhead/dom");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var _unhead_ssr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @unhead/ssr */ "@unhead/ssr");
+
+
+
+
+
+
+function createHead(initHeadObject) {
+  const unhead = (0,_unhead_vue__WEBPACK_IMPORTED_MODULE_0__.createHead)();
+  const legacyHead = {
+    unhead,
+    install(app) {
+      if (vue__WEBPACK_IMPORTED_MODULE_2__.version.startsWith("3")) {
+        app.config.globalProperties.$head = unhead;
+        app.provide("usehead", unhead);
+      }
+    },
+    use(plugin) {
+      unhead.use(plugin);
+    },
+    resolveTags() {
+      return unhead.resolveTags();
+    },
+    headEntries() {
+      return unhead.headEntries();
+    },
+    headTags() {
+      return unhead.resolveTags();
+    },
+    push(input, options) {
+      return unhead.push(input, options);
+    },
+    addEntry(input, options) {
+      return unhead.push(input, options);
+    },
+    addHeadObjs(input, options) {
+      return unhead.push(input, options);
+    },
+    addReactiveEntry(input, options) {
+      const api = (0,_unhead_vue__WEBPACK_IMPORTED_MODULE_0__.useHead)(input, options);
+      if (typeof api !== "undefined")
+        return api.dispose;
       return () => {
-        if (called) {
-          return;
-        }
-        called = true;
-        hydratingCount--;
-        if (hydratingCount === 0) {
-          nuxtApp.isHydrating = false;
-          return nuxtApp.callHook("app:suspense:resolve");
-        }
       };
     },
-    _asyncDataPromises: {},
-    _asyncData: {},
-    ...options
-  };
-  nuxtApp.hooks = createHooks();
-  nuxtApp.hook = nuxtApp.hooks.hook;
-  nuxtApp.callHook = nuxtApp.hooks.callHook;
-  nuxtApp.provide = (name, value) => {
-    const $name = "$" + name;
-    defineGetter(nuxtApp, $name, value);
-    defineGetter(nuxtApp.vueApp.config.globalProperties, $name, value);
-  };
-  defineGetter(nuxtApp.vueApp, "$nuxt", nuxtApp);
-  defineGetter(nuxtApp.vueApp.config.globalProperties, "$nuxt", nuxtApp);
-  {
-    if (nuxtApp.ssrContext) {
-      nuxtApp.ssrContext.nuxt = nuxtApp;
-    }
-    nuxtApp.ssrContext = nuxtApp.ssrContext || {};
-    if (nuxtApp.ssrContext.payload) {
-      Object.assign(nuxtApp.payload, nuxtApp.ssrContext.payload);
-    }
-    nuxtApp.ssrContext.payload = nuxtApp.payload;
-    nuxtApp.payload.config = {
-      public: options.ssrContext.runtimeConfig.public,
-      app: options.ssrContext.runtimeConfig.app
-    };
-  }
-  const runtimeConfig = options.ssrContext.runtimeConfig;
-  const compatibilityConfig = new Proxy(runtimeConfig, {
-    get(target, prop) {
-      var _a;
-      if (prop === "public") {
-        return target.public;
-      }
-      return (_a = target[prop]) != null ? _a : target.public[prop];
+    removeHeadObjs() {
     },
-    set(target, prop, value) {
-      {
-        return false;
-      }
+    updateDOM(document, force) {
+      if (force)
+        (0,_unhead_dom__WEBPACK_IMPORTED_MODULE_1__.renderDOMHead)(unhead, { document });
+      else
+        (0,_unhead_dom__WEBPACK_IMPORTED_MODULE_1__.debouncedRenderDOMHead)(unhead, { delayFn: (fn) => setTimeout(() => fn(), 50), document });
+    },
+    internalHooks: unhead.hooks,
+    hooks: {
+      "before:dom": [],
+      "resolved:tags": [],
+      "resolved:entries": []
+    }
+  };
+  unhead.addHeadObjs = legacyHead.addHeadObjs;
+  unhead.updateDOM = legacyHead.updateDOM;
+  unhead.hooks.hook("dom:beforeRender", (ctx) => {
+    for (const hook of legacyHead.hooks["before:dom"]) {
+      if (hook() === false)
+        ctx.shouldRender = false;
     }
   });
-  nuxtApp.provide("config", compatibilityConfig);
-  return nuxtApp;
+  if (initHeadObject)
+    legacyHead.addHeadObjs(initHeadObject);
+  return legacyHead;
 }
-async function applyPlugin(nuxtApp, plugin) {
-  if (typeof plugin !== "function") {
+
+const HeadVuePlugin = _unhead_vue__WEBPACK_IMPORTED_MODULE_0__.Vue2ProvideUnheadPlugin;
+const renderHeadToString = (head) => (0,_unhead_ssr__WEBPACK_IMPORTED_MODULE_3__.renderSSRHead)(head.unhead);
+
+const Vue2 = vue__WEBPACK_IMPORTED_MODULE_2__.version.startsWith("2.");
+const IsBrowser = typeof window !== "undefined";
+
+const addVNodeToHeadObj = (node, obj) => {
+  const nodeType = Vue2 ? node.tag : node.type;
+  const type = nodeType === "html" ? "htmlAttrs" : nodeType === "body" ? "bodyAttrs" : nodeType;
+  if (typeof type !== "string" || !(type in obj))
     return;
+  const nodeData = Vue2 ? node.data : node;
+  const props = (Vue2 ? nodeData.attrs : node.props) || {};
+  if (Vue2) {
+    if (nodeData.staticClass)
+      props.class = nodeData.staticClass;
+    if (nodeData.staticStyle)
+      props.style = Object.entries(nodeData.staticStyle).map(([key, value]) => `${key}:${value}`).join(";");
   }
-  const { provide: provide2 } = await callWithNuxt(nuxtApp, plugin, [nuxtApp]) || {};
-  if (provide2 && typeof provide2 === "object") {
-    for (const key in provide2) {
-      nuxtApp.provide(key, provide2[key]);
-    }
+  if (node.children) {
+    const childrenAttr = Vue2 ? "text" : "children";
+    props.children = Array.isArray(node.children) ? node.children[0][childrenAttr] : node[childrenAttr];
   }
-}
-async function applyPlugins(nuxtApp, plugins2) {
-  for (const plugin of plugins2) {
-    await applyPlugin(nuxtApp, plugin);
-  }
-}
-function normalizePlugins(_plugins2) {
-  const plugins2 = _plugins2.map((plugin) => {
-    if (typeof plugin !== "function") {
-      return null;
-    }
-    if (plugin.length > 1) {
-      return (nuxtApp) => plugin(nuxtApp, nuxtApp.provide);
-    }
-    return plugin;
-  }).filter(Boolean);
-  return plugins2;
-}
-function defineNuxtPlugin(plugin) {
-  plugin[NuxtPluginIndicator] = true;
-  return plugin;
-}
-function callWithNuxt(nuxt, setup, args) {
-  const fn = () => args ? setup(...args) : setup();
-  {
-    return nuxtAppCtx.callAsync(nuxt, fn);
-  }
-}
-function useNuxtApp() {
-  const nuxtAppInstance = nuxtAppCtx.tryUse();
-  if (!nuxtAppInstance) {
-    const vm = getCurrentInstance();
-    if (!vm) {
-      throw new Error("nuxt instance unavailable");
-    }
-    return vm.appContext.app.$nuxt;
-  }
-  return nuxtAppInstance;
-}
-function useRuntimeConfig() {
-  return useNuxtApp().$config;
-}
-function defineGetter(obj, key, val) {
-  Object.defineProperty(obj, key, { get: () => val });
-}
-const useError = () => toRef(useNuxtApp().payload, "error");
-const showError = (_err) => {
-  const err = createError(_err);
-  try {
-    const nuxtApp = useNuxtApp();
-    nuxtApp.callHook("app:error", err);
-    const error = useError();
-    error.value = error.value || err;
-  } catch {
-    throw err;
-  }
-  return err;
+  if (Array.isArray(obj[type]))
+    obj[type].push(props);
+  else if (type === "title")
+    obj.title = props.children;
+  else
+    obj[type] = props;
 };
-const clearError = async (options = {}) => {
-  const nuxtApp = useNuxtApp();
-  const error = useError();
-  nuxtApp.callHook("app:error:cleared", options);
-  if (options.redirect) {
-    await nuxtApp.$router.replace(options.redirect);
-  }
-  error.value = null;
-};
-const createError = (err) => {
-  const _err = createError$1(err);
-  _err.__nuxt_error = true;
-  return _err;
-};
-function useState(...args) {
-  const autoKey = typeof args[args.length - 1] === "string" ? args.pop() : void 0;
-  if (typeof args[0] !== "string") {
-    args.unshift(autoKey);
-  }
-  const [_key, init] = args;
-  if (!_key || typeof _key !== "string") {
-    throw new TypeError("[nuxt] [useState] key must be a string: " + _key);
-  }
-  if (init !== void 0 && typeof init !== "function") {
-    throw new Error("[nuxt] [useState] init must be a function: " + init);
-  }
-  const key = "$s" + _key;
-  const nuxt = useNuxtApp();
-  const state = toRef(nuxt.payload.state, key);
-  if (state.value === void 0 && init) {
-    const initialValue = init();
-    if (isRef(initialValue)) {
-      nuxt.payload.state[key] = initialValue;
-      return initialValue;
-    }
-    state.value = initialValue;
-  }
-  return state;
-}
-const useRouter = () => {
-  var _a;
-  return (_a = useNuxtApp()) == null ? void 0 : _a.$router;
-};
-const useRoute = () => {
-  if (getCurrentInstance()) {
-    return inject("_route", useNuxtApp()._route);
-  }
-  return useNuxtApp()._route;
-};
-const navigateTo = (to, options) => {
-  if (!to) {
-    to = "/";
-  }
-  const toPath = typeof to === "string" ? to : to.path || "/";
-  const isExternal = hasProtocol(toPath, true);
-  if (isExternal && !(options == null ? void 0 : options.external)) {
-    throw new Error("Navigating to external URL is not allowed by default. Use `nagivateTo (url, { external: true })`.");
-  }
-  if (isExternal && parseURL(toPath).protocol === "script:") {
-    throw new Error("Cannot navigate to an URL with script protocol.");
-  }
-  const router = useRouter();
-  {
-    const nuxtApp = useNuxtApp();
-    if (nuxtApp.ssrContext && nuxtApp.ssrContext.event) {
-      const redirectLocation = isExternal ? toPath : joinURL(useRuntimeConfig().app.baseURL, router.resolve(to).fullPath || "/");
-      return nuxtApp.callHook("app:redirected").then(() => sendRedirect(nuxtApp.ssrContext.event, redirectLocation, (options == null ? void 0 : options.redirectCode) || 302));
-    }
-  }
-  if (isExternal) {
-    if (options == null ? void 0 : options.replace) {
-      location.replace(toPath);
+const vnodesToHeadObj = (nodes) => {
+  const obj = {
+    title: void 0,
+    htmlAttrs: void 0,
+    bodyAttrs: void 0,
+    base: void 0,
+    meta: [],
+    link: [],
+    style: [],
+    script: [],
+    noscript: []
+  };
+  for (const node of nodes) {
+    if (typeof node.type === "symbol" && Array.isArray(node.children)) {
+      for (const childNode of node.children)
+        addVNodeToHeadObj(childNode, obj);
     } else {
-      location.href = toPath;
+      addVNodeToHeadObj(node, obj);
     }
-    return Promise.resolve();
   }
-  return (options == null ? void 0 : options.replace) ? router.replace(to) : router.push(to);
+  return obj;
 };
-function useHead(input, options) {
-  return useNuxtApp()._useHead(input, options);
+const Head = /* @__PURE__ */ (0,vue__WEBPACK_IMPORTED_MODULE_2__.defineComponent)({
+  name: "Head",
+  setup(_, { slots }) {
+    const head = (0,_unhead_vue__WEBPACK_IMPORTED_MODULE_0__.injectHead)();
+    const obj = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)({});
+    const entry = head.push(obj);
+    if (IsBrowser) {
+      (0,vue__WEBPACK_IMPORTED_MODULE_2__.onBeforeUnmount)(() => {
+        entry.dispose();
+      });
+    }
+    return () => {
+      (0,vue__WEBPACK_IMPORTED_MODULE_2__.watchEffect)(() => {
+        if (!slots.default)
+          return;
+        entry.patch(vnodesToHeadObj(slots.default()));
+      });
+      return null;
+    };
+  }
+});
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/defu/dist/defu.mjs":
+/*!*****************************************!*\
+  !*** ./node_modules/defu/dist/defu.mjs ***!
+  \*****************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "createDefu": () => (/* binding */ createDefu),
+/* harmony export */   "default": () => (/* binding */ defu),
+/* harmony export */   "defu": () => (/* binding */ defu),
+/* harmony export */   "defuArrayFn": () => (/* binding */ defuArrayFn),
+/* harmony export */   "defuFn": () => (/* binding */ defuFn)
+/* harmony export */ });
+function isObject(value) {
+  return value !== null && typeof value === "object";
 }
+function _defu(baseObject, defaults, namespace = ".", merger) {
+  if (!isObject(defaults)) {
+    return _defu(baseObject, {}, namespace, merger);
+  }
+  const object = Object.assign({}, defaults);
+  for (const key in baseObject) {
+    if (key === "__proto__" || key === "constructor") {
+      continue;
+    }
+    const value = baseObject[key];
+    if (value === null || value === void 0) {
+      continue;
+    }
+    if (merger && merger(object, key, value, namespace)) {
+      continue;
+    }
+    if (Array.isArray(value) && Array.isArray(object[key])) {
+      object[key] = [...value, ...object[key]];
+    } else if (isObject(value) && isObject(object[key])) {
+      object[key] = _defu(value, object[key], (namespace ? `${namespace}.` : "") + key.toString(), merger);
+    } else {
+      object[key] = value;
+    }
+  }
+  return object;
+}
+function createDefu(merger) {
+  return (...arguments_) => arguments_.reduce((p, c) => _defu(p, c, "", merger), {});
+}
+const defu = createDefu();
+const defuFn = createDefu((object, key, currentValue, _namespace) => {
+  if (typeof object[key] !== "undefined" && typeof currentValue === "function") {
+    object[key] = currentValue(object[key]);
+    return true;
+  }
+});
+const defuArrayFn = createDefu((object, key, currentValue, _namespace) => {
+  if (Array.isArray(object[key]) && typeof currentValue === "function") {
+    object[key] = currentValue(object[key]);
+    return true;
+  }
+});
+
+
+
+
+/***/ }),
+
+/***/ "./.nuxt/app-component.mjs":
+/*!*********************************!*\
+  !*** ./.nuxt/app-component.mjs ***!
+  \*********************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_pages_runtime_app_vue__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_pages_runtime_app_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/nuxt/dist/pages/runtime/app.vue */ "./node_modules/nuxt/dist/pages/runtime/app.vue");
+
+
+
+/***/ }),
+
+/***/ "./.nuxt/app.config.mjs":
+/*!******************************!*\
+  !*** ./.nuxt/app.config.mjs ***!
+  \******************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_defu_dist_defu_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/defu/dist/defu.mjs */ "./node_modules/defu/dist/defu.mjs");
+
+const inlineConfig = {};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_defu_dist_defu_mjs__WEBPACK_IMPORTED_MODULE_0__.defuFn)(inlineConfig));
+
+
+/***/ }),
+
+/***/ "./.nuxt/css.mjs":
+/*!***********************!*\
+  !*** ./.nuxt/css.mjs ***!
+  \***********************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var assets_css_index_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! assets/css/index.scss */ "./assets/css/index.scss");
+
+
+
+/***/ }),
+
+/***/ "./.nuxt/layouts.mjs":
+/*!***************************!*\
+  !*** ./.nuxt/layouts.mjs ***!
+  \***************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+
+
+/***/ }),
+
+/***/ "./.nuxt/middleware.mjs":
+/*!******************************!*\
+  !*** ./.nuxt/middleware.mjs ***!
+  \******************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "globalMiddleware": () => (/* binding */ globalMiddleware),
+/* harmony export */   "namedMiddleware": () => (/* binding */ namedMiddleware)
+/* harmony export */ });
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_pages_runtime_validate_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/nuxt/dist/pages/runtime/validate.mjs */ "./node_modules/nuxt/dist/pages/runtime/validate.mjs");
+
+const globalMiddleware = [
+  C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_pages_runtime_validate_mjs__WEBPACK_IMPORTED_MODULE_0__["default"]
+];
+const namedMiddleware = {};
+
+
+/***/ }),
+
+/***/ "./.nuxt/nuxt.config.mjs":
+/*!*******************************!*\
+  !*** ./.nuxt/nuxt.config.mjs ***!
+  \*******************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "appBaseURL": () => (/* binding */ appBaseURL),
+/* harmony export */   "appBuildAssetsDir": () => (/* binding */ appBuildAssetsDir),
+/* harmony export */   "appCdnURL": () => (/* binding */ appCdnURL),
+/* harmony export */   "appHead": () => (/* binding */ appHead),
+/* harmony export */   "appKeepalive": () => (/* binding */ appKeepalive),
+/* harmony export */   "appLayoutTransition": () => (/* binding */ appLayoutTransition),
+/* harmony export */   "appPageTransition": () => (/* binding */ appPageTransition),
+/* harmony export */   "appRootId": () => (/* binding */ appRootId),
+/* harmony export */   "appRootTag": () => (/* binding */ appRootTag)
+/* harmony export */ });
+const appBaseURL = "/";
+const appBuildAssetsDir = "/_nuxt/";
+const appCdnURL = "";
+const appHead = { "meta": [{ "name": "viewport", "content": "width=device-width, initial-scale=1" }, { "charset": "utf-8" }], "link": [], "style": [], "script": [], "noscript": [] };
+const appLayoutTransition = false;
+const appPageTransition = false;
+const appKeepalive = false;
+const appRootId = "__nuxt";
+const appRootTag = "div";
+
+
+/***/ }),
+
+/***/ "./.nuxt/pages.mjs":
+/*!*************************!*\
+  !*** ./.nuxt/pages.mjs ***!
+  \*************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useRoute": () => (/* reexport safe */ vue_router__WEBPACK_IMPORTED_MODULE_0__.useRoute)
+/* harmony export */ });
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-router */ "vue-router");
+
+
+
+/***/ }),
+
+/***/ "./.nuxt/paths.mjs":
+/*!*************************!*\
+  !*** ./.nuxt/paths.mjs ***!
+  \*************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "baseURL": () => (/* binding */ baseURL),
+/* harmony export */   "buildAssetsDir": () => (/* binding */ buildAssetsDir),
+/* harmony export */   "buildAssetsURL": () => (/* binding */ buildAssetsURL),
+/* harmony export */   "publicAssetsURL": () => (/* binding */ publicAssetsURL)
+/* harmony export */ });
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_ufo_dist_index_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/ufo/dist/index.mjs */ "./node_modules/ufo/dist/index.mjs");
+
+const appConfig = { "baseURL": "/", "buildAssetsDir": "/_nuxt/", "cdnURL": "", "head": { "meta": [{ "name": "viewport", "content": "width=device-width, initial-scale=1" }, { "charset": "utf-8" }], "link": [], "style": [], "script": [], "noscript": [] }, "layoutTransition": false, "pageTransition": false, "keepalive": false, "rootId": "__nuxt", "rootTag": "div" };
+const baseURL = () => appConfig.baseURL;
+const buildAssetsDir = () => appConfig.buildAssetsDir;
+const buildAssetsURL = (...path) => (0,C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_ufo_dist_index_mjs__WEBPACK_IMPORTED_MODULE_0__.joinURL)(publicAssetsURL(), buildAssetsDir(), ...path);
+const publicAssetsURL = (...path) => {
+  const publicBase = appConfig.cdnURL || appConfig.baseURL;
+  return path.length ? (0,C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_ufo_dist_index_mjs__WEBPACK_IMPORTED_MODULE_0__.joinURL)(publicBase, ...path) : publicBase;
+};
+if (false) {}
+
+__webpack_require__.p = buildAssetsURL();
+
+
+/***/ }),
+
+/***/ "./.nuxt/plugins/server.mjs":
+/*!**********************************!*\
+  !*** ./.nuxt/plugins/server.mjs ***!
+  \**********************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_nuxt_components_plugin_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./.nuxt/components.plugin.mjs */ "./.nuxt/components.plugin.mjs");
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_head_runtime_lib_vueuse_head_plugin_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/nuxt/dist/head/runtime/lib/vueuse-head.plugin.mjs */ "./node_modules/nuxt/dist/head/runtime/lib/vueuse-head.plugin.mjs");
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_pages_runtime_router_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/nuxt/dist/pages/runtime/router.mjs */ "./node_modules/nuxt/dist/pages/runtime/router.mjs");
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_app_plugins_preload_server_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/nuxt/dist/app/plugins/preload.server.mjs */ "./node_modules/nuxt/dist/app/plugins/preload.server.mjs");
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([
+  C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_nuxt_components_plugin_mjs__WEBPACK_IMPORTED_MODULE_0__["default"],
+  C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_head_runtime_lib_vueuse_head_plugin_mjs__WEBPACK_IMPORTED_MODULE_1__["default"],
+  C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_pages_runtime_router_mjs__WEBPACK_IMPORTED_MODULE_2__["default"],
+  C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_app_plugins_preload_server_mjs__WEBPACK_IMPORTED_MODULE_3__["default"]
+]);
+
+
+/***/ }),
+
+/***/ "./.nuxt/root-component.mjs":
+/*!**********************************!*\
+  !*** ./.nuxt/root-component.mjs ***!
+  \**********************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_app_components_nuxt_root_vue__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_app_components_nuxt_root_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/nuxt/dist/app/components/nuxt-root.vue */ "./node_modules/nuxt/dist/app/components/nuxt-root.vue");
+
+
+
+/***/ }),
+
+/***/ "./.nuxt/router.options.mjs":
+/*!**********************************!*\
+  !*** ./.nuxt/router.options.mjs ***!
+  \**********************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_pages_runtime_router_options__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/nuxt/dist/pages/runtime/router.options */ "./node_modules/nuxt/dist/pages/runtime/router.options.mjs");
+
+const configRouterOptions = {};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  ...configRouterOptions,
+  ...C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_node_modules_nuxt_dist_pages_runtime_router_options__WEBPACK_IMPORTED_MODULE_0__["default"]
+});
+
+
+/***/ }),
+
+/***/ "./.nuxt/routes.mjs":
+/*!**************************!*\
+  !*** ./.nuxt/routes.mjs ***!
+  \**************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_pages_index_vue_macro_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./pages/index.vue?macro=true */ "./pages/index.vue?macro=true");
+/* harmony import */ var C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_pages_university_search_vue_macro_true__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pages/university/search.vue?macro=true */ "./pages/university/search.vue?macro=true");
+var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ([
+  {
+    name: (_b = (_a = C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_pages_index_vue_macro_true__WEBPACK_IMPORTED_MODULE_0__["default"]) == null ? void 0 : _a.name) != null ? _b : "index",
+    path: (_d = (_c = C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_pages_index_vue_macro_true__WEBPACK_IMPORTED_MODULE_0__["default"]) == null ? void 0 : _c.path) != null ? _d : "/",
+    file: "C:/Users/Aziz/Desktop/maylisa_educ/maylisa_educ_website/pages/index.vue",
+    children: [],
+    meta: C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_pages_index_vue_macro_true__WEBPACK_IMPORTED_MODULE_0__["default"],
+    alias: ((_e = C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_pages_index_vue_macro_true__WEBPACK_IMPORTED_MODULE_0__["default"]) == null ? void 0 : _e.alias) || [],
+    redirect: ((_f = C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_pages_index_vue_macro_true__WEBPACK_IMPORTED_MODULE_0__["default"]) == null ? void 0 : _f.redirect) || void 0,
+    component: () => __webpack_require__.e(/*! import() */ "pages_index_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./pages/index.vue */ "./pages/index.vue")).then((m) => m.default || m)
+  },
+  {
+    name: (_h = (_g = C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_pages_university_search_vue_macro_true__WEBPACK_IMPORTED_MODULE_1__["default"]) == null ? void 0 : _g.name) != null ? _h : "university-search",
+    path: (_j = (_i = C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_pages_university_search_vue_macro_true__WEBPACK_IMPORTED_MODULE_1__["default"]) == null ? void 0 : _i.path) != null ? _j : "/university/search",
+    file: "C:/Users/Aziz/Desktop/maylisa_educ/maylisa_educ_website/pages/university/search.vue",
+    children: [],
+    meta: C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_pages_university_search_vue_macro_true__WEBPACK_IMPORTED_MODULE_1__["default"],
+    alias: ((_k = C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_pages_university_search_vue_macro_true__WEBPACK_IMPORTED_MODULE_1__["default"]) == null ? void 0 : _k.alias) || [],
+    redirect: ((_l = C_Users_Aziz_Desktop_maylisa_educ_maylisa_educ_website_pages_university_search_vue_macro_true__WEBPACK_IMPORTED_MODULE_1__["default"]) == null ? void 0 : _l.redirect) || void 0,
+    component: () => __webpack_require__.e(/*! import() */ "pages_university_search_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./pages/university/search.vue */ "./pages/university/search.vue")).then((m) => m.default || m)
+  }
+]);
+
+
+/***/ }),
+
+/***/ "./node_modules/ufo/dist/index.mjs":
+/*!*****************************************!*\
+  !*** ./node_modules/ufo/dist/index.mjs ***!
+  \*****************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "$URL": () => (/* binding */ $URL),
+/* harmony export */   "cleanDoubleSlashes": () => (/* binding */ cleanDoubleSlashes),
+/* harmony export */   "createURL": () => (/* binding */ createURL),
+/* harmony export */   "decode": () => (/* binding */ decode),
+/* harmony export */   "decodePath": () => (/* binding */ decodePath),
+/* harmony export */   "decodeQueryValue": () => (/* binding */ decodeQueryValue),
+/* harmony export */   "encode": () => (/* binding */ encode),
+/* harmony export */   "encodeHash": () => (/* binding */ encodeHash),
+/* harmony export */   "encodeHost": () => (/* binding */ encodeHost),
+/* harmony export */   "encodeParam": () => (/* binding */ encodeParam),
+/* harmony export */   "encodePath": () => (/* binding */ encodePath),
+/* harmony export */   "encodeQueryItem": () => (/* binding */ encodeQueryItem),
+/* harmony export */   "encodeQueryKey": () => (/* binding */ encodeQueryKey),
+/* harmony export */   "encodeQueryValue": () => (/* binding */ encodeQueryValue),
+/* harmony export */   "getQuery": () => (/* binding */ getQuery),
+/* harmony export */   "hasLeadingSlash": () => (/* binding */ hasLeadingSlash),
+/* harmony export */   "hasProtocol": () => (/* binding */ hasProtocol),
+/* harmony export */   "hasTrailingSlash": () => (/* binding */ hasTrailingSlash),
+/* harmony export */   "isEmptyURL": () => (/* binding */ isEmptyURL),
+/* harmony export */   "isEqual": () => (/* binding */ isEqual),
+/* harmony export */   "isNonEmptyURL": () => (/* binding */ isNonEmptyURL),
+/* harmony export */   "isRelative": () => (/* binding */ isRelative),
+/* harmony export */   "isSamePath": () => (/* binding */ isSamePath),
+/* harmony export */   "joinURL": () => (/* binding */ joinURL),
+/* harmony export */   "normalizeURL": () => (/* binding */ normalizeURL),
+/* harmony export */   "parseAuth": () => (/* binding */ parseAuth),
+/* harmony export */   "parseHost": () => (/* binding */ parseHost),
+/* harmony export */   "parsePath": () => (/* binding */ parsePath),
+/* harmony export */   "parseQuery": () => (/* binding */ parseQuery),
+/* harmony export */   "parseURL": () => (/* binding */ parseURL),
+/* harmony export */   "resolveURL": () => (/* binding */ resolveURL),
+/* harmony export */   "stringifyParsedURL": () => (/* binding */ stringifyParsedURL),
+/* harmony export */   "stringifyQuery": () => (/* binding */ stringifyQuery),
+/* harmony export */   "withBase": () => (/* binding */ withBase),
+/* harmony export */   "withHttp": () => (/* binding */ withHttp),
+/* harmony export */   "withHttps": () => (/* binding */ withHttps),
+/* harmony export */   "withLeadingSlash": () => (/* binding */ withLeadingSlash),
+/* harmony export */   "withProtocol": () => (/* binding */ withProtocol),
+/* harmony export */   "withQuery": () => (/* binding */ withQuery),
+/* harmony export */   "withTrailingSlash": () => (/* binding */ withTrailingSlash),
+/* harmony export */   "withoutBase": () => (/* binding */ withoutBase),
+/* harmony export */   "withoutLeadingSlash": () => (/* binding */ withoutLeadingSlash),
+/* harmony export */   "withoutProtocol": () => (/* binding */ withoutProtocol),
+/* harmony export */   "withoutTrailingSlash": () => (/* binding */ withoutTrailingSlash)
+/* harmony export */ });
+/* provided dependency */ var URLSearchParams = __webpack_require__(/*! url */ "url")["URLSearchParams"];
+const n = /[^\0-\x7E]/;
+const t = /[\x2E\u3002\uFF0E\uFF61]/g;
+const o = { overflow: "Overflow Error", "not-basic": "Illegal Input", "invalid-input": "Invalid Input" };
+const e = Math.floor;
+const r = String.fromCharCode;
+function s(n2) {
+  throw new RangeError(o[n2]);
+}
+const c = function(n2, t2) {
+  return n2 + 22 + 75 * (n2 < 26) - ((t2 != 0) << 5);
+};
+const u = function(n2, t2, o2) {
+  let r2 = 0;
+  for (n2 = o2 ? e(n2 / 700) : n2 >> 1, n2 += e(n2 / t2); n2 > 455; r2 += 36) {
+    n2 = e(n2 / 35);
+  }
+  return e(r2 + 36 * n2 / (n2 + 38));
+};
+function toASCII(o2) {
+  return function(n2, o3) {
+    const e2 = n2.split("@");
+    let r2 = "";
+    e2.length > 1 && (r2 = e2[0] + "@", n2 = e2[1]);
+    const s2 = function(n3, t2) {
+      const o4 = [];
+      let e3 = n3.length;
+      for (; e3--; ) {
+        o4[e3] = t2(n3[e3]);
+      }
+      return o4;
+    }((n2 = n2.replace(t, ".")).split("."), o3).join(".");
+    return r2 + s2;
+  }(o2, function(t2) {
+    return n.test(t2) ? "xn--" + function(n2) {
+      const t3 = [];
+      const o3 = (n2 = function(n3) {
+        const t4 = [];
+        let o4 = 0;
+        const e2 = n3.length;
+        for (; o4 < e2; ) {
+          const r2 = n3.charCodeAt(o4++);
+          if (r2 >= 55296 && r2 <= 56319 && o4 < e2) {
+            const e3 = n3.charCodeAt(o4++);
+            (64512 & e3) == 56320 ? t4.push(((1023 & r2) << 10) + (1023 & e3) + 65536) : (t4.push(r2), o4--);
+          } else {
+            t4.push(r2);
+          }
+        }
+        return t4;
+      }(n2)).length;
+      let f = 128;
+      let i = 0;
+      let l = 72;
+      for (const o4 of n2) {
+        o4 < 128 && t3.push(r(o4));
+      }
+      const h = t3.length;
+      let p = h;
+      for (h && t3.push("-"); p < o3; ) {
+        let o4 = 2147483647;
+        for (const t4 of n2) {
+          t4 >= f && t4 < o4 && (o4 = t4);
+        }
+        const a = p + 1;
+        o4 - f > e((2147483647 - i) / a) && s("overflow"), i += (o4 - f) * a, f = o4;
+        for (const o5 of n2) {
+          if (o5 < f && ++i > 2147483647 && s("overflow"), o5 == f) {
+            let n3 = i;
+            for (let o6 = 36; ; o6 += 36) {
+              const s2 = o6 <= l ? 1 : o6 >= l + 26 ? 26 : o6 - l;
+              if (n3 < s2) {
+                break;
+              }
+              const u2 = n3 - s2;
+              const f2 = 36 - s2;
+              t3.push(r(c(s2 + u2 % f2, 0))), n3 = e(u2 / f2);
+            }
+            t3.push(r(c(n3, 0))), l = u(i, a, p == h), i = 0, ++p;
+          }
+        }
+        ++i, ++f;
+      }
+      return t3.join("");
+    }(t2) : t2;
+  });
+}
+
+const HASH_RE = /#/g;
+const AMPERSAND_RE = /&/g;
+const SLASH_RE = /\//g;
+const EQUAL_RE = /=/g;
+const IM_RE = /\?/g;
+const PLUS_RE = /\+/g;
+const ENC_BRACKET_OPEN_RE = /%5b/gi;
+const ENC_BRACKET_CLOSE_RE = /%5d/gi;
+const ENC_CARET_RE = /%5e/gi;
+const ENC_BACKTICK_RE = /%60/gi;
+const ENC_CURLY_OPEN_RE = /%7b/gi;
+const ENC_PIPE_RE = /%7c/gi;
+const ENC_CURLY_CLOSE_RE = /%7d/gi;
+const ENC_SPACE_RE = /%20/gi;
+const ENC_SLASH_RE = /%2f/gi;
+const ENC_ENC_SLASH_RE = /%252f/gi;
+function encode(text) {
+  return encodeURI("" + text).replace(ENC_PIPE_RE, "|").replace(ENC_BRACKET_OPEN_RE, "[").replace(ENC_BRACKET_CLOSE_RE, "]");
+}
+function encodeHash(text) {
+  return encode(text).replace(ENC_CURLY_OPEN_RE, "{").replace(ENC_CURLY_CLOSE_RE, "}").replace(ENC_CARET_RE, "^");
+}
+function encodeQueryValue(text) {
+  return encode(text).replace(PLUS_RE, "%2B").replace(ENC_SPACE_RE, "+").replace(HASH_RE, "%23").replace(AMPERSAND_RE, "%26").replace(ENC_BACKTICK_RE, "`").replace(ENC_CURLY_OPEN_RE, "{").replace(ENC_CURLY_CLOSE_RE, "}").replace(ENC_CARET_RE, "^");
+}
+function encodeQueryKey(text) {
+  return encodeQueryValue(text).replace(EQUAL_RE, "%3D");
+}
+function encodePath(text) {
+  return encode(text).replace(HASH_RE, "%23").replace(IM_RE, "%3F").replace(ENC_ENC_SLASH_RE, "%2F").replace(AMPERSAND_RE, "%26").replace(PLUS_RE, "%2B");
+}
+function encodeParam(text) {
+  return encodePath(text).replace(SLASH_RE, "%2F");
+}
+function decode(text = "") {
+  try {
+    return decodeURIComponent("" + text);
+  } catch {
+    return "" + text;
+  }
+}
+function decodePath(text) {
+  return decode(text.replace(ENC_SLASH_RE, "%252F"));
+}
+function decodeQueryValue(text) {
+  return decode(text.replace(PLUS_RE, " "));
+}
+function encodeHost(name = "") {
+  return toASCII(name);
+}
+
+function parseQuery(parametersString = "") {
+  const object = {};
+  if (parametersString[0] === "?") {
+    parametersString = parametersString.slice(1);
+  }
+  for (const parameter of parametersString.split("&")) {
+    const s = parameter.match(/([^=]+)=?(.*)/) || [];
+    if (s.length < 2) {
+      continue;
+    }
+    const key = decode(s[1]);
+    if (key === "__proto__" || key === "constructor") {
+      continue;
+    }
+    const value = decodeQueryValue(s[2] || "");
+    if (typeof object[key] !== "undefined") {
+      if (Array.isArray(object[key])) {
+        object[key].push(value);
+      } else {
+        object[key] = [object[key], value];
+      }
+    } else {
+      object[key] = value;
+    }
+  }
+  return object;
+}
+function encodeQueryItem(key, value) {
+  if (typeof value === "number" || typeof value === "boolean") {
+    value = String(value);
+  }
+  if (!value) {
+    return encodeQueryKey(key);
+  }
+  if (Array.isArray(value)) {
+    return value.map((_value) => `${encodeQueryKey(key)}=${encodeQueryValue(_value)}`).join("&");
+  }
+  return `${encodeQueryKey(key)}=${encodeQueryValue(value)}`;
+}
+function stringifyQuery(query) {
+  return Object.keys(query).filter((k) => query[k] !== void 0).map((k) => encodeQueryItem(k, query[k])).join("&");
+}
+
+class $URL {
+  constructor(input = "") {
+    this.query = {};
+    if (typeof input !== "string") {
+      throw new TypeError(`URL input should be string received ${typeof input} (${input})`);
+    }
+    const parsed = parseURL(input);
+    this.protocol = decode(parsed.protocol);
+    this.host = decode(parsed.host);
+    this.auth = decode(parsed.auth);
+    this.pathname = decodePath(parsed.pathname);
+    this.query = parseQuery(parsed.search);
+    this.hash = decode(parsed.hash);
+  }
+  get hostname() {
+    return parseHost(this.host).hostname;
+  }
+  get port() {
+    return parseHost(this.host).port || "";
+  }
+  get username() {
+    return parseAuth(this.auth).username;
+  }
+  get password() {
+    return parseAuth(this.auth).password || "";
+  }
+  get hasProtocol() {
+    return this.protocol.length;
+  }
+  get isAbsolute() {
+    return this.hasProtocol || this.pathname[0] === "/";
+  }
+  get search() {
+    const q = stringifyQuery(this.query);
+    return q.length > 0 ? "?" + q : "";
+  }
+  get searchParams() {
+    const p = new URLSearchParams();
+    for (const name in this.query) {
+      const value = this.query[name];
+      if (Array.isArray(value)) {
+        for (const v of value) {
+          p.append(name, v);
+        }
+      } else {
+        p.append(name, value || "");
+      }
+    }
+    return p;
+  }
+  get origin() {
+    return (this.protocol ? this.protocol + "//" : "") + encodeHost(this.host);
+  }
+  get fullpath() {
+    return encodePath(this.pathname) + this.search + encodeHash(this.hash);
+  }
+  get encodedAuth() {
+    if (!this.auth) {
+      return "";
+    }
+    const { username, password } = parseAuth(this.auth);
+    return encodeURIComponent(username) + (password ? ":" + encodeURIComponent(password) : "");
+  }
+  get href() {
+    const auth = this.encodedAuth;
+    const originWithAuth = (this.protocol ? this.protocol + "//" : "") + (auth ? auth + "@" : "") + encodeHost(this.host);
+    return this.hasProtocol && this.isAbsolute ? originWithAuth + this.fullpath : this.fullpath;
+  }
+  append(url) {
+    if (url.hasProtocol) {
+      throw new Error("Cannot append a URL with protocol");
+    }
+    Object.assign(this.query, url.query);
+    if (url.pathname) {
+      this.pathname = withTrailingSlash(this.pathname) + withoutLeadingSlash(url.pathname);
+    }
+    if (url.hash) {
+      this.hash = url.hash;
+    }
+  }
+  toJSON() {
+    return this.href;
+  }
+  toString() {
+    return this.href;
+  }
+}
+
+function isRelative(inputString) {
+  return ["./", "../"].some((string_) => inputString.startsWith(string_));
+}
+const PROTOCOL_REGEX = /^\w{2,}:(\/\/)?/;
+const PROTOCOL_RELATIVE_REGEX = /^\/\/[^/]+/;
+function hasProtocol(inputString, acceptProtocolRelative = false) {
+  return PROTOCOL_REGEX.test(inputString) || acceptProtocolRelative && PROTOCOL_RELATIVE_REGEX.test(inputString);
+}
+const TRAILING_SLASH_RE = /\/$|\/\?/;
+function hasTrailingSlash(input = "", queryParameters = false) {
+  if (!queryParameters) {
+    return input.endsWith("/");
+  }
+  return TRAILING_SLASH_RE.test(input);
+}
+function withoutTrailingSlash(input = "", queryParameters = false) {
+  if (!queryParameters) {
+    return (hasTrailingSlash(input) ? input.slice(0, -1) : input) || "/";
+  }
+  if (!hasTrailingSlash(input, true)) {
+    return input || "/";
+  }
+  const [s0, ...s] = input.split("?");
+  return (s0.slice(0, -1) || "/") + (s.length > 0 ? `?${s.join("?")}` : "");
+}
+function withTrailingSlash(input = "", queryParameters = false) {
+  if (!queryParameters) {
+    return input.endsWith("/") ? input : input + "/";
+  }
+  if (hasTrailingSlash(input, true)) {
+    return input || "/";
+  }
+  const [s0, ...s] = input.split("?");
+  return s0 + "/" + (s.length > 0 ? `?${s.join("?")}` : "");
+}
+function hasLeadingSlash(input = "") {
+  return input.startsWith("/");
+}
+function withoutLeadingSlash(input = "") {
+  return (hasLeadingSlash(input) ? input.slice(1) : input) || "/";
+}
+function withLeadingSlash(input = "") {
+  return hasLeadingSlash(input) ? input : "/" + input;
+}
+function cleanDoubleSlashes(input = "") {
+  return input.split("://").map((string_) => string_.replace(/\/{2,}/g, "/")).join("://");
+}
+function withBase(input, base) {
+  if (isEmptyURL(base) || hasProtocol(input)) {
+    return input;
+  }
+  const _base = withoutTrailingSlash(base);
+  if (input.startsWith(_base)) {
+    return input;
+  }
+  return joinURL(_base, input);
+}
+function withoutBase(input, base) {
+  if (isEmptyURL(base)) {
+    return input;
+  }
+  const _base = withoutTrailingSlash(base);
+  if (!input.startsWith(_base)) {
+    return input;
+  }
+  const trimmed = input.slice(_base.length);
+  return trimmed[0] === "/" ? trimmed : "/" + trimmed;
+}
+function withQuery(input, query) {
+  const parsed = parseURL(input);
+  const mergedQuery = { ...parseQuery(parsed.search), ...query };
+  parsed.search = stringifyQuery(mergedQuery);
+  return stringifyParsedURL(parsed);
+}
+function getQuery(input) {
+  return parseQuery(parseURL(input).search);
+}
+function isEmptyURL(url) {
+  return !url || url === "/";
+}
+function isNonEmptyURL(url) {
+  return url && url !== "/";
+}
+function joinURL(base, ...input) {
+  let url = base || "";
+  for (const index of input.filter((url2) => isNonEmptyURL(url2))) {
+    url = url ? withTrailingSlash(url) + withoutLeadingSlash(index) : index;
+  }
+  return url;
+}
+function withHttp(input) {
+  return withProtocol(input, "http://");
+}
+function withHttps(input) {
+  return withProtocol(input, "https://");
+}
+function withoutProtocol(input) {
+  return withProtocol(input, "");
+}
+function withProtocol(input, protocol) {
+  const match = input.match(PROTOCOL_REGEX);
+  if (!match) {
+    return protocol + input;
+  }
+  return protocol + input.slice(match[0].length);
+}
+function createURL(input) {
+  return new $URL(input);
+}
+function normalizeURL(input) {
+  return createURL(input).toString();
+}
+function resolveURL(base, ...input) {
+  const url = createURL(base);
+  for (const index of input.filter((url2) => isNonEmptyURL(url2))) {
+    url.append(createURL(index));
+  }
+  return url.toString();
+}
+function isSamePath(p1, p2) {
+  return decode(withoutTrailingSlash(p1)) === decode(withoutTrailingSlash(p2));
+}
+function isEqual(a, b, options = {}) {
+  if (!options.trailingSlash) {
+    a = withTrailingSlash(a);
+    b = withTrailingSlash(b);
+  }
+  if (!options.leadingSlash) {
+    a = withLeadingSlash(a);
+    b = withLeadingSlash(b);
+  }
+  if (!options.encoding) {
+    a = decode(a);
+    b = decode(b);
+  }
+  return a === b;
+}
+
+function parseURL(input = "", defaultProto) {
+  if (!hasProtocol(input, true)) {
+    return defaultProto ? parseURL(defaultProto + input) : parsePath(input);
+  }
+  const [protocol = "", auth, hostAndPath = ""] = (input.replace(/\\/g, "/").match(/([^/:]+:)?\/\/([^/@]+@)?(.*)/) || []).splice(1);
+  const [host = "", path = ""] = (hostAndPath.match(/([^#/?]*)(.*)?/) || []).splice(1);
+  const { pathname, search, hash } = parsePath(path.replace(/\/(?=[A-Za-z]:)/, ""));
+  return {
+    protocol,
+    auth: auth ? auth.slice(0, Math.max(0, auth.length - 1)) : "",
+    host,
+    pathname,
+    search,
+    hash
+  };
+}
+function parsePath(input = "") {
+  const [pathname = "", search = "", hash = ""] = (input.match(/([^#?]*)(\?[^#]*)?(#.*)?/) || []).splice(1);
+  return {
+    pathname,
+    search,
+    hash
+  };
+}
+function parseAuth(input = "") {
+  const [username, password] = input.split(":");
+  return {
+    username: decode(username),
+    password: decode(password)
+  };
+}
+function parseHost(input = "") {
+  const [hostname, port] = (input.match(/([^/]*)(:0-9+)?/) || []).splice(1);
+  return {
+    hostname: decode(hostname),
+    port
+  };
+}
+function stringifyParsedURL(parsed) {
+  const fullpath = parsed.pathname + (parsed.search ? (parsed.search.startsWith("?") ? "" : "?") + parsed.search : "") + parsed.hash;
+  if (!parsed.protocol) {
+    return fullpath;
+  }
+  return parsed.protocol + "//" + (parsed.auth ? parsed.auth + "@" : "") + parsed.host + fullpath;
+}
+
+
+
+
+/***/ }),
+
+/***/ "./.nuxt/components.plugin.mjs":
+/*!*************************************!*\
+  !*** ./.nuxt/components.plugin.mjs ***!
+  \*************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! #app */ "./node_modules/nuxt/dist/app/index.mjs");
+
+const components = {};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_app__WEBPACK_IMPORTED_MODULE_0__.defineNuxtPlugin)((nuxtApp) => {
+  for (const name in components) {
+    nuxtApp.vueApp.component(name, components[name]);
+    nuxtApp.vueApp.component("Lazy" + name, components[name]);
+  }
+}));
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/components/index.mjs":
+/*!*********************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/components/index.mjs ***!
+  \*********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "defineNuxtLink": () => (/* reexport safe */ _nuxt_link_mjs__WEBPACK_IMPORTED_MODULE_0__.defineNuxtLink)
+/* harmony export */ });
+/* harmony import */ var _nuxt_link_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nuxt-link.mjs */ "./node_modules/nuxt/dist/app/components/nuxt-link.mjs");
+
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/components/layout.mjs":
+/*!**********************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/components/layout.mjs ***!
+  \**********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var _utils_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils.mjs */ "./node_modules/nuxt/dist/app/components/utils.mjs");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! #app */ "./node_modules/nuxt/dist/app/index.mjs");
+/* harmony import */ var _build_pages__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! #build/pages */ "./.nuxt/pages.mjs");
+/* harmony import */ var _build_layouts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! #build/layouts */ "./.nuxt/layouts.mjs");
+/* harmony import */ var _build_nuxt_config_mjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! #build/nuxt.config.mjs */ "./.nuxt/nuxt.config.mjs");
+
+
+
+
+
+
+const LayoutLoader = (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  props: {
+    name: String,
+    ... true ? { hasTransition: Boolean } : 0
+  },
+  async setup(props, context) {
+    let vnode;
+    if (false) {}
+    const LayoutComponent = await _build_layouts__WEBPACK_IMPORTED_MODULE_4__["default"][props.name]().then((r) => r.default || r);
+    return () => {
+      if (false) {}
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(LayoutComponent, {}, context.slots);
+    };
+  }
+});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  props: {
+    name: {
+      type: [String, Boolean, Object],
+      default: null
+    }
+  },
+  setup(props, context) {
+    const injectedRoute = (0,vue__WEBPACK_IMPORTED_MODULE_0__.inject)("_route");
+    const route = injectedRoute === (0,_app__WEBPACK_IMPORTED_MODULE_2__.useRoute)() ? (0,_build_pages__WEBPACK_IMPORTED_MODULE_3__.useRoute)() : injectedRoute;
+    const layout = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(props.name) ?? route.meta.layout ?? "default");
+    let vnode;
+    let _layout;
+    if (false) {}
+    return () => {
+      const hasLayout = layout.value && layout.value in _build_layouts__WEBPACK_IMPORTED_MODULE_4__["default"];
+      if ( true && layout.value && !hasLayout && layout.value !== "default") {
+        console.warn(`Invalid layout \`${layout.value}\` selected.`);
+      }
+      const transitionProps = route.meta.layoutTransition ?? _build_nuxt_config_mjs__WEBPACK_IMPORTED_MODULE_5__.appLayoutTransition;
+      return (0,_utils_mjs__WEBPACK_IMPORTED_MODULE_1__._wrapIf)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, hasLayout && transitionProps, {
+        default: () => (0,_utils_mjs__WEBPACK_IMPORTED_MODULE_1__._wrapIf)(LayoutLoader, hasLayout && { key: layout.value, name: layout.value, hasTransition:  true ? !!transitionProps : 0 }, context.slots).default()
+      }).default();
+    };
+  }
+}));
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/components/nuxt-link.mjs":
+/*!*************************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/components/nuxt-link.mjs ***!
+  \*************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
+/* harmony export */   "defineNuxtLink": () => (/* binding */ defineNuxtLink)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var ufo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ufo */ "ufo");
+/* harmony import */ var _composables_preload_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../composables/preload.mjs */ "./node_modules/nuxt/dist/app/composables/preload.mjs");
+/* harmony import */ var _composables_router_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../composables/router.mjs */ "./node_modules/nuxt/dist/app/composables/router.mjs");
+/* harmony import */ var _nuxt_mjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../nuxt.mjs */ "./node_modules/nuxt/dist/app/nuxt.mjs");
+
+
+
+
+
 const firstNonUndefined = (...args) => args.find((arg) => arg !== void 0);
 const DEFAULT_EXTERNAL_REL_ATTRIBUTE = "noopener noreferrer";
+const requestIdleCallback =  true ? void 0 : 0;
+const cancelIdleCallback =  true ? null : 0;
 function defineNuxtLink(options) {
   const componentName = options.componentName || "NuxtLink";
-  return defineComponent({
+  const checkPropConflicts = (props, main, sub) => {
+    if ( true && props[main] !== void 0 && props[sub] !== void 0) {
+      console.warn(`[${componentName}] \`${main}\` and \`${sub}\` cannot be used together. \`${sub}\` will be ignored.`);
+    }
+  };
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
     name: componentName,
     props: {
       to: {
@@ -322,11 +1866,12 @@ function defineNuxtLink(options) {
       }
     },
     setup(props, { slots }) {
-      const router = useRouter();
-      const to = computed(() => {
+      const router = (0,_composables_router_mjs__WEBPACK_IMPORTED_MODULE_3__.useRouter)();
+      const to = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
+        checkPropConflicts(props, "to", "href");
         return props.to || props.href || "";
       });
-      const isExternal = computed(() => {
+      const isExternal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
         if (props.external) {
           return true;
         }
@@ -336,17 +1881,17 @@ function defineNuxtLink(options) {
         if (typeof to.value === "object") {
           return false;
         }
-        return to.value === "" || hasProtocol(to.value, true);
+        return to.value === "" || (0,ufo__WEBPACK_IMPORTED_MODULE_1__.hasProtocol)(to.value, true);
       });
-      const prefetched = ref(false);
-      const el = void 0;
+      const prefetched = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
+      const el =  true ? void 0 : 0;
+      if (false) {}
       return () => {
-        var _a, _b, _c;
         if (!isExternal.value) {
-          return h(
-            resolveComponent("RouterLink"),
+          return (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(
+            (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("RouterLink"),
             {
-              ref: void 0,
+              ref:  true ? void 0 : 0,
               to: to.value,
               ...prefetched.value && !props.custom ? { class: props.prefetchedClass || options.prefetchedClass } : {},
               activeClass: props.activeClass || options.activeClass,
@@ -358,10 +1903,11 @@ function defineNuxtLink(options) {
             slots.default
           );
         }
-        const href = typeof to.value === "object" ? (_b = (_a = router.resolve(to.value)) == null ? void 0 : _a.href) != null ? _b : null : to.value || null;
+        const href = typeof to.value === "object" ? router.resolve(to.value)?.href ?? null : to.value || null;
         const target = props.target || null;
+        checkPropConflicts(props, "noRel", "rel");
         const rel = props.noRel ? null : firstNonUndefined(props.rel, options.externalRelAttribute, href ? DEFAULT_EXTERNAL_REL_ATTRIBUTE : "") || null;
-        const navigate = () => navigateTo(href, { replace: props.replace });
+        const navigate = () => (0,_composables_router_mjs__WEBPACK_IMPORTED_MODULE_3__.navigateTo)(href, { replace: props.replace });
         if (props.custom) {
           if (!slots.default) {
             return null;
@@ -377,134 +1923,1597 @@ function defineNuxtLink(options) {
             isExactActive: false
           });
         }
-        return h("a", { ref: el, href, rel, target }, (_c = slots.default) == null ? void 0 : _c.call(slots));
+        return (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)("a", { ref: el, href, rel, target }, slots.default?.());
       };
     }
   });
 }
-const __nuxt_component_0 = defineNuxtLink({ componentName: "NuxtLink" });
-function isObject(value) {
-  return value !== null && typeof value === "object";
-}
-function _defu(baseObject, defaults, namespace = ".", merger) {
-  if (!isObject(defaults)) {
-    return _defu(baseObject, {}, namespace, merger);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (defineNuxtLink({ componentName: "NuxtLink" }));
+function useObserver() {
+  if (true) {
+    return;
   }
-  const object = Object.assign({}, defaults);
-  for (const key in baseObject) {
-    if (key === "__proto__" || key === "constructor") {
-      continue;
-    }
-    const value = baseObject[key];
-    if (value === null || value === void 0) {
-      continue;
-    }
-    if (merger && merger(object, key, value, namespace)) {
-      continue;
-    }
-    if (Array.isArray(value) && Array.isArray(object[key])) {
-      object[key] = [...value, ...object[key]];
-    } else if (isObject(value) && isObject(object[key])) {
-      object[key] = _defu(value, object[key], (namespace ? `${namespace}.` : "") + key.toString(), merger);
-    } else {
-      object[key] = value;
-    }
+  const nuxtApp = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_4__.useNuxtApp)();
+  if (nuxtApp._observer) {
+    return nuxtApp._observer;
   }
-  return object;
+  let observer = null;
+  const callbacks = /* @__PURE__ */ new Map();
+  const observe = (element, callback) => {
+    if (!observer) {
+      observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          const callback2 = callbacks.get(entry.target);
+          const isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
+          if (isVisible && callback2) {
+            callback2();
+          }
+        }
+      });
+    }
+    callbacks.set(element, callback);
+    observer.observe(element);
+    return () => {
+      callbacks.delete(element);
+      observer.unobserve(element);
+      if (callbacks.size === 0) {
+        observer.disconnect();
+        observer = null;
+      }
+    };
+  };
+  const _observer = nuxtApp._observer = {
+    observe
+  };
+  return _observer;
 }
-function createDefu(merger) {
-  return (...arguments_) => arguments_.reduce((p, c) => _defu(p, c, "", merger), {});
-}
-const defuFn = createDefu((object, key, currentValue, _namespace) => {
-  if (typeof object[key] !== "undefined" && typeof currentValue === "function") {
-    object[key] = currentValue(object[key]);
+function isSlowConnection() {
+  if (true) {
+    return;
+  }
+  const cn = navigator.connection;
+  if (cn && (cn.saveData || /2g/.test(cn.effectiveType))) {
     return true;
   }
-});
-const inlineConfig = {};
-defuFn(inlineConfig);
-const components = {};
-const _nuxt_components_plugin_mjs_KR1HBZs4kY = defineNuxtPlugin((nuxtApp) => {
-  for (const name in components) {
-    nuxtApp.vueApp.component(name, components[name]);
-    nuxtApp.vueApp.component("Lazy" + name, components[name]);
+  return false;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/components/utils.mjs":
+/*!*********************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/components/utils.mjs ***!
+  \*********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "_wrapIf": () => (/* binding */ _wrapIf)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+
+const Fragment = (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  setup(_props, { slots }) {
+    return () => slots.default?.();
   }
 });
-function createHead(initHeadObject) {
-  const unhead = createHead$1();
-  const legacyHead = {
-    unhead,
-    install(app) {
-      if (version.startsWith("3")) {
-        app.config.globalProperties.$head = unhead;
-        app.provide("usehead", unhead);
+const _wrapIf = (component, props, slots) => {
+  return { default: () => props ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(component, props === true ? {} : props, slots) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(Fragment, {}, slots) };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/composables/asyncData.mjs":
+/*!**************************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/composables/asyncData.mjs ***!
+  \**************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "clearNuxtData": () => (/* binding */ clearNuxtData),
+/* harmony export */   "refreshNuxtData": () => (/* binding */ refreshNuxtData),
+/* harmony export */   "useAsyncData": () => (/* binding */ useAsyncData),
+/* harmony export */   "useLazyAsyncData": () => (/* binding */ useLazyAsyncData)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var _nuxt_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../nuxt.mjs */ "./node_modules/nuxt/dist/app/nuxt.mjs");
+/* harmony import */ var _error_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./error.mjs */ "./node_modules/nuxt/dist/app/composables/error.mjs");
+
+
+
+const getDefault = () => null;
+function useAsyncData(...args) {
+  const autoKey = typeof args[args.length - 1] === "string" ? args.pop() : void 0;
+  if (typeof args[0] !== "string") {
+    args.unshift(autoKey);
+  }
+  let [key, handler, options = {}] = args;
+  if (typeof key !== "string") {
+    throw new TypeError("[nuxt] [asyncData] key must be a string.");
+  }
+  if (typeof handler !== "function") {
+    throw new TypeError("[nuxt] [asyncData] handler must be a function.");
+  }
+  options.server = options.server ?? true;
+  options.default = options.default ?? getDefault;
+  options.lazy = options.lazy ?? false;
+  options.immediate = options.immediate ?? true;
+  const nuxt = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_1__.useNuxtApp)();
+  const getCachedData = () => nuxt.isHydrating ? nuxt.payload.data[key] : nuxt.static.data[key];
+  const hasCachedData = () => getCachedData() !== void 0;
+  if (!nuxt._asyncData[key]) {
+    nuxt._asyncData[key] = {
+      data: (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(getCachedData() ?? options.default?.() ?? null),
+      pending: (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(!hasCachedData()),
+      error: (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(nuxt.payload._errors[key] ? (0,_error_mjs__WEBPACK_IMPORTED_MODULE_2__.createError)(nuxt.payload._errors[key]) : null)
+    };
+  }
+  const asyncData = { ...nuxt._asyncData[key] };
+  asyncData.refresh = asyncData.execute = (opts = {}) => {
+    if (nuxt._asyncDataPromises[key]) {
+      if (opts.dedupe === false) {
+        return nuxt._asyncDataPromises[key];
       }
-    },
-    use(plugin) {
-      unhead.use(plugin);
-    },
-    resolveTags() {
-      return unhead.resolveTags();
-    },
-    headEntries() {
-      return unhead.headEntries();
-    },
-    headTags() {
-      return unhead.resolveTags();
-    },
-    push(input, options) {
-      return unhead.push(input, options);
-    },
-    addEntry(input, options) {
-      return unhead.push(input, options);
-    },
-    addHeadObjs(input, options) {
-      return unhead.push(input, options);
-    },
-    addReactiveEntry(input, options) {
-      const api = useHead$1(input, options);
-      if (typeof api !== "undefined")
-        return api.dispose;
-      return () => {
-      };
-    },
-    removeHeadObjs() {
-    },
-    updateDOM(document, force) {
-      if (force)
-        renderDOMHead(unhead, { document });
-      else
-        debouncedRenderDOMHead(unhead, { delayFn: (fn) => setTimeout(() => fn(), 50), document });
-    },
-    internalHooks: unhead.hooks,
-    hooks: {
-      "before:dom": [],
-      "resolved:tags": [],
-      "resolved:entries": []
+      nuxt._asyncDataPromises[key].cancelled = true;
+    }
+    if (opts._initial && hasCachedData()) {
+      return getCachedData();
+    }
+    asyncData.pending.value = true;
+    const promise = new Promise(
+      (resolve, reject) => {
+        try {
+          resolve(handler(nuxt));
+        } catch (err) {
+          reject(err);
+        }
+      }
+    ).then((result) => {
+      if (promise.cancelled) {
+        return nuxt._asyncDataPromises[key];
+      }
+      if (options.transform) {
+        result = options.transform(result);
+      }
+      if (options.pick) {
+        result = pick(result, options.pick);
+      }
+      asyncData.data.value = result;
+      asyncData.error.value = null;
+    }).catch((error) => {
+      if (promise.cancelled) {
+        return nuxt._asyncDataPromises[key];
+      }
+      asyncData.error.value = error;
+      asyncData.data.value = (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(options.default?.() ?? null);
+    }).finally(() => {
+      if (promise.cancelled) {
+        return;
+      }
+      asyncData.pending.value = false;
+      nuxt.payload.data[key] = asyncData.data.value;
+      if (asyncData.error.value) {
+        nuxt.payload._errors[key] = (0,_error_mjs__WEBPACK_IMPORTED_MODULE_2__.createError)(asyncData.error.value);
+      }
+      delete nuxt._asyncDataPromises[key];
+    });
+    nuxt._asyncDataPromises[key] = promise;
+    return nuxt._asyncDataPromises[key];
+  };
+  const initialFetch = () => asyncData.refresh({ _initial: true });
+  const fetchOnServer = options.server !== false && nuxt.payload.serverRendered;
+  if ( true && fetchOnServer && options.immediate) {
+    const promise = initialFetch();
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onServerPrefetch)(() => promise);
+  }
+  if (false) {}
+  const asyncDataPromise = Promise.resolve(nuxt._asyncDataPromises[key]).then(() => asyncData);
+  Object.assign(asyncDataPromise, asyncData);
+  return asyncDataPromise;
+}
+function useLazyAsyncData(...args) {
+  const autoKey = typeof args[args.length - 1] === "string" ? args.pop() : void 0;
+  if (typeof args[0] !== "string") {
+    args.unshift(autoKey);
+  }
+  const [key, handler, options] = args;
+  return useAsyncData(key, handler, { ...options, lazy: true }, null);
+}
+async function refreshNuxtData(keys) {
+  if (true) {
+    return Promise.resolve();
+  }
+  const _keys = keys ? Array.isArray(keys) ? keys : [keys] : void 0;
+  await (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_1__.useNuxtApp)().hooks.callHookParallel("app:data:refresh", _keys);
+}
+function clearNuxtData(keys) {
+  const nuxtApp = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_1__.useNuxtApp)();
+  const _allKeys = Object.keys(nuxtApp.payload.data);
+  const _keys = !keys ? _allKeys : typeof keys === "function" ? _allKeys.filter(keys) : Array.isArray(keys) ? keys : [keys];
+  for (const key of _keys) {
+    if (key in nuxtApp.payload.data) {
+      nuxtApp.payload.data[key] = void 0;
+    }
+    if (key in nuxtApp.payload._errors) {
+      nuxtApp.payload._errors[key] = void 0;
+    }
+    if (nuxtApp._asyncData[key]) {
+      nuxtApp._asyncData[key].data.value = void 0;
+      nuxtApp._asyncData[key].error.value = void 0;
+      nuxtApp._asyncData[key].pending.value = false;
+    }
+    if (key in nuxtApp._asyncDataPromises) {
+      nuxtApp._asyncDataPromises[key] = void 0;
+    }
+  }
+}
+function pick(obj, keys) {
+  const newObj = {};
+  for (const key of keys) {
+    newObj[key] = obj[key];
+  }
+  return newObj;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/composables/component.mjs":
+/*!**************************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/composables/component.mjs ***!
+  \**************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "NuxtComponentIndicator": () => (/* binding */ NuxtComponentIndicator),
+/* harmony export */   "defineNuxtComponent": () => (/* binding */ defineNuxtComponent)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var _nuxt_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../nuxt.mjs */ "./node_modules/nuxt/dist/app/nuxt.mjs");
+/* harmony import */ var _asyncData_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./asyncData.mjs */ "./node_modules/nuxt/dist/app/composables/asyncData.mjs");
+/* harmony import */ var _router_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./router.mjs */ "./node_modules/nuxt/dist/app/composables/router.mjs");
+/* harmony import */ var _head__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! #head */ "./node_modules/nuxt/dist/head/runtime/index.mjs");
+
+
+
+
+
+const NuxtComponentIndicator = "__nuxt_component";
+async function runLegacyAsyncData(res, fn) {
+  const nuxt = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_1__.useNuxtApp)();
+  const route = (0,_router_mjs__WEBPACK_IMPORTED_MODULE_3__.useRoute)();
+  const vm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.getCurrentInstance)();
+  const { fetchKey } = vm.proxy.$options;
+  const key = typeof fetchKey === "function" ? fetchKey(() => "") : fetchKey || route.fullPath;
+  const { data } = await (0,_asyncData_mjs__WEBPACK_IMPORTED_MODULE_2__.useAsyncData)(`options:asyncdata:${key}`, () => fn(nuxt));
+  if (data.value && typeof data.value === "object") {
+    Object.assign(await res, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toRefs)((0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)(data.value)));
+  } else if (true) {
+    console.warn("[nuxt] asyncData should return an object", data);
+  }
+}
+const defineNuxtComponent = function defineNuxtComponent2(options) {
+  const { setup } = options;
+  if (!setup && !options.asyncData && !options.head) {
+    return {
+      [NuxtComponentIndicator]: true,
+      ...options
+    };
+  }
+  return {
+    [NuxtComponentIndicator]: true,
+    ...options,
+    setup(props, ctx) {
+      const res = setup?.(props, ctx) || {};
+      const promises = [];
+      if (options.asyncData) {
+        promises.push(runLegacyAsyncData(res, options.asyncData));
+      }
+      if (options.head) {
+        const nuxtApp = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_1__.useNuxtApp)();
+        (0,_head__WEBPACK_IMPORTED_MODULE_4__.useHead)(typeof options.head === "function" ? () => options.head(nuxtApp) : options.head);
+      }
+      return Promise.resolve(res).then(() => Promise.all(promises)).then(() => res).finally(() => {
+        promises.length = 0;
+      });
     }
   };
-  unhead.addHeadObjs = legacyHead.addHeadObjs;
-  unhead.updateDOM = legacyHead.updateDOM;
-  unhead.hooks.hook("dom:beforeRender", (ctx) => {
-    for (const hook of legacyHead.hooks["before:dom"]) {
-      if (hook() === false)
-        ctx.shouldRender = false;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/composables/cookie.mjs":
+/*!***********************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/composables/cookie.mjs ***!
+  \***********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useCookie": () => (/* binding */ useCookie)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var cookie_es__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! cookie-es */ "cookie-es");
+/* harmony import */ var h3__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! h3 */ "h3");
+/* harmony import */ var destr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! destr */ "destr");
+/* harmony import */ var ohash__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ohash */ "ohash");
+/* harmony import */ var _nuxt_mjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../nuxt.mjs */ "./node_modules/nuxt/dist/app/nuxt.mjs");
+/* harmony import */ var _ssr_mjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ssr.mjs */ "./node_modules/nuxt/dist/app/composables/ssr.mjs");
+
+
+
+
+
+
+
+const CookieDefaults = {
+  path: "/",
+  decode: (val) => (0,destr__WEBPACK_IMPORTED_MODULE_3__["default"])(decodeURIComponent(val)),
+  encode: (val) => encodeURIComponent(typeof val === "string" ? val : JSON.stringify(val))
+};
+function useCookie(name, _opts) {
+  const opts = { ...CookieDefaults, ..._opts };
+  const cookies = readRawCookies(opts) || {};
+  const cookie = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(cookies[name] ?? opts.default?.());
+  if (false) {} else if (true) {
+    const nuxtApp = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_5__.useNuxtApp)();
+    const writeFinalCookieValue = () => {
+      if (!(0,ohash__WEBPACK_IMPORTED_MODULE_4__.isEqual)(cookie.value, cookies[name])) {
+        writeServerCookie((0,_ssr_mjs__WEBPACK_IMPORTED_MODULE_6__.useRequestEvent)(nuxtApp), name, cookie.value, opts);
+      }
+    };
+    const unhook = nuxtApp.hooks.hookOnce("app:rendered", writeFinalCookieValue);
+    nuxtApp.hooks.hookOnce("app:redirected", () => {
+      unhook();
+      return writeFinalCookieValue();
+    });
+  }
+  return cookie;
+}
+function readRawCookies(opts = {}) {
+  if (true) {
+    return (0,cookie_es__WEBPACK_IMPORTED_MODULE_1__.parse)((0,_ssr_mjs__WEBPACK_IMPORTED_MODULE_6__.useRequestEvent)()?.req.headers.cookie || "", opts);
+  } else {}
+}
+function serializeCookie(name, value, opts = {}) {
+  if (value === null || value === void 0) {
+    return (0,cookie_es__WEBPACK_IMPORTED_MODULE_1__.serialize)(name, value, { ...opts, maxAge: -1 });
+  }
+  return (0,cookie_es__WEBPACK_IMPORTED_MODULE_1__.serialize)(name, value, opts);
+}
+function writeClientCookie(name, value, opts = {}) {
+  if (false) {}
+}
+function writeServerCookie(event, name, value, opts = {}) {
+  if (event) {
+    (0,h3__WEBPACK_IMPORTED_MODULE_2__.appendHeader)(event, "Set-Cookie", serializeCookie(name, value, opts));
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/composables/error.mjs":
+/*!**********************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/composables/error.mjs ***!
+  \**********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "clearError": () => (/* binding */ clearError),
+/* harmony export */   "createError": () => (/* binding */ createError),
+/* harmony export */   "isNuxtError": () => (/* binding */ isNuxtError),
+/* harmony export */   "showError": () => (/* binding */ showError),
+/* harmony export */   "useError": () => (/* binding */ useError)
+/* harmony export */ });
+/* harmony import */ var h3__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! h3 */ "h3");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var _nuxt_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../nuxt.mjs */ "./node_modules/nuxt/dist/app/nuxt.mjs");
+
+
+
+const useError = () => (0,vue__WEBPACK_IMPORTED_MODULE_1__.toRef)((0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_2__.useNuxtApp)().payload, "error");
+const showError = (_err) => {
+  const err = createError(_err);
+  try {
+    const nuxtApp = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_2__.useNuxtApp)();
+    nuxtApp.callHook("app:error", err);
+    const error = useError();
+    error.value = error.value || err;
+  } catch {
+    throw err;
+  }
+  return err;
+};
+const clearError = async (options = {}) => {
+  const nuxtApp = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_2__.useNuxtApp)();
+  const error = useError();
+  nuxtApp.callHook("app:error:cleared", options);
+  if (options.redirect) {
+    await nuxtApp.$router.replace(options.redirect);
+  }
+  error.value = null;
+};
+const isNuxtError = (err) => !!(err && typeof err === "object" && "__nuxt_error" in err);
+const createError = (err) => {
+  const _err = (0,h3__WEBPACK_IMPORTED_MODULE_0__.createError)(err);
+  _err.__nuxt_error = true;
+  return _err;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/composables/fetch.mjs":
+/*!**********************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/composables/fetch.mjs ***!
+  \**********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useFetch": () => (/* binding */ useFetch),
+/* harmony export */   "useLazyFetch": () => (/* binding */ useLazyFetch)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var ohash__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ohash */ "ohash");
+/* harmony import */ var _asyncData_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./asyncData.mjs */ "./node_modules/nuxt/dist/app/composables/asyncData.mjs");
+
+
+
+function useFetch(request, arg1, arg2) {
+  const [opts = {}, autoKey] = typeof arg1 === "string" ? [{}, arg1] : [arg1, arg2];
+  const _key = opts.key || (0,ohash__WEBPACK_IMPORTED_MODULE_1__.hash)([autoKey, (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(opts.baseURL), typeof request === "string" ? request : "", (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(opts.params)]);
+  if (!_key || typeof _key !== "string") {
+    throw new TypeError("[nuxt] [useFetch] key must be a string: " + _key);
+  }
+  if (!request) {
+    throw new Error("[nuxt] [useFetch] request is missing.");
+  }
+  const key = _key === autoKey ? "$f" + _key : _key;
+  const _request = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
+    let r = request;
+    if (typeof r === "function") {
+      r = r();
+    }
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.unref)(r);
+  });
+  const {
+    server,
+    lazy,
+    default: defaultFn,
+    transform,
+    pick,
+    watch,
+    immediate,
+    ...fetchOptions
+  } = opts;
+  const _fetchOptions = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
+    ...fetchOptions,
+    cache: typeof opts.cache === "boolean" ? void 0 : opts.cache
+  });
+  const _asyncDataOptions = {
+    server,
+    lazy,
+    default: defaultFn,
+    transform,
+    pick,
+    immediate,
+    watch: [
+      _fetchOptions,
+      _request,
+      ...watch || []
+    ]
+  };
+  let controller;
+  const asyncData = (0,_asyncData_mjs__WEBPACK_IMPORTED_MODULE_2__.useAsyncData)(key, () => {
+    controller?.abort?.();
+    controller = typeof AbortController !== "undefined" ? new AbortController() : {};
+    return $fetch(_request.value, { signal: controller.signal, ..._fetchOptions });
+  }, _asyncDataOptions);
+  return asyncData;
+}
+function useLazyFetch(request, arg1, arg2) {
+  const [opts, autoKey] = typeof arg1 === "string" ? [{}, arg1] : [arg1, arg2];
+  return useFetch(
+    request,
+    {
+      ...opts,
+      lazy: true
+    },
+    autoKey
+  );
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/composables/hydrate.mjs":
+/*!************************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/composables/hydrate.mjs ***!
+  \************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useHydration": () => (/* binding */ useHydration)
+/* harmony export */ });
+/* harmony import */ var _nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../nuxt.mjs */ "./node_modules/nuxt/dist/app/nuxt.mjs");
+
+const useHydration = (key, get, set) => {
+  const nuxt = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__.useNuxtApp)();
+  if (true) {
+    nuxt.hooks.hook("app:rendered", () => {
+      nuxt.payload[key] = get();
+    });
+  }
+  if (false) {}
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/composables/index.mjs":
+/*!**********************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/composables/index.mjs ***!
+  \**********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "abortNavigation": () => (/* reexport safe */ _router_mjs__WEBPACK_IMPORTED_MODULE_8__.abortNavigation),
+/* harmony export */   "addRouteMiddleware": () => (/* reexport safe */ _router_mjs__WEBPACK_IMPORTED_MODULE_8__.addRouteMiddleware),
+/* harmony export */   "clearError": () => (/* reexport safe */ _error_mjs__WEBPACK_IMPORTED_MODULE_4__.clearError),
+/* harmony export */   "clearNuxtData": () => (/* reexport safe */ _asyncData_mjs__WEBPACK_IMPORTED_MODULE_1__.clearNuxtData),
+/* harmony export */   "createError": () => (/* reexport safe */ _error_mjs__WEBPACK_IMPORTED_MODULE_4__.createError),
+/* harmony export */   "defineNuxtComponent": () => (/* reexport safe */ _component_mjs__WEBPACK_IMPORTED_MODULE_0__.defineNuxtComponent),
+/* harmony export */   "defineNuxtRouteMiddleware": () => (/* reexport safe */ _router_mjs__WEBPACK_IMPORTED_MODULE_8__.defineNuxtRouteMiddleware),
+/* harmony export */   "isNuxtError": () => (/* reexport safe */ _error_mjs__WEBPACK_IMPORTED_MODULE_4__.isNuxtError),
+/* harmony export */   "isPrerendered": () => (/* reexport safe */ _payload_mjs__WEBPACK_IMPORTED_MODULE_10__.isPrerendered),
+/* harmony export */   "loadPayload": () => (/* reexport safe */ _payload_mjs__WEBPACK_IMPORTED_MODULE_10__.loadPayload),
+/* harmony export */   "navigateTo": () => (/* reexport safe */ _router_mjs__WEBPACK_IMPORTED_MODULE_8__.navigateTo),
+/* harmony export */   "onBeforeRouteLeave": () => (/* reexport safe */ _router_mjs__WEBPACK_IMPORTED_MODULE_8__.onBeforeRouteLeave),
+/* harmony export */   "onBeforeRouteUpdate": () => (/* reexport safe */ _router_mjs__WEBPACK_IMPORTED_MODULE_8__.onBeforeRouteUpdate),
+/* harmony export */   "prefetchComponents": () => (/* reexport safe */ _preload_mjs__WEBPACK_IMPORTED_MODULE_9__.prefetchComponents),
+/* harmony export */   "preloadComponents": () => (/* reexport safe */ _preload_mjs__WEBPACK_IMPORTED_MODULE_9__.preloadComponents),
+/* harmony export */   "preloadPayload": () => (/* reexport safe */ _payload_mjs__WEBPACK_IMPORTED_MODULE_10__.preloadPayload),
+/* harmony export */   "preloadRouteComponents": () => (/* reexport safe */ _preload_mjs__WEBPACK_IMPORTED_MODULE_9__.preloadRouteComponents),
+/* harmony export */   "refreshNuxtData": () => (/* reexport safe */ _asyncData_mjs__WEBPACK_IMPORTED_MODULE_1__.refreshNuxtData),
+/* harmony export */   "setPageLayout": () => (/* reexport safe */ _router_mjs__WEBPACK_IMPORTED_MODULE_8__.setPageLayout),
+/* harmony export */   "setResponseStatus": () => (/* reexport safe */ _ssr_mjs__WEBPACK_IMPORTED_MODULE_7__.setResponseStatus),
+/* harmony export */   "showError": () => (/* reexport safe */ _error_mjs__WEBPACK_IMPORTED_MODULE_4__.showError),
+/* harmony export */   "useAsyncData": () => (/* reexport safe */ _asyncData_mjs__WEBPACK_IMPORTED_MODULE_1__.useAsyncData),
+/* harmony export */   "useCookie": () => (/* reexport safe */ _cookie_mjs__WEBPACK_IMPORTED_MODULE_6__.useCookie),
+/* harmony export */   "useError": () => (/* reexport safe */ _error_mjs__WEBPACK_IMPORTED_MODULE_4__.useError),
+/* harmony export */   "useFetch": () => (/* reexport safe */ _fetch_mjs__WEBPACK_IMPORTED_MODULE_5__.useFetch),
+/* harmony export */   "useHydration": () => (/* reexport safe */ _hydrate_mjs__WEBPACK_IMPORTED_MODULE_2__.useHydration),
+/* harmony export */   "useLazyAsyncData": () => (/* reexport safe */ _asyncData_mjs__WEBPACK_IMPORTED_MODULE_1__.useLazyAsyncData),
+/* harmony export */   "useLazyFetch": () => (/* reexport safe */ _fetch_mjs__WEBPACK_IMPORTED_MODULE_5__.useLazyFetch),
+/* harmony export */   "useRequestEvent": () => (/* reexport safe */ _ssr_mjs__WEBPACK_IMPORTED_MODULE_7__.useRequestEvent),
+/* harmony export */   "useRequestHeaders": () => (/* reexport safe */ _ssr_mjs__WEBPACK_IMPORTED_MODULE_7__.useRequestHeaders),
+/* harmony export */   "useRoute": () => (/* reexport safe */ _router_mjs__WEBPACK_IMPORTED_MODULE_8__.useRoute),
+/* harmony export */   "useRouter": () => (/* reexport safe */ _router_mjs__WEBPACK_IMPORTED_MODULE_8__.useRouter),
+/* harmony export */   "useState": () => (/* reexport safe */ _state_mjs__WEBPACK_IMPORTED_MODULE_3__.useState)
+/* harmony export */ });
+/* harmony import */ var _component_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./component.mjs */ "./node_modules/nuxt/dist/app/composables/component.mjs");
+/* harmony import */ var _asyncData_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./asyncData.mjs */ "./node_modules/nuxt/dist/app/composables/asyncData.mjs");
+/* harmony import */ var _hydrate_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./hydrate.mjs */ "./node_modules/nuxt/dist/app/composables/hydrate.mjs");
+/* harmony import */ var _state_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./state.mjs */ "./node_modules/nuxt/dist/app/composables/state.mjs");
+/* harmony import */ var _error_mjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./error.mjs */ "./node_modules/nuxt/dist/app/composables/error.mjs");
+/* harmony import */ var _fetch_mjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./fetch.mjs */ "./node_modules/nuxt/dist/app/composables/fetch.mjs");
+/* harmony import */ var _cookie_mjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./cookie.mjs */ "./node_modules/nuxt/dist/app/composables/cookie.mjs");
+/* harmony import */ var _ssr_mjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./ssr.mjs */ "./node_modules/nuxt/dist/app/composables/ssr.mjs");
+/* harmony import */ var _router_mjs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./router.mjs */ "./node_modules/nuxt/dist/app/composables/router.mjs");
+/* harmony import */ var _preload_mjs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./preload.mjs */ "./node_modules/nuxt/dist/app/composables/preload.mjs");
+/* harmony import */ var _payload_mjs__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./payload.mjs */ "./node_modules/nuxt/dist/app/composables/payload.mjs");
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/composables/payload.mjs":
+/*!************************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/composables/payload.mjs ***!
+  \************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "isPrerendered": () => (/* binding */ isPrerendered),
+/* harmony export */   "loadPayload": () => (/* binding */ loadPayload),
+/* harmony export */   "preloadPayload": () => (/* binding */ preloadPayload)
+/* harmony export */ });
+/* harmony import */ var ufo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ufo */ "ufo");
+/* harmony import */ var _nuxt_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../nuxt.mjs */ "./node_modules/nuxt/dist/app/nuxt.mjs");
+/* harmony import */ var _index_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../index.mjs */ "./node_modules/nuxt/dist/app/index.mjs");
+/* provided dependency */ var URL = __webpack_require__(/*! url */ "url")["URL"];
+
+
+
+function loadPayload(url, opts = {}) {
+  if (true) {
+    return null;
+  }
+  const payloadURL = _getPayloadURL(url, opts);
+  const nuxtApp = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_1__.useNuxtApp)();
+  const cache = nuxtApp._payloadCache = nuxtApp._payloadCache || {};
+  if (cache[url]) {
+    return cache[url];
+  }
+  cache[url] = _importPayload(payloadURL).then((payload) => {
+    if (!payload) {
+      delete cache[url];
+      return null;
+    }
+    return payload;
+  });
+  return cache[url];
+}
+function preloadPayload(url, opts = {}) {
+  const payloadURL = _getPayloadURL(url, opts);
+  (0,_index_mjs__WEBPACK_IMPORTED_MODULE_2__.useHead)({
+    link: [
+      { rel: "modulepreload", href: payloadURL }
+    ]
+  });
+}
+function _getPayloadURL(url, opts = {}) {
+  const u = new URL(url, "http://localhost");
+  if (u.search) {
+    throw new Error("Payload URL cannot contain search params: " + url);
+  }
+  if (u.host !== "localhost") {
+    throw new Error("Payload URL cannot contain host: " + url);
+  }
+  const hash = opts.hash || (opts.fresh ? Date.now() : "");
+  return (0,ufo__WEBPACK_IMPORTED_MODULE_0__.joinURL)((0,_index_mjs__WEBPACK_IMPORTED_MODULE_2__.useRuntimeConfig)().app.baseURL, u.pathname, hash ? `_payload.${hash}.js` : "_payload.js");
+}
+async function _importPayload(payloadURL) {
+  if (true) {
+    return null;
+  }
+  const res = await import(
+    /* webpackIgnore: true */
+    /* @vite-ignore */
+    payloadURL
+  ).catch((err) => {
+    console.warn("[nuxt] Cannot load payload ", payloadURL, err);
+  });
+  return res?.default || null;
+}
+function isPrerendered() {
+  const nuxtApp = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_1__.useNuxtApp)();
+  return !!nuxtApp.payload.prerenderedAt;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/composables/preload.mjs":
+/*!************************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/composables/preload.mjs ***!
+  \************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "prefetchComponents": () => (/* binding */ prefetchComponents),
+/* harmony export */   "preloadComponents": () => (/* binding */ preloadComponents),
+/* harmony export */   "preloadRouteComponents": () => (/* binding */ preloadRouteComponents)
+/* harmony export */ });
+/* harmony import */ var _nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../nuxt.mjs */ "./node_modules/nuxt/dist/app/nuxt.mjs");
+/* harmony import */ var _router_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./router.mjs */ "./node_modules/nuxt/dist/app/composables/router.mjs");
+
+
+const preloadComponents = async (components) => {
+  if (true) {
+    return;
+  }
+  const nuxtApp = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__.useNuxtApp)();
+  components = Array.isArray(components) ? components : [components];
+  await Promise.all(components.map((name) => _loadAsyncComponent(nuxtApp.vueApp._context.components[name])));
+};
+const prefetchComponents = (components) => {
+  return preloadComponents(components);
+};
+function _loadAsyncComponent(component) {
+  if (component?.__asyncLoader && !component.__asyncResolved) {
+    return component.__asyncLoader();
+  }
+}
+async function preloadRouteComponents(to, router = (0,_router_mjs__WEBPACK_IMPORTED_MODULE_1__.useRouter)()) {
+  if (true) {
+    return;
+  }
+  if (!router._routePreloaded) {
+    router._routePreloaded = /* @__PURE__ */ new Set();
+  }
+  if (router._routePreloaded.has(to)) {
+    return;
+  }
+  router._routePreloaded.add(to);
+  const promises = router._preloadPromises = router._preloadPromises || [];
+  if (promises.length > 4) {
+    return Promise.all(promises).then(() => preloadRouteComponents(to, router));
+  }
+  const components = router.resolve(to).matched.map((component) => component.components?.default).filter((component) => typeof component === "function");
+  for (const component of components) {
+    const promise = Promise.resolve(component()).catch(() => {
+    }).finally(() => promises.splice(promises.indexOf(promise)));
+    promises.push(promise);
+  }
+  await Promise.all(promises);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/composables/router.mjs":
+/*!***********************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/composables/router.mjs ***!
+  \***********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "abortNavigation": () => (/* binding */ abortNavigation),
+/* harmony export */   "addRouteMiddleware": () => (/* binding */ addRouteMiddleware),
+/* harmony export */   "defineNuxtRouteMiddleware": () => (/* binding */ defineNuxtRouteMiddleware),
+/* harmony export */   "navigateTo": () => (/* binding */ navigateTo),
+/* harmony export */   "onBeforeRouteLeave": () => (/* binding */ onBeforeRouteLeave),
+/* harmony export */   "onBeforeRouteUpdate": () => (/* binding */ onBeforeRouteUpdate),
+/* harmony export */   "setPageLayout": () => (/* binding */ setPageLayout),
+/* harmony export */   "useRoute": () => (/* binding */ useRoute),
+/* harmony export */   "useRouter": () => (/* binding */ useRouter)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var h3__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! h3 */ "h3");
+/* harmony import */ var ufo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ufo */ "ufo");
+/* harmony import */ var _nuxt_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../nuxt.mjs */ "./node_modules/nuxt/dist/app/nuxt.mjs");
+/* harmony import */ var _error_mjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./error.mjs */ "./node_modules/nuxt/dist/app/composables/error.mjs");
+/* harmony import */ var _state_mjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./state.mjs */ "./node_modules/nuxt/dist/app/composables/state.mjs");
+
+
+
+
+
+
+const useRouter = () => {
+  return (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_3__.useNuxtApp)()?.$router;
+};
+const useRoute = () => {
+  if ((0,vue__WEBPACK_IMPORTED_MODULE_0__.getCurrentInstance)()) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.inject)("_route", (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_3__.useNuxtApp)()._route);
+  }
+  return (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_3__.useNuxtApp)()._route;
+};
+const onBeforeRouteLeave = (guard) => {
+  const unsubscribe = useRouter().beforeEach((to, from, next) => {
+    if (to === from) {
+      return;
+    }
+    return guard(to, from, next);
+  });
+  (0,vue__WEBPACK_IMPORTED_MODULE_0__.onUnmounted)(unsubscribe);
+};
+const onBeforeRouteUpdate = (guard) => {
+  const unsubscribe = useRouter().beforeEach(guard);
+  (0,vue__WEBPACK_IMPORTED_MODULE_0__.onUnmounted)(unsubscribe);
+};
+const defineNuxtRouteMiddleware = (middleware) => middleware;
+const addRouteMiddleware = (name, middleware, options = {}) => {
+  const nuxtApp = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_3__.useNuxtApp)();
+  if (options.global || typeof name === "function") {
+    nuxtApp._middleware.global.push(typeof name === "function" ? name : middleware);
+  } else {
+    nuxtApp._middleware.named[name] = middleware;
+  }
+};
+const isProcessingMiddleware = () => {
+  try {
+    if ((0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_3__.useNuxtApp)()._processingMiddleware) {
+      return true;
+    }
+  } catch {
+    return true;
+  }
+  return false;
+};
+const navigateTo = (to, options) => {
+  if (!to) {
+    to = "/";
+  }
+  const toPath = typeof to === "string" ? to : to.path || "/";
+  const isExternal = (0,ufo__WEBPACK_IMPORTED_MODULE_2__.hasProtocol)(toPath, true);
+  if (isExternal && !options?.external) {
+    throw new Error("Navigating to external URL is not allowed by default. Use `nagivateTo (url, { external: true })`.");
+  }
+  if (isExternal && (0,ufo__WEBPACK_IMPORTED_MODULE_2__.parseURL)(toPath).protocol === "script:") {
+    throw new Error("Cannot navigate to an URL with script protocol.");
+  }
+  if (false) {}
+  const router = useRouter();
+  if (true) {
+    const nuxtApp = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_3__.useNuxtApp)();
+    if (nuxtApp.ssrContext && nuxtApp.ssrContext.event) {
+      const redirectLocation = isExternal ? toPath : (0,ufo__WEBPACK_IMPORTED_MODULE_2__.joinURL)((0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_3__.useRuntimeConfig)().app.baseURL, router.resolve(to).fullPath || "/");
+      return nuxtApp.callHook("app:redirected").then(() => (0,h3__WEBPACK_IMPORTED_MODULE_1__.sendRedirect)(nuxtApp.ssrContext.event, redirectLocation, options?.redirectCode || 302));
+    }
+  }
+  if (isExternal) {
+    if (options?.replace) {
+      location.replace(toPath);
+    } else {
+      location.href = toPath;
+    }
+    return Promise.resolve();
+  }
+  return options?.replace ? router.replace(to) : router.push(to);
+};
+const abortNavigation = (err) => {
+  if ( true && !isProcessingMiddleware()) {
+    throw new Error("abortNavigation() is only usable inside a route middleware handler.");
+  }
+  if (err) {
+    throw (0,_error_mjs__WEBPACK_IMPORTED_MODULE_4__.createError)(err);
+  }
+  return false;
+};
+const setPageLayout = (layout) => {
+  if (true) {
+    if ( true && (0,vue__WEBPACK_IMPORTED_MODULE_0__.getCurrentInstance)() && (0,_state_mjs__WEBPACK_IMPORTED_MODULE_5__.useState)("_layout").value !== layout) {
+      console.warn("[warn] [nuxt] `setPageLayout` should not be called to change the layout on the server within a component as this will cause hydration errors.");
+    }
+    (0,_state_mjs__WEBPACK_IMPORTED_MODULE_5__.useState)("_layout").value = layout;
+  }
+  const nuxtApp = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_3__.useNuxtApp)();
+  if ( true && nuxtApp.isHydrating && (0,_state_mjs__WEBPACK_IMPORTED_MODULE_5__.useState)("_layout").value !== layout) {
+    console.warn("[warn] [nuxt] `setPageLayout` should not be called to change the layout during hydration as this will cause hydration errors.");
+  }
+  const inMiddleware = isProcessingMiddleware();
+  if (inMiddleware || true || 0) {
+    const unsubscribe = useRouter().beforeResolve((to) => {
+      to.meta.layout = layout;
+      unsubscribe();
+    });
+  }
+  if (!inMiddleware) {
+    useRoute().meta.layout = layout;
+  }
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/composables/ssr.mjs":
+/*!********************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/composables/ssr.mjs ***!
+  \********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "setResponseStatus": () => (/* binding */ setResponseStatus),
+/* harmony export */   "useRequestEvent": () => (/* binding */ useRequestEvent),
+/* harmony export */   "useRequestHeaders": () => (/* binding */ useRequestHeaders)
+/* harmony export */ });
+/* harmony import */ var _nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../nuxt.mjs */ "./node_modules/nuxt/dist/app/nuxt.mjs");
+
+function useRequestHeaders(include) {
+  if (false) {}
+  const headers = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__.useNuxtApp)().ssrContext?.event.node.req.headers ?? {};
+  if (!include) {
+    return headers;
+  }
+  return Object.fromEntries(include.map((key) => key.toLowerCase()).filter((key) => headers[key]).map((key) => [key, headers[key]]));
+}
+function useRequestEvent(nuxtApp = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__.useNuxtApp)()) {
+  return nuxtApp.ssrContext?.event;
+}
+function setResponseStatus(code, message) {
+  const event =  true && useRequestEvent();
+  if (event) {
+    event.node.res.statusCode = code;
+    if (message) {
+      event.node.res.statusMessage = message;
+    }
+  }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/composables/state.mjs":
+/*!**********************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/composables/state.mjs ***!
+  \**********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useState": () => (/* binding */ useState)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var _nuxt_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../nuxt.mjs */ "./node_modules/nuxt/dist/app/nuxt.mjs");
+
+
+function useState(...args) {
+  const autoKey = typeof args[args.length - 1] === "string" ? args.pop() : void 0;
+  if (typeof args[0] !== "string") {
+    args.unshift(autoKey);
+  }
+  const [_key, init] = args;
+  if (!_key || typeof _key !== "string") {
+    throw new TypeError("[nuxt] [useState] key must be a string: " + _key);
+  }
+  if (init !== void 0 && typeof init !== "function") {
+    throw new Error("[nuxt] [useState] init must be a function: " + init);
+  }
+  const key = "$s" + _key;
+  const nuxt = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_1__.useNuxtApp)();
+  const state = (0,vue__WEBPACK_IMPORTED_MODULE_0__.toRef)(nuxt.payload.state, key);
+  if (state.value === void 0 && init) {
+    const initialValue = init();
+    if ((0,vue__WEBPACK_IMPORTED_MODULE_0__.isRef)(initialValue)) {
+      nuxt.payload.state[key] = initialValue;
+      return initialValue;
+    }
+    state.value = initialValue;
+  }
+  return state;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/config.mjs":
+/*!***********************************************!*\
+  !*** ./node_modules/nuxt/dist/app/config.mjs ***!
+  \***********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "_getAppConfig": () => (/* binding */ _getAppConfig),
+/* harmony export */   "updateAppConfig": () => (/* binding */ updateAppConfig),
+/* harmony export */   "useAppConfig": () => (/* binding */ useAppConfig)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var _nuxt_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nuxt.mjs */ "./node_modules/nuxt/dist/app/nuxt.mjs");
+/* harmony import */ var _build_app_config_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! #build/app.config.mjs */ "./.nuxt/app.config.mjs");
+
+
+
+const _getAppConfig = () => _build_app_config_mjs__WEBPACK_IMPORTED_MODULE_2__["default"];
+function deepDelete(obj, newObj) {
+  for (const key in obj) {
+    const val = newObj[key];
+    if (!(key in newObj)) {
+      delete obj[key];
+    }
+    if (val !== null && typeof val === "object") {
+      deepDelete(obj[key], newObj[key]);
+    }
+  }
+}
+function deepAssign(obj, newObj) {
+  for (const key in newObj) {
+    const val = newObj[key];
+    if (val !== null && typeof val === "object") {
+      deepAssign(obj[key], val);
+    } else {
+      obj[key] = val;
+    }
+  }
+}
+function useAppConfig() {
+  const nuxtApp = (0,_nuxt_mjs__WEBPACK_IMPORTED_MODULE_1__.useNuxtApp)();
+  if (!nuxtApp._appConfig) {
+    nuxtApp._appConfig = (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)(_build_app_config_mjs__WEBPACK_IMPORTED_MODULE_2__["default"]);
+  }
+  return nuxtApp._appConfig;
+}
+function updateAppConfig(appConfig) {
+  const _appConfig = useAppConfig();
+  deepAssign(_appConfig, appConfig);
+}
+if (true) {
+  let applyHMR = function(newConfig) {
+    const appConfig = useAppConfig();
+    if (newConfig && appConfig) {
+      deepAssign(appConfig, newConfig);
+      deepDelete(appConfig, newConfig);
+    }
+  };
+  if (false) {}
+  if (false) {}
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/index.mjs":
+/*!**********************************************!*\
+  !*** ./node_modules/nuxt/dist/app/index.mjs ***!
+  \**********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "NuxtPluginIndicator": () => (/* reexport safe */ _nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__.NuxtPluginIndicator),
+/* harmony export */   "_getAppConfig": () => (/* reexport safe */ _config_mjs__WEBPACK_IMPORTED_MODULE_3__._getAppConfig),
+/* harmony export */   "abortNavigation": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.abortNavigation),
+/* harmony export */   "addRouteMiddleware": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.addRouteMiddleware),
+/* harmony export */   "applyPlugin": () => (/* reexport safe */ _nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__.applyPlugin),
+/* harmony export */   "applyPlugins": () => (/* reexport safe */ _nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__.applyPlugins),
+/* harmony export */   "callWithNuxt": () => (/* reexport safe */ _nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__.callWithNuxt),
+/* harmony export */   "clearError": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.clearError),
+/* harmony export */   "clearNuxtData": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.clearNuxtData),
+/* harmony export */   "createError": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.createError),
+/* harmony export */   "createNuxtApp": () => (/* reexport safe */ _nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__.createNuxtApp),
+/* harmony export */   "defineAppConfig": () => (/* reexport safe */ _nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__.defineAppConfig),
+/* harmony export */   "defineNuxtComponent": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.defineNuxtComponent),
+/* harmony export */   "defineNuxtLink": () => (/* reexport safe */ _components_index_mjs__WEBPACK_IMPORTED_MODULE_2__.defineNuxtLink),
+/* harmony export */   "defineNuxtPlugin": () => (/* reexport safe */ _nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__.defineNuxtPlugin),
+/* harmony export */   "defineNuxtRouteMiddleware": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.defineNuxtRouteMiddleware),
+/* harmony export */   "isNuxtError": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.isNuxtError),
+/* harmony export */   "isNuxtPlugin": () => (/* reexport safe */ _nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__.isNuxtPlugin),
+/* harmony export */   "isPrerendered": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.isPrerendered),
+/* harmony export */   "isVue2": () => (/* binding */ isVue2),
+/* harmony export */   "isVue3": () => (/* binding */ isVue3),
+/* harmony export */   "loadPayload": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.loadPayload),
+/* harmony export */   "navigateTo": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.navigateTo),
+/* harmony export */   "normalizePlugins": () => (/* reexport safe */ _nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__.normalizePlugins),
+/* harmony export */   "onBeforeRouteLeave": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.onBeforeRouteLeave),
+/* harmony export */   "onBeforeRouteUpdate": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.onBeforeRouteUpdate),
+/* harmony export */   "prefetchComponents": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.prefetchComponents),
+/* harmony export */   "preloadComponents": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.preloadComponents),
+/* harmony export */   "preloadPayload": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.preloadPayload),
+/* harmony export */   "preloadRouteComponents": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.preloadRouteComponents),
+/* harmony export */   "refreshNuxtData": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.refreshNuxtData),
+/* harmony export */   "setPageLayout": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.setPageLayout),
+/* harmony export */   "setResponseStatus": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.setResponseStatus),
+/* harmony export */   "showError": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.showError),
+/* harmony export */   "updateAppConfig": () => (/* reexport safe */ _config_mjs__WEBPACK_IMPORTED_MODULE_3__.updateAppConfig),
+/* harmony export */   "useAppConfig": () => (/* reexport safe */ _config_mjs__WEBPACK_IMPORTED_MODULE_3__.useAppConfig),
+/* harmony export */   "useAsyncData": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.useAsyncData),
+/* harmony export */   "useCookie": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.useCookie),
+/* harmony export */   "useError": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.useError),
+/* harmony export */   "useFetch": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.useFetch),
+/* harmony export */   "useHead": () => (/* reexport safe */ _head__WEBPACK_IMPORTED_MODULE_4__.useHead),
+/* harmony export */   "useHydration": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.useHydration),
+/* harmony export */   "useLazyAsyncData": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.useLazyAsyncData),
+/* harmony export */   "useLazyFetch": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.useLazyFetch),
+/* harmony export */   "useNuxtApp": () => (/* reexport safe */ _nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__.useNuxtApp),
+/* harmony export */   "useRequestEvent": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.useRequestEvent),
+/* harmony export */   "useRequestHeaders": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.useRequestHeaders),
+/* harmony export */   "useRoute": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.useRoute),
+/* harmony export */   "useRouter": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.useRouter),
+/* harmony export */   "useRuntimeConfig": () => (/* reexport safe */ _nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__.useRuntimeConfig),
+/* harmony export */   "useState": () => (/* reexport safe */ _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__.useState)
+/* harmony export */ });
+/* harmony import */ var _nuxt_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./nuxt.mjs */ "./node_modules/nuxt/dist/app/nuxt.mjs");
+/* harmony import */ var _composables_index_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./composables/index.mjs */ "./node_modules/nuxt/dist/app/composables/index.mjs");
+/* harmony import */ var _components_index_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/index.mjs */ "./node_modules/nuxt/dist/app/components/index.mjs");
+/* harmony import */ var _config_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./config.mjs */ "./node_modules/nuxt/dist/app/config.mjs");
+/* harmony import */ var _head__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! #head */ "./node_modules/nuxt/dist/head/runtime/index.mjs");
+
+
+
+
+
+const isVue2 = false;
+const isVue3 = true;
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/nuxt.mjs":
+/*!*********************************************!*\
+  !*** ./node_modules/nuxt/dist/app/nuxt.mjs ***!
+  \*********************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "NuxtPluginIndicator": () => (/* binding */ NuxtPluginIndicator),
+/* harmony export */   "applyPlugin": () => (/* binding */ applyPlugin),
+/* harmony export */   "applyPlugins": () => (/* binding */ applyPlugins),
+/* harmony export */   "callWithNuxt": () => (/* binding */ callWithNuxt),
+/* harmony export */   "createNuxtApp": () => (/* binding */ createNuxtApp),
+/* harmony export */   "defineAppConfig": () => (/* binding */ defineAppConfig),
+/* harmony export */   "defineNuxtPlugin": () => (/* binding */ defineNuxtPlugin),
+/* harmony export */   "isNuxtPlugin": () => (/* binding */ isNuxtPlugin),
+/* harmony export */   "normalizePlugins": () => (/* binding */ normalizePlugins),
+/* harmony export */   "useNuxtApp": () => (/* binding */ useNuxtApp),
+/* harmony export */   "useRuntimeConfig": () => (/* binding */ useRuntimeConfig)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var hookable__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! hookable */ "hookable");
+/* harmony import */ var unctx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! unctx */ "unctx");
+
+
+
+const nuxtAppCtx = (0,unctx__WEBPACK_IMPORTED_MODULE_2__.getContext)("nuxt-app");
+const NuxtPluginIndicator = "__nuxt_plugin";
+function createNuxtApp(options) {
+  let hydratingCount = 0;
+  const nuxtApp = {
+    provide: void 0,
+    globalName: "nuxt",
+    payload: (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)({
+      data: {},
+      state: {},
+      _errors: {},
+      ... false ? 0 : { serverRendered: true }
+    }),
+    static: {
+      data: {}
+    },
+    isHydrating: false,
+    deferHydration() {
+      if (!nuxtApp.isHydrating) {
+        return () => {
+        };
+      }
+      hydratingCount++;
+      let called = false;
+      return () => {
+        if (called) {
+          return;
+        }
+        called = true;
+        hydratingCount--;
+        if (hydratingCount === 0) {
+          nuxtApp.isHydrating = false;
+          return nuxtApp.callHook("app:suspense:resolve");
+        }
+      };
+    },
+    _asyncDataPromises: {},
+    _asyncData: {},
+    ...options
+  };
+  nuxtApp.hooks = (0,hookable__WEBPACK_IMPORTED_MODULE_1__.createHooks)();
+  nuxtApp.hook = nuxtApp.hooks.hook;
+  nuxtApp.callHook = nuxtApp.hooks.callHook;
+  nuxtApp.provide = (name, value) => {
+    const $name = "$" + name;
+    defineGetter(nuxtApp, $name, value);
+    defineGetter(nuxtApp.vueApp.config.globalProperties, $name, value);
+  };
+  defineGetter(nuxtApp.vueApp, "$nuxt", nuxtApp);
+  defineGetter(nuxtApp.vueApp.config.globalProperties, "$nuxt", nuxtApp);
+  if (true) {
+    if (nuxtApp.ssrContext) {
+      nuxtApp.ssrContext.nuxt = nuxtApp;
+    }
+    nuxtApp.ssrContext = nuxtApp.ssrContext || {};
+    if (nuxtApp.ssrContext.payload) {
+      Object.assign(nuxtApp.payload, nuxtApp.ssrContext.payload);
+    }
+    nuxtApp.ssrContext.payload = nuxtApp.payload;
+    nuxtApp.payload.config = {
+      public: options.ssrContext.runtimeConfig.public,
+      app: options.ssrContext.runtimeConfig.app
+    };
+  }
+  const runtimeConfig =  true ? options.ssrContext.runtimeConfig : 0;
+  const compatibilityConfig = new Proxy(runtimeConfig, {
+    get(target, prop) {
+      if (prop === "public") {
+        return target.public;
+      }
+      return target[prop] ?? target.public[prop];
+    },
+    set(target, prop, value) {
+      if (true) {
+        return false;
+      }
+      target[prop] = value;
+      target.public[prop] = value;
+      return true;
     }
   });
-  if (initHeadObject)
-    legacyHead.addHeadObjs(initHeadObject);
-  return legacyHead;
+  nuxtApp.provide("config", compatibilityConfig);
+  return nuxtApp;
 }
-version.startsWith("2.");
-const appHead = { "meta": [{ "name": "viewport", "content": "width=device-width, initial-scale=1" }, { "charset": "utf-8" }], "link": [], "style": [], "script": [], "noscript": [] };
-const node_modules_nuxt_dist_head_runtime_lib_vueuse_head_plugin_mjs_D7WGfuP1A0 = defineNuxtPlugin((nuxtApp) => {
-  const head = createHead();
-  head.push(appHead);
+async function applyPlugin(nuxtApp, plugin) {
+  if (typeof plugin !== "function") {
+    return;
+  }
+  const { provide } = await callWithNuxt(nuxtApp, plugin, [nuxtApp]) || {};
+  if (provide && typeof provide === "object") {
+    for (const key in provide) {
+      nuxtApp.provide(key, provide[key]);
+    }
+  }
+}
+async function applyPlugins(nuxtApp, plugins) {
+  for (const plugin of plugins) {
+    await applyPlugin(nuxtApp, plugin);
+  }
+}
+function normalizePlugins(_plugins) {
+  const unwrappedPlugins = [];
+  const legacyInjectPlugins = [];
+  const invalidPlugins = [];
+  const plugins = _plugins.map((plugin) => {
+    if (typeof plugin !== "function") {
+      invalidPlugins.push(plugin);
+      return null;
+    }
+    if (plugin.length > 1) {
+      legacyInjectPlugins.push(plugin);
+      return (nuxtApp) => plugin(nuxtApp, nuxtApp.provide);
+    }
+    if (!isNuxtPlugin(plugin)) {
+      unwrappedPlugins.push(plugin);
+    }
+    return plugin;
+  }).filter(Boolean);
+  if ( true && legacyInjectPlugins.length) {
+    console.warn("[warn] [nuxt] You are using a plugin with legacy Nuxt 2 format (context, inject) which is likely to be broken. In the future they will be ignored:", legacyInjectPlugins.map((p) => p.name || p).join(","));
+  }
+  if ( true && invalidPlugins.length) {
+    console.warn("[warn] [nuxt] Some plugins are not exposing a function and skipped:", invalidPlugins);
+  }
+  if ( true && unwrappedPlugins.length) {
+    console.warn("[warn] [nuxt] You are using a plugin that has not been wrapped in `defineNuxtPlugin`. It is advised to wrap your plugins as in the future this may enable enhancements:", unwrappedPlugins.map((p) => p.name || p).join(","));
+  }
+  return plugins;
+}
+function defineNuxtPlugin(plugin) {
+  plugin[NuxtPluginIndicator] = true;
+  return plugin;
+}
+function isNuxtPlugin(plugin) {
+  return typeof plugin === "function" && NuxtPluginIndicator in plugin;
+}
+function callWithNuxt(nuxt, setup, args) {
+  const fn = () => args ? setup(...args) : setup();
+  if (true) {
+    return nuxtAppCtx.callAsync(nuxt, fn);
+  } else {}
+}
+function useNuxtApp() {
+  const nuxtAppInstance = nuxtAppCtx.tryUse();
+  if (!nuxtAppInstance) {
+    const vm = (0,vue__WEBPACK_IMPORTED_MODULE_0__.getCurrentInstance)();
+    if (!vm) {
+      throw new Error("nuxt instance unavailable");
+    }
+    return vm.appContext.app.$nuxt;
+  }
+  return nuxtAppInstance;
+}
+function useRuntimeConfig() {
+  return useNuxtApp().$config;
+}
+function defineGetter(obj, key, val) {
+  Object.defineProperty(obj, key, { get: () => val });
+}
+function defineAppConfig(config) {
+  return config;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/head/runtime/composables.mjs":
+/*!*************************************************************!*\
+  !*** ./node_modules/nuxt/dist/head/runtime/composables.mjs ***!
+  \*************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useHead": () => (/* binding */ useHead)
+/* harmony export */ });
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! #app */ "./node_modules/nuxt/dist/app/index.mjs");
+
+function useHead(input, options) {
+  return (0,_app__WEBPACK_IMPORTED_MODULE_0__.useNuxtApp)()._useHead(input, options);
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/head/runtime/index.mjs":
+/*!*******************************************************!*\
+  !*** ./node_modules/nuxt/dist/head/runtime/index.mjs ***!
+  \*******************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "useHead": () => (/* reexport safe */ _composables_mjs__WEBPACK_IMPORTED_MODULE_0__.useHead)
+/* harmony export */ });
+/* harmony import */ var _composables_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./composables.mjs */ "./node_modules/nuxt/dist/head/runtime/composables.mjs");
+
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/pages/runtime/page.mjs":
+/*!*******************************************************!*\
+  !*** ./node_modules/nuxt/dist/pages/runtime/page.mjs ***!
+  \*******************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "vue-router");
+/* harmony import */ var defu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! defu */ "defu");
+/* harmony import */ var _utils_mjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./utils.mjs */ "./node_modules/nuxt/dist/pages/runtime/utils.mjs");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! #app */ "./node_modules/nuxt/dist/app/index.mjs");
+/* harmony import */ var _app_components_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! #app/components/utils */ "./node_modules/nuxt/dist/app/components/utils.mjs");
+/* harmony import */ var _build_nuxt_config_mjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! #build/nuxt.config.mjs */ "./.nuxt/nuxt.config.mjs");
+
+
+
+
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  name: "NuxtPage",
+  inheritAttrs: false,
+  props: {
+    name: {
+      type: String
+    },
+    transition: {
+      type: [Boolean, Object],
+      default: void 0
+    },
+    keepalive: {
+      type: [Boolean, Object],
+      default: void 0
+    },
+    route: {
+      type: Object
+    },
+    pageKey: {
+      type: [Function, String],
+      default: null
+    }
+  },
+  setup(props, { attrs }) {
+    const nuxtApp = (0,_app__WEBPACK_IMPORTED_MODULE_4__.useNuxtApp)();
+    return () => {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(vue_router__WEBPACK_IMPORTED_MODULE_1__.RouterView, { name: props.name, route: props.route, ...attrs }, {
+        default: (routeProps) => {
+          if (!routeProps.Component) {
+            return;
+          }
+          const key = (0,_utils_mjs__WEBPACK_IMPORTED_MODULE_3__.generateRouteKey)(props.pageKey, routeProps);
+          const done = nuxtApp.deferHydration();
+          const hasTransition = !!(props.transition ?? routeProps.route.meta.pageTransition ?? _build_nuxt_config_mjs__WEBPACK_IMPORTED_MODULE_6__.appPageTransition);
+          const transitionProps = hasTransition && _mergeTransitionProps([
+            props.transition,
+            routeProps.route.meta.pageTransition,
+            _build_nuxt_config_mjs__WEBPACK_IMPORTED_MODULE_6__.appPageTransition,
+            { onAfterLeave: () => {
+              nuxtApp.callHook("page:transition:finish", routeProps.Component);
+            } }
+          ].filter(Boolean));
+          return (0,_app_components_utils__WEBPACK_IMPORTED_MODULE_5__._wrapIf)(
+            vue__WEBPACK_IMPORTED_MODULE_0__.Transition,
+            hasTransition && transitionProps,
+            (0,_utils_mjs__WEBPACK_IMPORTED_MODULE_3__.wrapInKeepAlive)(
+              props.keepalive ?? routeProps.route.meta.keepalive ?? _build_nuxt_config_mjs__WEBPACK_IMPORTED_MODULE_6__.appKeepalive,
+              (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(vue__WEBPACK_IMPORTED_MODULE_0__.Suspense, {
+                onPending: () => nuxtApp.callHook("page:start", routeProps.Component),
+                onResolve: () => {
+                  (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)(() => nuxtApp.callHook("page:finish", routeProps.Component).finally(done));
+                }
+              }, { default: () => (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(Component, { key, routeProps, pageKey: key, hasTransition }) })
+            )
+          ).default();
+        }
+      });
+    };
+  }
+}));
+function _toArray(val) {
+  return Array.isArray(val) ? val : val ? [val] : [];
+}
+function _mergeTransitionProps(routeProps) {
+  const _props = routeProps.map((prop) => ({
+    ...prop,
+    onAfterLeave: _toArray(prop.onAfterLeave)
+  }));
+  return (0,defu__WEBPACK_IMPORTED_MODULE_2__.defu)(..._props);
+}
+const Component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineComponent)({
+  props: ["routeProps", "pageKey", "hasTransition"],
+  setup(props) {
+    const previousKey = props.pageKey;
+    const previousRoute = props.routeProps.route;
+    const route = {};
+    for (const key in props.routeProps.route) {
+      route[key] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => previousKey === props.pageKey ? props.routeProps.route[key] : previousRoute[key]);
+    }
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.provide)("_route", (0,vue__WEBPACK_IMPORTED_MODULE_0__.reactive)(route));
+    let vnode;
+    if (false) {}
+    return () => {
+      if (false) {}
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(props.routeProps.Component);
+    };
+  }
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/pages/runtime/router.options.mjs":
+/*!*****************************************************************!*\
+  !*** ./node_modules/nuxt/dist/pages/runtime/router.options.mjs ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! #app */ "./node_modules/nuxt/dist/app/index.mjs");
+/* harmony import */ var _build_nuxt_config_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! #build/nuxt.config.mjs */ "./.nuxt/nuxt.config.mjs");
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  scrollBehavior(to, from, savedPosition) {
+    const nuxtApp = (0,_app__WEBPACK_IMPORTED_MODULE_1__.useNuxtApp)();
+    let position = savedPosition || void 0;
+    if (!position && from && to && to.meta.scrollToTop !== false && _isDifferentRoute(from, to)) {
+      position = { left: 0, top: 0 };
+    }
+    if (to.path === from.path) {
+      if (from.hash && !to.hash) {
+        return { left: 0, top: 0 };
+      }
+      if (to.hash) {
+        return { el: to.hash, top: _getHashElementScrollMarginTop(to.hash) };
+      }
+    }
+    const hasTransition = (route) => !!(route.meta.pageTransition ?? _build_nuxt_config_mjs__WEBPACK_IMPORTED_MODULE_2__.appPageTransition);
+    const hookToWait = hasTransition(from) && hasTransition(to) ? "page:transition:finish" : "page:finish";
+    return new Promise((resolve) => {
+      nuxtApp.hooks.hookOnce(hookToWait, async () => {
+        await (0,vue__WEBPACK_IMPORTED_MODULE_0__.nextTick)();
+        if (to.hash) {
+          position = { el: to.hash, top: _getHashElementScrollMarginTop(to.hash) };
+        }
+        resolve(position);
+      });
+    });
+  }
+});
+function _getHashElementScrollMarginTop(selector) {
+  try {
+    const elem = document.querySelector(selector);
+    if (elem) {
+      return parseFloat(getComputedStyle(elem).scrollMarginTop);
+    }
+  } catch {
+  }
+  return 0;
+}
+function _isDifferentRoute(a, b) {
+  const samePageComponent = a.matched[0] === b.matched[0];
+  if (!samePageComponent) {
+    return true;
+  }
+  if (samePageComponent && JSON.stringify(a.params) !== JSON.stringify(b.params)) {
+    return true;
+  }
+  return false;
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/pages/runtime/utils.mjs":
+/*!********************************************************!*\
+  !*** ./node_modules/nuxt/dist/pages/runtime/utils.mjs ***!
+  \********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "generateRouteKey": () => (/* binding */ generateRouteKey),
+/* harmony export */   "wrapInKeepAlive": () => (/* binding */ wrapInKeepAlive)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+
+const interpolatePath = (route, match) => {
+  return match.path.replace(/(:\w+)\([^)]+\)/g, "$1").replace(/(:\w+)[?+*]/g, "$1").replace(/:\w+/g, (r) => route.params[r.slice(1)]?.toString() || "");
+};
+const generateRouteKey = (override, routeProps) => {
+  const matchedRoute = routeProps.route.matched.find((m) => m.components?.default === routeProps.Component.type);
+  const source = override ?? matchedRoute?.meta.key ?? (matchedRoute && interpolatePath(routeProps.route, matchedRoute));
+  return typeof source === "function" ? source(routeProps.route) : source;
+};
+const wrapInKeepAlive = (props, children) => {
+  return { default: () =>  false ? 0 : children };
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/app/plugins/preload.server.mjs":
+/*!***************************************************************!*\
+  !*** ./node_modules/nuxt/dist/app/plugins/preload.server.mjs ***!
+  \***************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! #app */ "./node_modules/nuxt/dist/app/index.mjs");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_app__WEBPACK_IMPORTED_MODULE_0__.defineNuxtPlugin)((nuxtApp) => {
+  nuxtApp.vueApp.mixin({
+    beforeCreate() {
+      const { _registeredComponents } = this.$nuxt.ssrContext;
+      const { __moduleIdentifier } = this.$options;
+      _registeredComponents.add(__moduleIdentifier);
+    }
+  });
+}));
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/head/runtime/lib/vueuse-head.plugin.mjs":
+/*!************************************************************************!*\
+  !*** ./node_modules/nuxt/dist/head/runtime/lib/vueuse-head.plugin.mjs ***!
+  \************************************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _vueuse_head__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @vueuse/head */ "./node_modules/@vueuse/head/dist/index.mjs");
+/* harmony import */ var _vueuse_head__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @vueuse/head */ "@unhead/vue");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! #app */ "./node_modules/nuxt/dist/app/index.mjs");
+/* harmony import */ var _build_nuxt_config_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! #build/nuxt.config.mjs */ "./.nuxt/nuxt.config.mjs");
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_app__WEBPACK_IMPORTED_MODULE_0__.defineNuxtPlugin)((nuxtApp) => {
+  const head = (0,_vueuse_head__WEBPACK_IMPORTED_MODULE_2__.createHead)();
+  head.push(_build_nuxt_config_mjs__WEBPACK_IMPORTED_MODULE_1__.appHead);
   nuxtApp.vueApp.use(head);
-  nuxtApp._useHead = useHead$1;
-  {
+  if (false) {}
+  nuxtApp._useHead = _vueuse_head__WEBPACK_IMPORTED_MODULE_3__.useHead;
+  if (true) {
     nuxtApp.ssrContext.renderMeta = async () => {
-      const { renderSSRHead } = await import("@unhead/ssr");
+      const { renderSSRHead } = await Promise.resolve(/*! import() */).then(__webpack_require__.bind(__webpack_require__, /*! @unhead/ssr */ "@unhead/ssr"));
       const meta = await renderSSRHead(head.unhead);
       return {
         ...meta,
@@ -513,281 +3522,411 @@ const node_modules_nuxt_dist_head_runtime_lib_vueuse_head_plugin_mjs_D7WGfuP1A0 
       };
     };
   }
-});
-const globalMiddleware = [];
-function getRouteFromPath(fullPath) {
-  if (typeof fullPath === "object") {
-    fullPath = stringifyParsedURL({
-      pathname: fullPath.path || "",
-      search: stringifyQuery(fullPath.query || {}),
-      hash: fullPath.hash || ""
-    });
+}));
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/pages/runtime/router.mjs":
+/*!*********************************************************!*\
+  !*** ./node_modules/nuxt/dist/pages/runtime/router.mjs ***!
+  \*********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var unctx__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! unctx */ "unctx");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-router */ "vue-router");
+/* harmony import */ var h3__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! h3 */ "h3");
+/* harmony import */ var ufo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ufo */ "ufo");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! #app */ "./node_modules/nuxt/dist/app/index.mjs");
+/* harmony import */ var _build_routes__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! #build/routes */ "./.nuxt/routes.mjs");
+/* harmony import */ var _build_router_options__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! #build/router.options */ "./.nuxt/router.options.mjs");
+/* harmony import */ var _build_middleware__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! #build/middleware */ "./.nuxt/middleware.mjs");
+
+
+
+
+
+
+
+
+function createCurrentLocation(base, location) {
+  const { pathname, search, hash } = location;
+  const hashPos = base.indexOf("#");
+  if (hashPos > -1) {
+    const slicePos = hash.includes(base.slice(hashPos)) ? base.slice(hashPos).length : 1;
+    let pathFromHash = hash.slice(slicePos);
+    if (pathFromHash[0] !== "/") {
+      pathFromHash = "/" + pathFromHash;
+    }
+    return (0,ufo__WEBPACK_IMPORTED_MODULE_4__.withoutBase)(pathFromHash, "");
   }
-  const url = parseURL(fullPath.toString());
-  return {
-    path: url.pathname,
-    fullPath,
-    query: parseQuery(url.search),
-    hash: url.hash,
-    params: {},
-    name: void 0,
-    matched: [],
-    redirectedFrom: void 0,
-    meta: {},
-    href: fullPath
-  };
+  const path = (0,ufo__WEBPACK_IMPORTED_MODULE_4__.withoutBase)(pathname, base);
+  return path + search + hash;
 }
-const node_modules_nuxt_dist_app_plugins_router_mjs_PJLmOmdFeM = defineNuxtPlugin((nuxtApp) => {
-  const initialURL = nuxtApp.ssrContext.url;
-  const routes = [];
-  const hooks = {
-    "navigate:before": [],
-    "resolve:before": [],
-    "navigate:after": [],
-    error: []
-  };
-  const registerHook = (hook, guard) => {
-    hooks[hook].push(guard);
-    return () => hooks[hook].splice(hooks[hook].indexOf(guard), 1);
-  };
-  const baseURL2 = useRuntimeConfig().app.baseURL;
-  const route = reactive(getRouteFromPath(initialURL));
-  async function handleNavigation(url, replace) {
-    try {
-      const to = getRouteFromPath(url);
-      for (const middleware of hooks["navigate:before"]) {
-        const result = await middleware(to, route);
-        if (result === false || result instanceof Error) {
-          return;
-        }
-        if (result) {
-          return handleNavigation(result, true);
-        }
-      }
-      for (const handler of hooks["resolve:before"]) {
-        await handler(to, route);
-      }
-      Object.assign(route, to);
-      if (false)
-        ;
-      for (const middleware of hooks["navigate:after"]) {
-        await middleware(to, route);
-      }
-    } catch (err) {
-      for (const handler of hooks.error) {
-        await handler(err);
-      }
-    }
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_app__WEBPACK_IMPORTED_MODULE_5__.defineNuxtPlugin)(async (nuxtApp) => {let __temp, __restore;
+  let routerBase = (0,_app__WEBPACK_IMPORTED_MODULE_5__.useRuntimeConfig)().app.baseURL;
+  if (_build_router_options__WEBPACK_IMPORTED_MODULE_7__["default"].hashMode && !routerBase.includes("#")) {
+    routerBase += "#";
   }
-  const router = {
-    currentRoute: route,
-    isReady: () => Promise.resolve(),
-    options: {},
-    install: () => Promise.resolve(),
-    push: (url) => handleNavigation(url, false),
-    replace: (url) => handleNavigation(url, true),
-    back: () => window.history.go(-1),
-    go: (delta) => window.history.go(delta),
-    forward: () => window.history.go(1),
-    beforeResolve: (guard) => registerHook("resolve:before", guard),
-    beforeEach: (guard) => registerHook("navigate:before", guard),
-    afterEach: (guard) => registerHook("navigate:after", guard),
-    onError: (handler) => registerHook("error", handler),
-    resolve: getRouteFromPath,
-    addRoute: (parentName, route2) => {
-      routes.push(route2);
-    },
-    getRoutes: () => routes,
-    hasRoute: (name) => routes.some((route2) => route2.name === name),
-    removeRoute: (name) => {
-      const index = routes.findIndex((route2) => route2.name === name);
-      if (index !== -1) {
-        routes.splice(index, 1);
-      }
-    }
+  const history = _build_router_options__WEBPACK_IMPORTED_MODULE_7__["default"].history?.(routerBase) ?? ( false ? 0 : (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.createMemoryHistory)(routerBase));
+  const routes = _build_router_options__WEBPACK_IMPORTED_MODULE_7__["default"].routes?.(_build_routes__WEBPACK_IMPORTED_MODULE_6__["default"]) ?? _build_routes__WEBPACK_IMPORTED_MODULE_6__["default"];
+  const initialURL =  true ? nuxtApp.ssrContext.url : 0;
+  const router = (0,vue_router__WEBPACK_IMPORTED_MODULE_2__.createRouter)({
+    ..._build_router_options__WEBPACK_IMPORTED_MODULE_7__["default"],
+    history,
+    routes
+  });
+  nuxtApp.vueApp.use(router);
+  const previousRoute = (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(router.currentRoute.value);
+  router.afterEach((_to, from) => {
+    previousRoute.value = from;
+  });
+  Object.defineProperty(nuxtApp.vueApp.config.globalProperties, "previousRoute", {
+    get: () => previousRoute.value
+  });
+  const _route = (0,vue__WEBPACK_IMPORTED_MODULE_1__.shallowRef)(router.resolve(initialURL));
+  const syncCurrentRoute = () => {
+    _route.value = router.currentRoute.value;
   };
-  nuxtApp.vueApp.component("RouterLink", {
-    functional: true,
-    props: {
-      to: String,
-      custom: Boolean,
-      replace: Boolean,
-      activeClass: String,
-      exactActiveClass: String,
-      ariaCurrentValue: String
-    },
-    setup: (props, { slots }) => {
-      const navigate = () => handleNavigation(props.to, props.replace);
-      return () => {
-        var _a;
-        const route2 = router.resolve(props.to);
-        return props.custom ? (_a = slots.default) == null ? void 0 : _a.call(slots, { href: props.to, navigate, route: route2 }) : h("a", { href: props.to, onClick: (e) => {
-          e.preventDefault();
-          return navigate();
-        } }, slots);
-      };
+  nuxtApp.hook("page:finish", syncCurrentRoute);
+  router.afterEach((to, from) => {
+    if (to.matched[0]?.components?.default === from.matched[0]?.components?.default) {
+      syncCurrentRoute();
     }
   });
-  nuxtApp._route = route;
+  const route = {};
+  for (const key in _route.value) {
+    route[key] = (0,vue__WEBPACK_IMPORTED_MODULE_1__.computed)(() => _route.value[key]);
+  }
+  nuxtApp._route = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)(route);
   nuxtApp._middleware = nuxtApp._middleware || {
     global: [],
     named: {}
   };
-  const initialLayout = useState("_layout");
-  nuxtApp.hooks.hookOnce("app:created", async () => {
-    router.beforeEach(async (to, from) => {
-      var _a;
-      to.meta = reactive(to.meta || {});
-      if (nuxtApp.isHydrating) {
-        to.meta.layout = (_a = initialLayout.value) != null ? _a : to.meta.layout;
+  const error = (0,_app__WEBPACK_IMPORTED_MODULE_5__.useError)();
+  try {
+    if (true) {
+      ;(([__temp,__restore]=(0,unctx__WEBPACK_IMPORTED_MODULE_0__.executeAsync)(()=>router.push(initialURL))),await __temp,__restore());;
+    }
+    ;(([__temp,__restore]=(0,unctx__WEBPACK_IMPORTED_MODULE_0__.executeAsync)(()=>router.isReady())),await __temp,__restore());;
+  } catch (error2) {
+    (0,_app__WEBPACK_IMPORTED_MODULE_5__.callWithNuxt)(nuxtApp, _app__WEBPACK_IMPORTED_MODULE_5__.showError, [error2]);
+  }
+  const initialLayout = (0,_app__WEBPACK_IMPORTED_MODULE_5__.useState)("_layout");
+  router.beforeEach(async (to, from) => {
+    to.meta = (0,vue__WEBPACK_IMPORTED_MODULE_1__.reactive)(to.meta);
+    if (nuxtApp.isHydrating) {
+      to.meta.layout = initialLayout.value ?? to.meta.layout;
+    }
+    nuxtApp._processingMiddleware = true;
+    const middlewareEntries = /* @__PURE__ */ new Set([..._build_middleware__WEBPACK_IMPORTED_MODULE_8__.globalMiddleware, ...nuxtApp._middleware.global]);
+    for (const component of to.matched) {
+      const componentMiddleware = component.meta.middleware;
+      if (!componentMiddleware) {
+        continue;
       }
-      nuxtApp._processingMiddleware = true;
-      const middlewareEntries = /* @__PURE__ */ new Set([...globalMiddleware, ...nuxtApp._middleware.global]);
-      for (const middleware of middlewareEntries) {
-        const result = await callWithNuxt(nuxtApp, middleware, [to, from]);
-        {
-          if (result === false || result instanceof Error) {
-            const error = result || createError$1({
-              statusCode: 404,
-              statusMessage: `Page Not Found: ${initialURL}`
-            });
-            return callWithNuxt(nuxtApp, showError, [error]);
-          }
+      if (Array.isArray(componentMiddleware)) {
+        for (const entry of componentMiddleware) {
+          middlewareEntries.add(entry);
         }
-        if (result || result === false) {
-          return result;
+      } else {
+        middlewareEntries.add(componentMiddleware);
+      }
+    }
+    for (const entry of middlewareEntries) {
+      const middleware = typeof entry === "string" ? nuxtApp._middleware.named[entry] || await _build_middleware__WEBPACK_IMPORTED_MODULE_8__.namedMiddleware[entry]?.().then((r) => r.default || r) : entry;
+      if (!middleware) {
+        if (true) {
+          throw new Error(`Unknown route middleware: '${entry}'. Valid middleware: ${Object.keys(_build_middleware__WEBPACK_IMPORTED_MODULE_8__.namedMiddleware).map((mw) => `'${mw}'`).join(", ")}.`);
+        }
+        throw new Error(`Unknown route middleware: '${entry}'.`);
+      }
+      const result = await (0,_app__WEBPACK_IMPORTED_MODULE_5__.callWithNuxt)(nuxtApp, middleware, [to, from]);
+      if (true) {
+        if (result === false || result instanceof Error) {
+          const error2 = result || (0,h3__WEBPACK_IMPORTED_MODULE_3__.createError)({
+            statusCode: 404,
+            statusMessage: `Page Not Found: ${initialURL}`
+          });
+          await (0,_app__WEBPACK_IMPORTED_MODULE_5__.callWithNuxt)(nuxtApp, _app__WEBPACK_IMPORTED_MODULE_5__.showError, [error2]);
+          return false;
         }
       }
-    });
-    router.afterEach(() => {
-      delete nuxtApp._processingMiddleware;
-    });
-    await router.replace(initialURL);
-    if (!isEqual(route.fullPath, initialURL)) {
-      await callWithNuxt(nuxtApp, navigateTo, [route.fullPath]);
+      if (result || result === false) {
+        return result;
+      }
     }
   });
-  return {
-    provide: {
-      route,
-      router
-    }
-  };
-});
-const _plugins = [
-  _nuxt_components_plugin_mjs_KR1HBZs4kY,
-  node_modules_nuxt_dist_head_runtime_lib_vueuse_head_plugin_mjs_D7WGfuP1A0,
-  node_modules_nuxt_dist_app_plugins_router_mjs_PJLmOmdFeM
-];
-const welcome_vue_vue_type_style_index_0_scoped_ff49b321_lang = "";
-const _export_sfc = (sfc, props) => {
-  const target = sfc.__vccOpts || sfc;
-  for (const [key, val] of props) {
-    target[key] = val;
-  }
-  return target;
-};
-const _sfc_main$1 = {
-  __name: "welcome",
-  __ssrInlineRender: true,
-  props: {
-    appName: {
-      type: String,
-      default: "Nuxt"
-    },
-    version: {
-      type: String,
-      default: ""
-    },
-    title: {
-      type: String,
-      default: "Welcome to Nuxt!"
-    },
-    readDocs: {
-      type: String,
-      default: "We highly recommend you take a look at the Nuxt documentation, whether you are new or have previous experience with the framework."
-    },
-    followTwitter: {
-      type: String,
-      default: "Follow the Nuxt Twitter account to get latest news about releases, new modules, tutorials and tips."
-    },
-    starGitHub: {
-      type: String,
-      default: "Nuxt is open source and the code is available on GitHub, feel free to star it, participate in discussions or dive into the source."
-    }
-  },
-  setup(__props) {
-    const props = __props;
-    useHead({
-      title: `${props.title}`,
-      script: [],
-      style: [
-        {
-          children: `@property --gradient-angle{syntax:'<angle>';inherits:false;initial-value:180deg}@keyframes gradient-rotate{0%{--gradient-angle:0deg}100%{--gradient-angle:360deg}}*,:before,:after{-webkit-box-sizing:border-box;box-sizing:border-box;border-width:0;border-style:solid;border-color:#e0e0e0}*{--tw-ring-inset:var(--tw-empty, );--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(14, 165, 233, .5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000}:root{-moz-tab-size:4;-o-tab-size:4;tab-size:4}a{color:inherit;text-decoration:inherit}body{margin:0;font-family:inherit;line-height:inherit}html{-webkit-text-size-adjust:100%;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,Noto Sans,sans-serif,"Apple Color Emoji","Segoe UI Emoji",Segoe UI Symbol,"Noto Color Emoji";line-height:1.5}h1,p,h2,h3{margin:0}h1,h2,h3{font-size:inherit;font-weight:inherit}img{border-style:solid;max-width:100%;height:auto}svg,img{display:block;vertical-align:middle}ul{list-style:none;margin:0;padding:0}`
-        }
-      ]
-    });
-    return (_ctx, _push, _parent, _attrs) => {
-      _push(`<div${ssrRenderAttrs(mergeProps({ class: "antialiased bg-white dark:bg-black text-black dark:text-white min-h-screen place-content-center flex flex-col items-center justify-center text-sm sm:text-base" }, _attrs))} data-v-ff49b321><div class="flex-1 flex flex-col gap-y-16 py-14" data-v-ff49b321><div class="flex flex-col gap-y-4 items-center justify-center" data-v-ff49b321><a href="https://nuxt.com" target="_blank" data-v-ff49b321><svg width="61" height="42" viewBox="0 0 61 42" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-ff49b321><path d="M33.9869 41.2211H56.412C57.1243 41.2212 57.824 41.0336 58.4408 40.6772C59.0576 40.3209 59.5698 39.8083 59.9258 39.191C60.2818 38.5737 60.469 37.8736 60.4687 37.1609C60.4684 36.4482 60.2805 35.7482 59.924 35.1313L44.864 9.03129C44.508 8.41416 43.996 7.90168 43.3793 7.54537C42.7626 7.18906 42.063 7.00147 41.3509 7.00147C40.6387 7.00147 39.9391 7.18906 39.3225 7.54537C38.7058 7.90168 38.1937 8.41416 37.8377 9.03129L33.9869 15.7093L26.458 2.65061C26.1018 2.03354 25.5895 1.52113 24.9726 1.16489C24.3557 0.808639 23.656 0.621094 22.9438 0.621094C22.2316 0.621094 21.5318 0.808639 20.915 1.16489C20.2981 1.52113 19.7858 2.03354 19.4296 2.65061L0.689224 35.1313C0.332704 35.7482 0.144842 36.4482 0.144532 37.1609C0.144222 37.8736 0.331476 38.5737 0.687459 39.191C1.04344 39.8083 1.5556 40.3209 2.17243 40.6772C2.78925 41.0336 3.48899 41.2212 4.20126 41.2211H18.2778C23.8551 41.2211 27.9682 38.7699 30.7984 33.9876L37.6694 22.0813L41.3498 15.7093L52.3951 34.8492H37.6694L33.9869 41.2211ZM18.0484 34.8426L8.2247 34.8404L22.9504 9.32211L30.2979 22.0813L25.3784 30.6092C23.4989 33.7121 21.3637 34.8426 18.0484 34.8426Z" fill="#00DC82" data-v-ff49b321></path></svg></a><h1 class="text-black dark:text-white text-4xl sm:text-5xl font-semibold text-center" data-v-ff49b321>Welcome to Nuxt!</h1></div><div class="grid grid-cols-2 lg:grid-cols-10 gap-6 max-w-[960px] px-4" data-v-ff49b321><div class="col-span-2 lg:col-span-10 relative get-started-gradient-border" data-v-ff49b321><div class="get-started-gradient-left absolute left-0 inset-y-0 w-[20%] bg-gradient-to-r to-transparent from-green-400 rounded-xl z-1 transition-opacity duration-300" data-v-ff49b321></div><div class="get-started-gradient-right absolute right-0 inset-y-0 w-[20%] bg-gradient-to-l to-transparent from-blue-400 rounded-xl z-1 transition-opacity duration-300" data-v-ff49b321></div><div class="w-full absolute inset-x-0 flex justify-center -top-[58px]" data-v-ff49b321><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22105%22%20height%3D%22116%22%20fill%3D%22none%22%3E%3Cg%20filter%3D%22url(%23a)%22%20shape-rendering%3D%22geometricPrecision%22%3E%3Cpath%20fill%3D%22%2318181B%22%20d%3D%22M17.203%2033.223%2046.9%2014.286a8.416%208.416%200%200%201%208.64-.18L87.38%2031.97c2.68%201.527%204.365%204.409%204.428%207.571l.191%2034.944c.063%203.151-1.491%206.104-4.091%207.776l-30.143%2019.383a8.417%208.417%200%200%201-8.75.251l-31.126-17.73C15.135%2082.595%2012.98%2079.6%2013%2076.35V40.828c.02-3.111%201.614-5.994%204.203-7.605Z%22%2F%3E%3Cpath%20stroke%3D%22url(%23b)%22%20stroke-width%3D%222%22%20d%3D%22M46.9%2014.286%2017.202%2033.223c-2.59%201.61-4.183%204.494-4.203%207.605V76.35m33.9-62.064a8.416%208.416%200%200%201%208.64-.18m-8.64.18a8.435%208.435%200%200%201%208.64-.18M13%2076.35c-.02%203.25%202.135%206.246%204.888%207.814M13%2076.35c-.02%203.233%202.136%206.247%204.888%207.814m0%200%2031.126%2017.731m0%200a8.417%208.417%200%200%200%208.75-.251m-8.75.251a8.438%208.438%200%200%200%208.75-.251m0%200%2030.143-19.383m0%200c2.598-1.67%204.154-4.627%204.091-7.776m-4.091%207.776c2.6-1.672%204.154-4.625%204.091-7.776m0%200-.19-34.944m0%200c-.064-3.162-1.75-6.044-4.43-7.571m4.43%207.571c-.063-3.147-1.75-6.045-4.43-7.571m0%200L55.54%2014.105%22%2F%3E%3C%2Fg%3E%3Cpath%20fill%3D%22url(%23c)%22%20d%3D%22M48.669%2067.696c-.886%202.69-3.02%204.659-6.153%205.709-1.41.465-2.88.72-4.364.755a1.313%201.313%200%200%201-1.312-1.313c.035-1.484.29-2.954.754-4.364%201.05-3.133%203.02-5.266%205.71-6.152a1.312%201.312%200%201%201%20.836%202.477c-3.232%201.083-4.232%204.577-4.544%206.595%202.018-.311%205.512-1.312%206.595-4.544a1.313%201.313%200%200%201%202.477.837Zm16.39-12.486-1.46%201.477v10.057a2.657%202.657%200%200%201-.772%201.854l-5.316%205.3a2.559%202.559%200%200%201-1.853.77%202.413%202.413%200%200%201-.755-.115%202.624%202.624%200%200%201-1.821-2.001l-1.296-6.48-6.858-6.858-6.48-1.297a2.625%202.625%200%200%201-2.002-1.82%202.609%202.609%200%200%201%20.656-2.61l5.3-5.315a2.658%202.658%200%200%201%201.853-.771h10.057l1.477-1.46c4.692-4.692%209.499-4.561%2011.353-4.282a2.576%202.576%200%200%201%202.198%202.198c.28%201.854.41%206.661-4.282%2011.353Zm-26.103.132%206.185%201.23%206.546-6.546h-7.432l-5.299%205.316Zm8.482%202.657L53%2063.561l10.205-10.205c1.28-1.28%204.2-4.724%203.543-9.105-4.38-.656-7.826%202.264-9.105%203.544L47.438%2057.999Zm13.535%201.313-6.546%206.546%201.23%206.185%205.316-5.299v-7.432Z%22%20shape-rendering%3D%22geometricPrecision%22%2F%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22b%22%20x1%3D%2257.994%22%20x2%3D%2292%22%20y1%3D%2258%22%20y2%3D%2258%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%2300DC82%22%2F%3E%3Cstop%20offset%3D%22.5%22%20stop-color%3D%22%231DE0B1%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2336E4DA%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22c%22%20x1%3D%2255.197%22%20x2%3D%2269.453%22%20y1%3D%2258.107%22%20y2%3D%2258.107%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%2300DC82%22%2F%3E%3Cstop%20offset%3D%22.5%22%20stop-color%3D%22%231DE0B1%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2336E4DA%22%2F%3E%3C%2FlinearGradient%3E%3Cfilter%20id%3D%22a%22%20width%3D%22104.897%22%20height%3D%22115.897%22%20x%3D%22.052%22%20y%3D%22.052%22%20color-interpolation-filters%3D%22sRGB%22%20filterUnits%3D%22userSpaceOnUse%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20result%3D%22hardAlpha%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%2F%3E%3CfeOffset%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%225.974%22%2F%3E%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22out%22%2F%3E%3CfeColorMatrix%20values%3D%220%200%200%200%201%200%200%200%200%201%200%200%200%200%201%200%200%200%200.07%200%22%2F%3E%3CfeBlend%20in2%3D%22BackgroundImageFix%22%20result%3D%22effect1_dropShadow_2724_4091%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22effect1_dropShadow_2724_4091%22%20result%3D%22shape%22%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3C%2Fsvg%3E%0A" class="hidden dark:block" data-v-ff49b321> <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22105%22%20height%3D%22116%22%20fill%3D%22none%22%3E%3Cg%20filter%3D%22url(%23a)%22%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M17.203%2033.223%2046.9%2014.286a8.416%208.416%200%200%201%208.64-.18L87.38%2031.97c2.68%201.527%204.365%204.409%204.428%207.571l.191%2034.944c.063%203.151-1.491%206.104-4.091%207.776l-30.143%2019.383a8.417%208.417%200%200%201-8.75.251l-31.126-17.73C15.135%2082.595%2012.98%2079.6%2013%2076.35V40.828c.02-3.111%201.614-5.994%204.203-7.605Z%22%2F%3E%3Cpath%20stroke%3D%22url(%23b)%22%20stroke-width%3D%222%22%20d%3D%22M46.9%2014.286%2017.202%2033.223c-2.59%201.61-4.183%204.494-4.203%207.605V76.35m33.9-62.064a8.416%208.416%200%200%201%208.64-.18m-8.64.18a8.435%208.435%200%200%201%208.64-.18M13%2076.35c-.02%203.25%202.135%206.246%204.888%207.814M13%2076.35c-.02%203.233%202.136%206.247%204.888%207.814m0%200%2031.126%2017.731m0%200a8.417%208.417%200%200%200%208.75-.251m-8.75.251a8.438%208.438%200%200%200%208.75-.251m0%200%2030.143-19.383m0%200c2.598-1.67%204.154-4.627%204.091-7.776m-4.091%207.776c2.6-1.672%204.154-4.625%204.091-7.776m0%200-.19-34.944m0%200c-.064-3.162-1.75-6.044-4.43-7.571m4.43%207.571c-.063-3.147-1.75-6.045-4.43-7.571m0%200L55.54%2014.105%22%2F%3E%3C%2Fg%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M32%2037h42v42H32z%22%2F%3E%3Cpath%20fill%3D%22url(%23c)%22%20d%3D%22M48.669%2067.697c-.886%202.69-3.02%204.659-6.153%205.709-1.41.465-2.88.72-4.364.755a1.313%201.313%200%200%201-1.312-1.313c.035-1.484.29-2.954.754-4.364%201.05-3.134%203.02-5.266%205.71-6.152a1.314%201.314%200%201%201%20.836%202.477c-3.232%201.083-4.232%204.577-4.544%206.595%202.018-.311%205.512-1.312%206.595-4.544a1.313%201.313%200%200%201%202.477.837Zm16.39-12.486-1.46%201.477v10.057a2.657%202.657%200%200%201-.772%201.854l-5.316%205.3a2.559%202.559%200%200%201-1.853.77%202.413%202.413%200%200%201-.755-.115%202.626%202.626%200%200%201-1.821-2.001l-1.296-6.48-6.858-6.858-6.48-1.297a2.625%202.625%200%200%201-2.002-1.82%202.609%202.609%200%200%201%20.656-2.61l5.3-5.315a2.658%202.658%200%200%201%201.853-.771h10.057l1.477-1.46c4.692-4.692%209.499-4.561%2011.353-4.282a2.576%202.576%200%200%201%202.198%202.198c.28%201.854.41%206.661-4.282%2011.353Zm-26.103.132%206.185%201.23%206.546-6.546h-7.432l-5.299%205.316ZM47.438%2058%2053%2063.562l10.205-10.204c1.28-1.28%204.2-4.725%203.543-9.106-4.38-.656-7.826%202.264-9.105%203.544L47.438%2058Zm13.535%201.313-6.546%206.546%201.23%206.185%205.316-5.299v-7.432Z%22%2F%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22b%22%20x1%3D%2257.994%22%20x2%3D%2292%22%20y1%3D%2258%22%20y2%3D%2258%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%2300DC82%22%2F%3E%3Cstop%20offset%3D%22.5%22%20stop-color%3D%22%231DE0B1%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2336E4DA%22%2F%3E%3C%2FlinearGradient%3E%3ClinearGradient%20id%3D%22c%22%20x1%3D%2255.197%22%20x2%3D%2269.453%22%20y1%3D%2258.108%22%20y2%3D%2258.108%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%3Cstop%20stop-color%3D%22%2300DC82%22%2F%3E%3Cstop%20offset%3D%22.5%22%20stop-color%3D%22%231DE0B1%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2336E4DA%22%2F%3E%3C%2FlinearGradient%3E%3Cfilter%20id%3D%22a%22%20width%3D%22104.897%22%20height%3D%22115.897%22%20x%3D%22.052%22%20y%3D%22.052%22%20color-interpolation-filters%3D%22sRGB%22%20filterUnits%3D%22userSpaceOnUse%22%3E%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20result%3D%22hardAlpha%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%2F%3E%3CfeOffset%2F%3E%3CfeGaussianBlur%20stdDeviation%3D%225.974%22%2F%3E%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22out%22%2F%3E%3CfeColorMatrix%20values%3D%220%200%200%200%201%200%200%200%200%201%200%200%200%200%201%200%200%200%200.07%200%22%2F%3E%3CfeBlend%20in2%3D%22BackgroundImageFix%22%20result%3D%22effect1_dropShadow_2726_4054%22%2F%3E%3CfeBlend%20in%3D%22SourceGraphic%22%20in2%3D%22effect1_dropShadow_2726_4054%22%20result%3D%22shape%22%2F%3E%3C%2Ffilter%3E%3C%2Fdefs%3E%3C%2Fsvg%3E%0A" class="dark:hidden" data-v-ff49b321></div><div class="flex flex-col rounded-xl items-center gap-y-4 pt-[58px] px-4 sm:px-28 pb-6 z-10" data-v-ff49b321><h2 class="font-semibold text-2xl text-black dark:text-white" data-v-ff49b321>Get started</h2><p class="mb-2 text-center" data-v-ff49b321>Remove this welcome page by replacing <a class="bg-gray-100 dark:bg-white/10 rounded font-mono p-1 font-bold" data-v-ff49b321>&lt;NuxtWelcome /&gt;</a> in <a href="https://nuxt.com/docs/directory-structure/app" target="_blank" rel="noopener" class="bg-gray-100 dark:bg-white/10 rounded font-mono p-1 font-bold" data-v-ff49b321>app.vue</a> with your own code.</p></div></div><div class="lg:min-h-min sm:min-h-[220px] md:min-h-[180px] col-span-2 sm:col-span-1 lg:col-span-6 text-black dark:text-white rounded-xl modules-container relative items-center justify-center border border-gray-200 dark:border-transparent hover:border-transparent" data-v-ff49b321><div class="gradient-border gradient-border-modules gradient-border-rect" data-v-ff49b321></div><div class="modules-gradient-right absolute right-0 inset-y-0 w-[20%] bg-gradient-to-l to-transparent from-yellow-400 rounded-xl z-1 transition-opacity duration-300" data-v-ff49b321></div><a href="https://nuxt.com/modules" target="_blank" class="py-6 px-5 rounded-xl flex items-center justify-center gap-x-4 dark:border-none bg-white dark:bg-gray-900 sm:min-h-[220px] md:min-h-[180px] lg:min-h-min" data-v-ff49b321><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2253%22%20height%3D%2258%22%20viewBox%3D%220%200%2053%2058%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20clip-path%3D%22url(%23clip0_2613_3853)%22%3E%0A%3Cpath%20d%3D%22M51.1519%2039.8821C51.154%2039.9844%2051.1527%2040.0863%2051.148%2040.1877C51.0782%2041.7091%2050.2566%2043.1165%2048.9325%2043.9357L29.0918%2056.2117C27.6504%2057.1035%2025.8212%2057.1564%2024.3387%2056.3439L3.85107%2045.1148C2.27157%2044.2491%201.14238%2042.6366%201.15291%2041.0494L1.15293%2041.0427L1.153%2018.552C1.15301%2018.5509%201.15302%2018.5499%201.15302%2018.5488C1.16485%2016.9324%202.02611%2015.4289%203.43319%2014.5869L3.43322%2014.587L3.44269%2014.5812L22.9844%202.59084C24.4169%201.73583%2026.2139%201.69824%2027.6729%202.49791L27.6729%202.49792L27.6784%202.50094L48.6303%2013.8121C48.6313%2013.8126%2048.6322%2013.8131%2048.6331%2013.8136C50.0797%2014.6078%2050.9898%2016.1132%2051.026%2017.7438L51.1517%2039.8672L51.1517%2039.8746L51.1519%2039.8821Z%22%20fill%3D%22white%22%20stroke%3D%22url(%23paint0_linear_2613_3853)%22%20stroke-width%3D%222%22%2F%3E%0A%3Cpath%20d%3D%22M33.8193%2042.2552H17.8193C16.7585%2042.2552%2015.7411%2041.8337%2014.9909%2041.0836C14.2408%2040.3334%2013.8193%2039.316%2013.8193%2038.2552V24.9218C13.8193%2023.861%2014.2408%2022.8435%2014.9909%2022.0934C15.7411%2021.3433%2016.7585%2020.9218%2017.8193%2020.9218H19.1527C19.1751%2019.792%2019.5558%2018.6985%2020.2399%2017.7991C20.924%2016.8996%2021.8761%2016.2407%2022.9589%2015.9173C24.0416%2015.594%2025.1992%2015.6229%2026.2644%2016C27.3297%2016.377%2028.2477%2017.0827%2028.886%2018.0152C29.4839%2018.8674%2029.8094%2019.8808%2029.8193%2020.9218H33.8193C34.173%2020.9218%2034.5121%2021.0623%2034.7621%2021.3124C35.0122%2021.5624%2035.1527%2021.9015%2035.1527%2022.2552V26.2552C36.2825%2026.2776%2037.376%2026.6583%2038.2754%2027.3424C39.1749%2028.0265%2039.8338%2028.9786%2040.1572%2030.0613C40.4805%2031.1441%2040.4516%2032.3016%2040.0745%2033.3669C39.6975%2034.4322%2038.9918%2035.3502%2038.0593%2035.9885C37.2071%2036.5864%2036.1937%2036.9118%2035.1527%2036.9218V36.9218V40.9218C35.1527%2041.2755%2035.0122%2041.6146%2034.7621%2041.8646C34.5121%2042.1147%2034.173%2042.2552%2033.8193%2042.2552ZM17.8193%2023.5885C17.4657%2023.5885%2017.1266%2023.729%2016.8765%2023.979C16.6265%2024.2291%2016.486%2024.5682%2016.486%2024.9218V38.2552C16.486%2038.6088%2016.6265%2038.9479%2016.8765%2039.198C17.1266%2039.448%2017.4657%2039.5885%2017.8193%2039.5885H32.486V35.3485C32.4849%2035.1347%2032.5351%2034.9238%2032.6326%2034.7335C32.7301%2034.5432%2032.8718%2034.3792%2033.046%2034.2552C33.2196%2034.1313%2033.4204%2034.051%2033.6316%2034.0208C33.8427%2033.9907%2034.058%2034.0116%2034.2593%2034.0818C34.6393%2034.2368%2035.0532%2034.2901%2035.46%2034.2363C35.8669%2034.1825%2036.2527%2034.0236%2036.5793%2033.7752C36.9045%2033.5769%2037.1834%2033.3113%2037.3973%2032.9962C37.6111%2032.6811%2037.7551%2032.3239%2037.8193%2031.9485C37.8708%2031.5699%2037.8402%2031.1847%2037.7298%2030.8189C37.6194%2030.4532%2037.4317%2030.1154%2037.1793%2029.8285C36.8381%2029.414%2036.3734%2029.1193%2035.8529%2028.9874C35.3325%2028.8555%2034.7835%2028.8932%2034.286%2029.0952C34.0846%2029.1654%2033.8694%2029.1863%2033.6582%2029.1562C33.4471%2029.126%2033.2463%2029.0457%2033.0727%2028.9218C32.8985%2028.7978%2032.7567%2028.6338%2032.6593%2028.4435C32.5618%2028.2532%2032.5115%2028.0423%2032.5127%2027.8285V23.5885H28.246C28.0269%2023.6009%2027.8081%2023.559%2027.609%2023.4666C27.4099%2023.3742%2027.2368%2023.234%2027.1049%2023.0586C26.973%2022.8832%2026.8864%2022.6779%2026.8529%2022.461C26.8194%2022.2441%2026.8399%2022.0222%2026.9127%2021.8152C27.0677%2021.4352%2027.1209%2021.0213%2027.0671%2020.6145C27.0134%2020.2076%2026.8544%2019.8218%2026.606%2019.4952C26.4091%2019.1607%2026.1395%2018.8749%2025.8172%2018.6588C25.4948%2018.4427%2025.128%2018.3019%2024.7438%2018.2468C24.3597%2018.1917%2023.9681%2018.2238%2023.598%2018.3407C23.2279%2018.4575%2022.8889%2018.6561%2022.606%2018.9218C22.3433%2019.1824%2022.1377%2019.4948%2022.0023%2019.8391C21.8668%2020.1834%2021.8045%2020.5521%2021.8193%2020.9218C21.8224%2021.2277%2021.8812%2021.5304%2021.9927%2021.8152C22.0632%2022.0168%2022.0842%2022.2324%2022.054%2022.4438C22.0237%2022.6553%2021.9432%2022.8564%2021.819%2023.0302C21.6949%2023.204%2021.5308%2023.3454%2021.3406%2023.4426C21.1504%2023.5397%2020.9396%2023.5898%2020.726%2023.5885H17.8193Z%22%20fill%3D%22url(%23paint1_linear_2613_3853)%22%2F%3E%0A%3C%2Fg%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id%3D%22paint0_linear_2613_3853%22%20x1%3D%220.662695%22%20y1%3D%2218.4025%22%20x2%3D%2251.7209%22%20y2%3D%2244.2212%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%23F7D14C%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23A38108%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint1_linear_2613_3853%22%20x1%3D%2213.7453%22%20y1%3D%2221.3705%22%20x2%3D%2240.3876%22%20y2%3D%2235.7024%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%23F7D14C%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23A38108%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3CclipPath%20id%3D%22clip0_2613_3853%22%3E%0A%3Crect%20width%3D%2252%22%20height%3D%2257%22%20fill%3D%22white%22%20transform%3D%22translate(0.152832%200.920898)%22%2F%3E%0A%3C%2FclipPath%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A" alt="modules icon" class="modules-image-color-light" data-v-ff49b321> <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2253%22%20height%3D%2258%22%20viewBox%3D%220%200%2053%2058%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cpath%20d%3D%22M3.43319%2014.5869L3.43322%2014.587L3.44269%2014.5812L22.9844%202.59084C24.4246%201.73116%2026.2124%201.69742%2027.6729%202.49791L27.6729%202.49792L27.6784%202.50094L48.6303%2013.8121C48.6313%2013.8126%2048.6322%2013.8131%2048.6331%2013.8137C50.0812%2014.6086%2050.9896%2016.1043%2051.026%2017.7437L51.1517%2039.8672L51.1517%2039.8746L51.1519%2039.8821C51.1856%2041.5204%2050.346%2043.0611%2048.9325%2043.9357L29.0918%2056.2117C27.6424%2057.1085%2025.8227%2057.1572%2024.3387%2056.3439L3.85107%2045.1148C2.26984%2044.2481%201.14232%2042.646%201.15293%2041.0494V41.0427L1.153%2018.552C1.15301%2018.5509%201.15302%2018.5499%201.15302%2018.5488C1.16485%2016.9324%202.02611%2015.4289%203.43319%2014.5869Z%22%20fill%3D%22%2318181B%22%20stroke%3D%22url(%23paint0_linear_2595_7337)%22%20stroke-width%3D%222%22%2F%3E%0A%3Cpath%20d%3D%22M33.8193%2042.2542H17.8193C16.7585%2042.2542%2015.7411%2041.8328%2014.9909%2041.0826C14.2408%2040.3325%2013.8193%2039.3151%2013.8193%2038.2542V24.9209C13.8193%2023.86%2014.2408%2022.8426%2014.9909%2022.0924C15.7411%2021.3423%2016.7585%2020.9209%2017.8193%2020.9209H19.1527C19.1751%2019.791%2019.5558%2018.6975%2020.2399%2017.7981C20.924%2016.8986%2021.8761%2016.2397%2022.9589%2015.9164C24.0416%2015.593%2025.1992%2015.6219%2026.2644%2015.999C27.3297%2016.376%2028.2477%2017.0817%2028.886%2018.0142C29.4839%2018.8664%2029.8094%2019.8799%2029.8193%2020.9209H33.8193C34.173%2020.9209%2034.5121%2021.0613%2034.7621%2021.3114C35.0122%2021.5614%2035.1527%2021.9006%2035.1527%2022.2542V26.2542C36.2825%2026.2766%2037.376%2026.6573%2038.2754%2027.3414C39.1749%2028.0255%2039.8338%2028.9776%2040.1572%2030.0604C40.4805%2031.1432%2040.4516%2032.3007%2040.0745%2033.366C39.6975%2034.4312%2038.9918%2035.3492%2038.0593%2035.9875C37.2071%2036.5854%2036.1937%2036.9109%2035.1527%2036.9209V40.9209C35.1527%2041.2745%2035.0122%2041.6136%2034.7621%2041.8637C34.5121%2042.1137%2034.173%2042.2542%2033.8193%2042.2542ZM17.8193%2023.5875C17.4657%2023.5875%2017.1266%2023.728%2016.8765%2023.978C16.6265%2024.2281%2016.486%2024.5672%2016.486%2024.9209V38.2542C16.486%2038.6078%2016.6265%2038.9469%2016.8765%2039.197C17.1266%2039.447%2017.4657%2039.5875%2017.8193%2039.5875H32.486V35.3475C32.4849%2035.1337%2032.5351%2034.9228%2032.6326%2034.7325C32.7301%2034.5422%2032.8718%2034.3782%2033.046%2034.2542C33.2196%2034.1304%2033.4205%2034.05%2033.6316%2034.0198C33.8427%2033.9897%2034.058%2034.0106%2034.2593%2034.0809C34.6393%2034.2359%2035.0532%2034.2891%2035.46%2034.2353C35.8669%2034.1816%2036.2527%2034.0226%2036.5793%2033.7742C36.9045%2033.5759%2037.1834%2033.3103%2037.3973%2032.9952C37.6111%2032.6801%2037.7551%2032.3229%2037.8193%2031.9475C37.8708%2031.5689%2037.8402%2031.1837%2037.7298%2030.8179C37.6194%2030.4522%2037.4317%2030.1144%2037.1793%2029.8275C36.8381%2029.413%2036.3734%2029.1183%2035.8529%2028.9864C35.3325%2028.8545%2034.7835%2028.8923%2034.286%2029.0942C34.0846%2029.1644%2033.8694%2029.1854%2033.6582%2029.1552C33.4471%2029.125%2033.2463%2029.0447%2033.0727%2028.9209C32.8985%2028.7969%2032.7567%2028.6328%2032.6593%2028.4425C32.5618%2028.2522%2032.5115%2028.0413%2032.5127%2027.8275V23.5875H28.246C28.0269%2023.5999%2027.8081%2023.5581%2027.609%2023.4656C27.4099%2023.3732%2027.2368%2023.233%2027.1049%2023.0576C26.973%2022.8822%2026.8864%2022.6769%2026.8529%2022.46C26.8194%2022.2431%2026.8399%2022.0213%2026.9127%2021.8142C27.0677%2021.4342%2027.1209%2021.0204%2027.0671%2020.6135C27.0134%2020.2066%2026.8544%2019.8208%2026.606%2019.4942C26.4091%2019.1597%2026.1395%2018.8739%2025.8172%2018.6578C25.4948%2018.4417%2025.128%2018.3009%2024.7438%2018.2458C24.3597%2018.1908%2023.9681%2018.2228%2023.598%2018.3397C23.2279%2018.4565%2022.8889%2018.6552%2022.606%2018.9209C22.3433%2019.1814%2022.1377%2019.4938%2022.0023%2019.8381C21.8668%2020.1824%2021.8045%2020.5512%2021.8193%2020.9209C21.8224%2021.2267%2021.8812%2021.5294%2021.9927%2021.8142C22.0632%2022.0158%2022.0842%2022.2314%2022.054%2022.4429C22.0237%2022.6543%2021.9432%2022.8554%2021.819%2023.0292C21.6949%2023.203%2021.5308%2023.3444%2021.3406%2023.4416C21.1504%2023.5388%2020.9396%2023.5888%2020.726%2023.5875H17.8193Z%22%20fill%3D%22url(%23paint1_linear_2595_7337)%22%2F%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id%3D%22paint0_linear_2595_7337%22%20x1%3D%220.662695%22%20y1%3D%2218.4025%22%20x2%3D%2251.7209%22%20y2%3D%2244.2212%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%23F7D14C%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23A38108%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint1_linear_2595_7337%22%20x1%3D%2213.7453%22%20y1%3D%2221.3695%22%20x2%3D%2240.3876%22%20y2%3D%2235.7015%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%23F7D14C%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23A38108%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A" alt="modules icon" class="modules-image-color-dark" data-v-ff49b321> <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2253%22%20height%3D%2258%22%20viewBox%3D%220%200%2053%2058%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20clip-path%3D%22url(%23clip0_2691_4389)%22%3E%0A%3Cpath%20d%3D%22M51.1519%2039.8821C51.154%2039.9844%2051.1527%2040.0863%2051.148%2040.1877C51.0782%2041.7091%2050.2566%2043.1165%2048.9325%2043.9357L29.0918%2056.2117C27.6504%2057.1035%2025.8212%2057.1564%2024.3387%2056.3439L3.85107%2045.1148C2.27157%2044.2491%201.14238%2042.6366%201.15291%2041.0494L1.15293%2041.0427L1.153%2018.552C1.15301%2018.5509%201.15302%2018.5499%201.15302%2018.5488C1.16485%2016.9324%202.02611%2015.4289%203.43319%2014.5869L3.43322%2014.587L3.44269%2014.5812L22.9844%202.59084C24.4169%201.73583%2026.2139%201.69824%2027.6729%202.49791L27.6729%202.49792L27.6784%202.50094L48.6303%2013.8121C48.6313%2013.8126%2048.6322%2013.8131%2048.6331%2013.8136C50.0797%2014.6078%2050.9898%2016.1132%2051.026%2017.7438L51.1517%2039.8672L51.1517%2039.8746L51.1519%2039.8821Z%22%20fill%3D%22white%22%20stroke%3D%22url(%23paint0_linear_2691_4389)%22%20stroke-width%3D%222%22%2F%3E%0A%3Cpath%20d%3D%22M33.8193%2042.2542H17.8193C16.7585%2042.2542%2015.7411%2041.8328%2014.9909%2041.0826C14.2408%2040.3325%2013.8193%2039.3151%2013.8193%2038.2542V24.9209C13.8193%2023.86%2014.2408%2022.8426%2014.9909%2022.0924C15.7411%2021.3423%2016.7585%2020.9209%2017.8193%2020.9209H19.1527C19.1751%2019.791%2019.5558%2018.6975%2020.2399%2017.7981C20.924%2016.8986%2021.8761%2016.2397%2022.9589%2015.9164C24.0416%2015.593%2025.1992%2015.6219%2026.2644%2015.999C27.3297%2016.376%2028.2477%2017.0817%2028.886%2018.0142C29.4839%2018.8664%2029.8094%2019.8799%2029.8193%2020.9209H33.8193C34.173%2020.9209%2034.5121%2021.0613%2034.7621%2021.3114C35.0122%2021.5614%2035.1527%2021.9006%2035.1527%2022.2542V26.2542C36.2825%2026.2766%2037.376%2026.6573%2038.2754%2027.3414C39.1749%2028.0255%2039.8338%2028.9776%2040.1572%2030.0604C40.4805%2031.1432%2040.4516%2032.3007%2040.0745%2033.366C39.6975%2034.4312%2038.9918%2035.3492%2038.0593%2035.9875C37.2071%2036.5854%2036.1937%2036.9109%2035.1527%2036.9209V36.9209V40.9209C35.1527%2041.2745%2035.0122%2041.6136%2034.7621%2041.8637C34.5121%2042.1137%2034.173%2042.2542%2033.8193%2042.2542ZM17.8193%2023.5875C17.4657%2023.5875%2017.1266%2023.728%2016.8765%2023.978C16.6265%2024.2281%2016.486%2024.5672%2016.486%2024.9209V38.2542C16.486%2038.6078%2016.6265%2038.9469%2016.8765%2039.197C17.1266%2039.447%2017.4657%2039.5875%2017.8193%2039.5875H32.486V35.3475C32.4849%2035.1337%2032.5351%2034.9228%2032.6326%2034.7325C32.7301%2034.5422%2032.8718%2034.3782%2033.046%2034.2542C33.2196%2034.1304%2033.4204%2034.05%2033.6316%2034.0198C33.8427%2033.9897%2034.058%2034.0106%2034.2593%2034.0809C34.6393%2034.2359%2035.0532%2034.2891%2035.46%2034.2353C35.8669%2034.1816%2036.2527%2034.0226%2036.5793%2033.7742C36.9045%2033.5759%2037.1834%2033.3103%2037.3973%2032.9952C37.6111%2032.6801%2037.7551%2032.3229%2037.8193%2031.9475C37.8708%2031.5689%2037.8402%2031.1837%2037.7298%2030.8179C37.6194%2030.4522%2037.4317%2030.1144%2037.1793%2029.8275C36.8381%2029.413%2036.3734%2029.1183%2035.8529%2028.9864C35.3325%2028.8545%2034.7835%2028.8923%2034.286%2029.0942C34.0846%2029.1644%2033.8694%2029.1854%2033.6582%2029.1552C33.4471%2029.125%2033.2463%2029.0447%2033.0727%2028.9209C32.8985%2028.7969%2032.7567%2028.6328%2032.6593%2028.4425C32.5618%2028.2522%2032.5115%2028.0413%2032.5127%2027.8275V23.5875H28.246C28.0269%2023.5999%2027.8081%2023.5581%2027.609%2023.4656C27.4099%2023.3732%2027.2368%2023.233%2027.1049%2023.0576C26.973%2022.8822%2026.8864%2022.6769%2026.8529%2022.46C26.8194%2022.2431%2026.8399%2022.0213%2026.9127%2021.8142C27.0677%2021.4342%2027.1209%2021.0204%2027.0671%2020.6135C27.0134%2020.2066%2026.8544%2019.8208%2026.606%2019.4942C26.4091%2019.1597%2026.1395%2018.8739%2025.8172%2018.6578C25.4948%2018.4417%2025.128%2018.3009%2024.7438%2018.2458C24.3597%2018.1908%2023.9681%2018.2228%2023.598%2018.3397C23.2279%2018.4565%2022.8889%2018.6552%2022.606%2018.9209C22.3433%2019.1814%2022.1377%2019.4938%2022.0023%2019.8381C21.8668%2020.1824%2021.8045%2020.5512%2021.8193%2020.9209C21.8224%2021.2267%2021.8812%2021.5294%2021.9927%2021.8142C22.0632%2022.0158%2022.0842%2022.2314%2022.054%2022.4429C22.0237%2022.6543%2021.9432%2022.8554%2021.819%2023.0292C21.6949%2023.203%2021.5308%2023.3444%2021.3406%2023.4416C21.1504%2023.5388%2020.9396%2023.5888%2020.726%2023.5875H17.8193Z%22%20fill%3D%22url(%23paint1_linear_2691_4389)%22%2F%3E%0A%3C%2Fg%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id%3D%22paint0_linear_2691_4389%22%20x1%3D%220.662695%22%20y1%3D%2218.4025%22%20x2%3D%2251.7209%22%20y2%3D%2244.2212%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%23D4D4D8%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2371717A%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint1_linear_2691_4389%22%20x1%3D%2213.7453%22%20y1%3D%2221.3695%22%20x2%3D%2240.3876%22%20y2%3D%2235.7015%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%23D4D4D8%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2371717A%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3CclipPath%20id%3D%22clip0_2691_4389%22%3E%0A%3Crect%20width%3D%2252%22%20height%3D%2257%22%20fill%3D%22white%22%20transform%3D%22translate(0.152832%200.920898)%22%2F%3E%0A%3C%2FclipPath%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A" alt="modules icon" class="modules-image-light" data-v-ff49b321> <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2253%22%20height%3D%2258%22%20viewBox%3D%220%200%2053%2058%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cpath%20d%3D%22M3.43319%2014.5869L3.43322%2014.587L3.44269%2014.5812L22.9844%202.59084C24.4246%201.73116%2026.2124%201.69742%2027.6729%202.49791L27.6729%202.49792L27.6784%202.50094L48.6303%2013.8121C48.6313%2013.8126%2048.6322%2013.8131%2048.6331%2013.8137C50.0812%2014.6086%2050.9896%2016.1043%2051.026%2017.7437L51.1517%2039.8672L51.1517%2039.8746L51.1519%2039.8821C51.1856%2041.5203%2050.346%2043.0611%2048.9325%2043.9357L29.0918%2056.2117C27.6424%2057.1085%2025.8227%2057.1572%2024.3387%2056.3439L3.85107%2045.1148C2.26984%2044.2481%201.14232%2042.646%201.15293%2041.0494V41.0427L1.153%2018.552C1.15301%2018.5509%201.15302%2018.5499%201.15302%2018.5488C1.16485%2016.9324%202.02611%2015.4289%203.43319%2014.5869Z%22%20fill%3D%22%2318181B%22%20stroke%3D%22url(%23paint0_linear_2595_7175)%22%20stroke-width%3D%222%22%2F%3E%0A%3Cpath%20d%3D%22M33.8193%2042.2542H17.8193C16.7585%2042.2542%2015.7411%2041.8328%2014.9909%2041.0826C14.2408%2040.3325%2013.8193%2039.3151%2013.8193%2038.2542V24.9209C13.8193%2023.86%2014.2408%2022.8426%2014.9909%2022.0924C15.7411%2021.3423%2016.7585%2020.9209%2017.8193%2020.9209H19.1527C19.1751%2019.791%2019.5558%2018.6975%2020.2399%2017.7981C20.924%2016.8986%2021.8761%2016.2397%2022.9589%2015.9164C24.0416%2015.593%2025.1992%2015.6219%2026.2644%2015.999C27.3297%2016.376%2028.2477%2017.0817%2028.886%2018.0142C29.4839%2018.8664%2029.8094%2019.8799%2029.8193%2020.9209H33.8193C34.173%2020.9209%2034.5121%2021.0613%2034.7621%2021.3114C35.0122%2021.5614%2035.1527%2021.9006%2035.1527%2022.2542V26.2542C36.2825%2026.2766%2037.376%2026.6573%2038.2754%2027.3414C39.1749%2028.0255%2039.8338%2028.9776%2040.1572%2030.0604C40.4805%2031.1432%2040.4516%2032.3007%2040.0745%2033.366C39.6975%2034.4312%2038.9918%2035.3492%2038.0593%2035.9875C37.2071%2036.5854%2036.1937%2036.9109%2035.1527%2036.9209V40.9209C35.1527%2041.2745%2035.0122%2041.6136%2034.7621%2041.8637C34.5121%2042.1137%2034.173%2042.2542%2033.8193%2042.2542ZM17.8193%2023.5875C17.4657%2023.5875%2017.1266%2023.728%2016.8765%2023.978C16.6265%2024.2281%2016.486%2024.5672%2016.486%2024.9209V38.2542C16.486%2038.6078%2016.6265%2038.9469%2016.8765%2039.197C17.1266%2039.447%2017.4657%2039.5875%2017.8193%2039.5875H32.486V35.3475C32.4849%2035.1337%2032.5351%2034.9228%2032.6326%2034.7325C32.7301%2034.5422%2032.8718%2034.3782%2033.046%2034.2542C33.2196%2034.1304%2033.4205%2034.05%2033.6316%2034.0198C33.8427%2033.9897%2034.058%2034.0106%2034.2593%2034.0809C34.6393%2034.2359%2035.0532%2034.2891%2035.46%2034.2353C35.8669%2034.1816%2036.2527%2034.0226%2036.5793%2033.7742C36.9045%2033.5759%2037.1834%2033.3103%2037.3973%2032.9952C37.6111%2032.6801%2037.7551%2032.3229%2037.8193%2031.9475C37.8708%2031.5689%2037.8402%2031.1837%2037.7298%2030.8179C37.6194%2030.4522%2037.4317%2030.1144%2037.1793%2029.8275C36.8381%2029.413%2036.3734%2029.1183%2035.8529%2028.9864C35.3325%2028.8545%2034.7835%2028.8923%2034.286%2029.0942C34.0846%2029.1644%2033.8694%2029.1854%2033.6582%2029.1552C33.4471%2029.125%2033.2463%2029.0447%2033.0727%2028.9209C32.8985%2028.7969%2032.7567%2028.6328%2032.6593%2028.4425C32.5618%2028.2522%2032.5115%2028.0413%2032.5127%2027.8275V23.5875H28.246C28.0269%2023.5999%2027.8081%2023.5581%2027.609%2023.4656C27.4099%2023.3732%2027.2368%2023.233%2027.1049%2023.0576C26.973%2022.8822%2026.8864%2022.6769%2026.8529%2022.46C26.8194%2022.2431%2026.8399%2022.0213%2026.9127%2021.8142C27.0677%2021.4342%2027.1209%2021.0204%2027.0671%2020.6135C27.0134%2020.2066%2026.8544%2019.8208%2026.606%2019.4942C26.4091%2019.1597%2026.1395%2018.8739%2025.8172%2018.6578C25.4948%2018.4417%2025.128%2018.3009%2024.7438%2018.2458C24.3597%2018.1908%2023.9681%2018.2228%2023.598%2018.3397C23.2279%2018.4565%2022.8889%2018.6552%2022.606%2018.9209C22.3433%2019.1814%2022.1377%2019.4938%2022.0023%2019.8381C21.8668%2020.1824%2021.8045%2020.5512%2021.8193%2020.9209C21.8224%2021.2267%2021.8812%2021.5294%2021.9927%2021.8142C22.0632%2022.0158%2022.0842%2022.2314%2022.054%2022.4429C22.0237%2022.6543%2021.9432%2022.8554%2021.819%2023.0292C21.6949%2023.203%2021.5308%2023.3444%2021.3406%2023.4416C21.1504%2023.5388%2020.9396%2023.5888%2020.726%2023.5875H17.8193Z%22%20fill%3D%22url(%23paint1_linear_2595_7175)%22%2F%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id%3D%22paint0_linear_2595_7175%22%20x1%3D%220.662695%22%20y1%3D%2218.4025%22%20x2%3D%2251.7209%22%20y2%3D%2244.2212%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22white%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2371717A%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint1_linear_2595_7175%22%20x1%3D%2213.7453%22%20y1%3D%2221.3695%22%20x2%3D%2240.3876%22%20y2%3D%2235.7015%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22white%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2371717A%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A" alt="modules icon" class="modules-image-dark" data-v-ff49b321><div class="flex flex-col space-y text-black dark:text-white" data-v-ff49b321><h3 class="font-semibold text-xl" data-v-ff49b321>Modules</h3><p class="text-gray-700 dark:text-gray-300" data-v-ff49b321>Discover our list of modules to supercharge your Nuxt project. Created by the Nuxt team and community.</p></div></a></div><div class="row-span-2 col-span-2 order-last lg:order-none lg:col-span-4 text-black dark:text-white documentation-container rounded-xl relative items-center justify-center border border-gray-200 dark:border-transparent hover:border-transparent" data-v-ff49b321><div class="gradient-border gradient-border-square gradient-border-documentation" data-v-ff49b321></div><a href="https://nuxt.com/docs" target="_blank" class="rounded-xl flex lg:flex-col items-center justify-center gap-y-4 bg-white dark:bg-gray-900" data-v-ff49b321><div class="py-6 lg:py-7 px-5 rounded-xl flex flex-col sm:flex-row lg:flex-col items-center justify-center gap-y-2" data-v-ff49b321><div class="flex flex-col space-y text-black dark:text-white" data-v-ff49b321><h3 class="font-semibold text-xl" data-v-ff49b321>Documentation</h3><p class="text-gray-700 dark:text-gray-300" data-v-ff49b321>We highly recommend you take a look at the Nuxt documentation to level up.</p></div><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%22342%22%20height%3D%22165%22%20viewBox%3D%220%200%20342%20165%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20clip-path%3D%22url(%23clip0_2687_3947)%22%3E%0A%3Cpath%20d%3D%22M0.152832%20131.851H154.28%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M215.399%20107.359H349.153%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M0.152832%2077.2178L116.191%2077.2178%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M36.1528%20106.921L152.191%20106.921%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M202.153%2042.9209L317.305%2042.9209%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M218.153%2076.9209L345.305%2076.9209%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M285.947%208.45605V166.979%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M252.602%2016.8311V107.36%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M171.153%2016.9209V107.45%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M218.153%2016.9209V43.4501%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M122.153%2016.9211L327.45%2016.9209%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M1.92432%2043.3086H148.163%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M122.392%2016.4209V55.3659%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M36.084%200.920898L36.084%20176.921%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M75.4448%2043.249V175.152%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Ccircle%20opacity%3D%220.7%22%20cx%3D%2275.4448%22%20cy%3D%2277.2178%22%20r%3D%223.5%22%20fill%3D%22%2300DC82%22%2F%3E%0A%3Ccircle%20opacity%3D%220.7%22%20cx%3D%2236.1528%22%20cy%3D%22131.85%22%20r%3D%223.5%22%20fill%3D%22%2300DC82%22%2F%3E%0A%3Ccircle%20opacity%3D%220.7%22%20cx%3D%22285.947%22%20cy%3D%2242.9209%22%20r%3D%223.5%22%20fill%3D%22%2300DC82%22%2F%3E%0A%3Ccircle%20opacity%3D%220.7%22%20cx%3D%22252.602%22%20cy%3D%22107.359%22%20r%3D%223.5%22%20fill%3D%22%2300DC82%22%2F%3E%0A%3Cg%20filter%3D%22url(%23filter0_d_2687_3947)%22%3E%0A%3Cpath%20d%3D%22M122.846%2050.7109L163.067%2026.0929C166.656%2023.9507%20171.117%2023.8611%20174.77%2025.8579L217.894%2049.0819C221.524%2051.0665%20223.807%2054.8133%20223.892%2058.9246L224.15%20104.352C224.235%20108.448%20222.13%20112.287%20218.609%20114.46L177.783%20139.658C174.174%20141.886%20169.638%20142.011%20165.931%20139.984L123.774%20116.935C120.045%20114.896%20117.125%20111.001%20117.153%20106.776L117.153%2060.5974C117.18%2056.5529%20119.338%2052.8048%20122.846%2050.7109Z%22%20fill%3D%22white%22%2F%3E%0A%3Cpath%20d%3D%22M222.151%20104.393C222.22%20107.764%20220.487%20110.944%20217.571%20112.75C217.567%20112.753%20217.563%20112.755%20217.559%20112.758L176.733%20137.956C173.748%20139.798%20169.96%20139.907%20166.89%20138.229L124.733%20115.18C121.469%20113.395%20119.131%20110.069%20119.153%20106.79L119.153%20106.776L119.153%2060.6107C119.153%2060.6086%20119.153%2060.6065%20119.153%2060.6044C119.178%2057.2703%20120.958%2054.1669%20123.871%2052.4282L123.881%2052.4225L123.89%2052.4167L164.101%2027.8047C164.101%2027.8047%20164.101%2027.8047%20164.101%2027.8047C164.106%2027.8022%20164.11%2027.7997%20164.114%2027.7972C167.078%2026.0385%20170.793%2025.9632%20173.81%2027.6128L173.81%2027.6128L173.821%2027.6188L216.934%2050.8367C216.936%2050.8377%20216.938%2050.8387%20216.94%2050.8397C219.935%2052.4801%20221.817%2055.5878%20221.892%2058.9515L222.15%20104.363L222.15%20104.378L222.151%20104.393Z%22%20stroke%3D%22url(%23paint0_linear_2687_3947)%22%20stroke-width%3D%224%22%2F%3E%0A%3C%2Fg%3E%0A%3Cpath%20d%3D%22M192.349%2096.9158L190.63%2090.5186L183.778%2064.9088C183.55%2064.0605%20182.994%2063.3375%20182.233%2062.8988C181.472%2062.4601%20180.568%2062.3416%20179.72%2062.5693L173.323%2064.2877L173.116%2064.3498C172.807%2063.945%20172.409%2063.6168%20171.953%2063.3906C171.497%2063.1644%20170.995%2063.0463%20170.486%2063.0455H163.861C163.279%2063.0471%20162.707%2063.2043%20162.205%2063.501C161.703%2063.2043%20161.132%2063.0471%20160.549%2063.0455H153.924C153.045%2063.0455%20152.203%2063.3945%20151.582%2064.0157C150.96%2064.6369%20150.611%2065.4795%20150.611%2066.358V99.483C150.611%20100.362%20150.96%20101.204%20151.582%20101.825C152.203%20102.447%20153.045%20102.796%20153.924%20102.796H160.549C161.132%20102.794%20161.703%20102.637%20162.205%20102.34C162.707%20102.637%20163.279%20102.794%20163.861%20102.796H170.486C171.365%20102.796%20172.207%20102.447%20172.829%20101.825C173.45%20101.204%20173.799%20100.362%20173.799%2099.483V78.8627L177.836%2093.9346L179.554%20100.332C179.742%20101.039%20180.158%20101.665%20180.739%20102.11C181.32%20102.556%20182.031%20102.797%20182.763%20102.796C183.049%20102.791%20183.334%20102.756%20183.612%20102.692L190.009%20100.974C190.43%20100.861%20190.824%20100.665%20191.169%20100.399C191.514%20100.132%20191.802%2099.7997%20192.018%2099.4209C192.238%2099.047%20192.381%2098.6325%20192.438%2098.2021C192.495%2097.7717%20192.465%2097.3342%20192.349%2096.9158V96.9158ZM176.325%2075.4881L182.722%2073.7697L187.007%2089.7732L180.61%2091.4916L176.325%2075.4881ZM180.569%2065.7783L181.873%2070.5607L175.476%2072.2791L174.171%2067.4967L180.569%2065.7783ZM170.486%2066.358V91.2018H163.861V66.358H170.486ZM160.549%2066.358V71.3268H153.924V66.358H160.549ZM153.924%2099.483V74.6393H160.549V99.483H153.924ZM170.486%2099.483H163.861V94.5143H170.486V99.483ZM189.161%2097.7646L182.763%2099.483L181.459%2094.6799L187.877%2092.9615L189.161%2097.7646V97.7646Z%22%20fill%3D%22url(%23paint1_linear_2687_3947)%22%2F%3E%0A%3Crect%20x%3D%222.15283%22%20y%3D%22-3.0791%22%20width%3D%22327%22%20height%3D%2223%22%20fill%3D%22url(%23paint2_linear_2687_3947)%22%2F%3E%0A%3Crect%20width%3D%22327%22%20height%3D%2225%22%20transform%3D%22matrix(1%200%200%20-1%202.15283%20166.921)%22%20fill%3D%22url(%23paint3_linear_2687_3947)%22%2F%3E%0A%3Crect%20width%3D%22327%22%20height%3D%2225%22%20transform%3D%22matrix(0%201%201%200%200.152832%20-17.0791)%22%20fill%3D%22url(%23paint4_linear_2687_3947)%22%2F%3E%0A%3Crect%20x%3D%22342.153%22%20y%3D%22-17.0791%22%20width%3D%22327%22%20height%3D%2225%22%20transform%3D%22rotate(90%20342.153%20-17.0791)%22%20fill%3D%22url(%23paint5_linear_2687_3947)%22%2F%3E%0A%3C%2Fg%3E%0A%3Cdefs%3E%0A%3Cfilter%20id%3D%22filter0_d_2687_3947%22%20x%3D%2286.1528%22%20y%3D%22-6.5791%22%20width%3D%22169%22%20height%3D%22179%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%0A%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%0A%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%20result%3D%22hardAlpha%22%2F%3E%0A%3CfeOffset%2F%3E%0A%3CfeGaussianBlur%20stdDeviation%3D%2215.5%22%2F%3E%0A%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22out%22%2F%3E%0A%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%201%200%200%200%200%201%200%200%200%200%201%200%200%200%200.07%200%22%2F%3E%0A%3CfeBlend%20mode%3D%22normal%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22effect1_dropShadow_2687_3947%22%2F%3E%0A%3CfeBlend%20mode%3D%22normal%22%20in%3D%22SourceGraphic%22%20in2%3D%22effect1_dropShadow_2687_3947%22%20result%3D%22shape%22%2F%3E%0A%3C%2Ffilter%3E%0A%3ClinearGradient%20id%3D%22paint0_linear_2687_3947%22%20x1%3D%22118.202%22%20y1%3D%2260.3042%22%20x2%3D%22223.159%22%20y2%3D%22113.509%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%2300DC82%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23003F25%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint1_linear_2687_3947%22%20x1%3D%22150.495%22%20y1%3D%2271.0767%22%20x2%3D%22191.769%22%20y2%3D%2294.1139%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%2300DC82%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23003F25%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint2_linear_2687_3947%22%20x1%3D%22165.653%22%20y1%3D%22-3.0791%22%20x2%3D%22166.153%22%20y2%3D%2219.9209%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22white%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22white%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint3_linear_2687_3947%22%20x1%3D%22163.5%22%20y1%3D%22-2.30278e-07%22%20x2%3D%22164.091%22%20y2%3D%2224.9979%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22white%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22white%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint4_linear_2687_3947%22%20x1%3D%22163.5%22%20y1%3D%22-2.30278e-07%22%20x2%3D%22164.091%22%20y2%3D%2224.9979%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22white%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22white%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint5_linear_2687_3947%22%20x1%3D%22505.653%22%20y1%3D%22-17.0791%22%20x2%3D%22506.244%22%20y2%3D%227.91876%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22white%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22white%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3CclipPath%20id%3D%22clip0_2687_3947%22%3E%0A%3Crect%20width%3D%22341%22%20height%3D%22164%22%20fill%3D%22white%22%20transform%3D%22translate(0.152832%200.920898)%22%2F%3E%0A%3C%2FclipPath%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A" alt="documentation icon" class="documentation-image-color-light h-32 sm:h-34" data-v-ff49b321> <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%22342%22%20height%3D%22165%22%20viewBox%3D%220%200%20342%20165%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20clip-path%3D%22url(%23clip0_2595_7273)%22%3E%0A%3Cpath%20d%3D%22M0.152832%20131.851H154.28%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M215.399%20107.359H349.153%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M0.152832%2077.2178L116.191%2077.2178%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M36.1528%20106.921L152.191%20106.921%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M202.153%2042.9209L317.305%2042.9209%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M218.153%2076.9209L345.305%2076.9209%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M285.947%208.45605V166.979%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M252.602%2016.8311V107.36%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M171.153%2016.9209V107.45%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M218.153%2016.9209V43.4501%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M122.153%2016.9211L327.45%2016.9209%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M1.92432%2043.3086H148.163%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M122.392%2016.4209V55.3659%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M36.084%200.920898L36.084%20176.921%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M75.4448%2043.249V175.152%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Ccircle%20opacity%3D%220.14%22%20cx%3D%2275.4448%22%20cy%3D%2277.2178%22%20r%3D%223.5%22%20fill%3D%22%2300DC82%22%2F%3E%0A%3Ccircle%20opacity%3D%220.14%22%20cx%3D%2236.1528%22%20cy%3D%22131.85%22%20r%3D%223.5%22%20fill%3D%22%2300DC82%22%2F%3E%0A%3Ccircle%20opacity%3D%220.14%22%20cx%3D%22285.947%22%20cy%3D%2242.9209%22%20r%3D%223.5%22%20fill%3D%22%2300DC82%22%2F%3E%0A%3Ccircle%20opacity%3D%220.14%22%20cx%3D%22252.602%22%20cy%3D%22107.359%22%20r%3D%223.5%22%20fill%3D%22%2300DC82%22%2F%3E%0A%3Cg%20filter%3D%22url(%23filter0_d_2595_7273)%22%3E%0A%3Cpath%20d%3D%22M122.846%2050.7109L163.067%2026.0929C166.656%2023.9507%20171.117%2023.8611%20174.77%2025.8579L217.894%2049.0819C221.524%2051.0665%20223.807%2054.8133%20223.892%2058.9246L224.15%20104.352C224.235%20108.448%20222.13%20112.287%20218.609%20114.46L177.783%20139.658C174.174%20141.886%20169.638%20142.011%20165.931%20139.984L123.774%20116.935C120.045%20114.896%20117.125%20111.001%20117.153%20106.776L117.153%2060.5974C117.18%2056.5529%20119.338%2052.8048%20122.846%2050.7109Z%22%20fill%3D%22%2318181B%22%2F%3E%0A%3Cpath%20d%3D%22M123.871%2052.4282L123.881%2052.4225L123.89%2052.4167L164.101%2027.8047C167.083%2026.0291%20170.786%2025.9592%20173.81%2027.6128L173.81%2027.6128L173.821%2027.6188L216.934%2050.8367C216.936%2050.8376%20216.938%2050.8386%20216.939%2050.8395C219.938%2052.4814%20221.817%2055.5694%20221.892%2058.9515L222.15%20104.363L222.15%20104.378L222.151%20104.393C222.221%20107.772%20220.485%20110.952%20217.559%20112.758L176.733%20137.956C173.732%20139.808%20169.963%20139.909%20166.89%20138.229L124.733%20115.18C121.465%20113.393%20119.131%20110.089%20119.153%20106.79L119.153%20106.776L119.153%2060.6107C119.153%2060.6086%20119.153%2060.6065%20119.153%2060.6044C119.178%2057.2703%20120.958%2054.1669%20123.871%2052.4282Z%22%20stroke%3D%22url(%23paint0_linear_2595_7273)%22%20stroke-width%3D%224%22%2F%3E%0A%3C%2Fg%3E%0A%3Cpath%20d%3D%22M192.349%2096.9158L190.63%2090.5186L183.778%2064.9088C183.55%2064.0605%20182.994%2063.3375%20182.233%2062.8988C181.472%2062.4601%20180.568%2062.3416%20179.72%2062.5693L173.323%2064.2877L173.116%2064.3498C172.807%2063.945%20172.409%2063.6168%20171.953%2063.3906C171.497%2063.1644%20170.995%2063.0463%20170.486%2063.0455H163.861C163.279%2063.0471%20162.707%2063.2043%20162.205%2063.501C161.703%2063.2043%20161.132%2063.0471%20160.549%2063.0455H153.924C153.045%2063.0455%20152.203%2063.3945%20151.582%2064.0157C150.96%2064.6369%20150.611%2065.4795%20150.611%2066.358V99.483C150.611%20100.362%20150.96%20101.204%20151.582%20101.825C152.203%20102.447%20153.045%20102.796%20153.924%20102.796H160.549C161.132%20102.794%20161.703%20102.637%20162.205%20102.34C162.707%20102.637%20163.279%20102.794%20163.861%20102.796H170.486C171.365%20102.796%20172.207%20102.447%20172.829%20101.825C173.45%20101.204%20173.799%20100.362%20173.799%2099.483V78.8627L177.836%2093.9346L179.554%20100.332C179.742%20101.039%20180.158%20101.665%20180.739%20102.11C181.32%20102.556%20182.031%20102.797%20182.763%20102.796C183.049%20102.791%20183.334%20102.756%20183.612%20102.692L190.009%20100.974C190.43%20100.861%20190.824%20100.665%20191.169%20100.399C191.514%20100.132%20191.802%2099.7998%20192.018%2099.4209C192.238%2099.047%20192.381%2098.6325%20192.438%2098.2021C192.495%2097.7717%20192.465%2097.3342%20192.349%2096.9158ZM176.325%2075.4881L182.722%2073.7697L187.007%2089.7732L180.61%2091.4916L176.325%2075.4881ZM180.569%2065.7783L181.873%2070.5607L175.476%2072.2791L174.171%2067.4967L180.569%2065.7783ZM170.486%2066.358V91.2018H163.861V66.358H170.486ZM160.549%2066.358V71.3268H153.924V66.358H160.549ZM153.924%2099.483V74.6393H160.549V99.483H153.924ZM170.486%2099.483H163.861V94.5143H170.486V99.483ZM189.161%2097.7646L182.763%2099.483L181.459%2094.6799L187.877%2092.9615L189.161%2097.7646Z%22%20fill%3D%22url(%23paint1_linear_2595_7273)%22%2F%3E%0A%3Crect%20x%3D%222.15283%22%20y%3D%22-3.0791%22%20width%3D%22327%22%20height%3D%2223%22%20fill%3D%22url(%23paint2_linear_2595_7273)%22%2F%3E%0A%3Crect%20width%3D%22327%22%20height%3D%2225%22%20transform%3D%22matrix(1%200%200%20-1%202.15283%20166.921)%22%20fill%3D%22url(%23paint3_linear_2595_7273)%22%2F%3E%0A%3Crect%20width%3D%22327%22%20height%3D%2225%22%20transform%3D%22matrix(0%201%201%200%200.152832%20-17.0791)%22%20fill%3D%22url(%23paint4_linear_2595_7273)%22%2F%3E%0A%3Crect%20x%3D%22342.153%22%20y%3D%22-17.0791%22%20width%3D%22327%22%20height%3D%2225%22%20transform%3D%22rotate(90%20342.153%20-17.0791)%22%20fill%3D%22url(%23paint5_linear_2595_7273)%22%2F%3E%0A%3C%2Fg%3E%0A%3Cdefs%3E%0A%3Cfilter%20id%3D%22filter0_d_2595_7273%22%20x%3D%2286.1528%22%20y%3D%22-6.5791%22%20width%3D%22169%22%20height%3D%22179%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%0A%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%0A%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%20result%3D%22hardAlpha%22%2F%3E%0A%3CfeOffset%2F%3E%0A%3CfeGaussianBlur%20stdDeviation%3D%2215.5%22%2F%3E%0A%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22out%22%2F%3E%0A%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%201%200%200%200%200%201%200%200%200%200%201%200%200%200%200.07%200%22%2F%3E%0A%3CfeBlend%20mode%3D%22normal%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22effect1_dropShadow_2595_7273%22%2F%3E%0A%3CfeBlend%20mode%3D%22normal%22%20in%3D%22SourceGraphic%22%20in2%3D%22effect1_dropShadow_2595_7273%22%20result%3D%22shape%22%2F%3E%0A%3C%2Ffilter%3E%0A%3ClinearGradient%20id%3D%22paint0_linear_2595_7273%22%20x1%3D%22118.202%22%20y1%3D%2260.3042%22%20x2%3D%22223.159%22%20y2%3D%22113.509%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%2300DC82%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23003F25%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint1_linear_2595_7273%22%20x1%3D%22150.495%22%20y1%3D%2271.0767%22%20x2%3D%22191.769%22%20y2%3D%2294.1139%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%2300DC82%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23003F25%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint2_linear_2595_7273%22%20x1%3D%22165.653%22%20y1%3D%22-3.0791%22%20x2%3D%22166.153%22%20y2%3D%2219.9209%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%2318181B%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2318181B%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint3_linear_2595_7273%22%20x1%3D%22163.5%22%20y1%3D%22-2.30278e-07%22%20x2%3D%22164.091%22%20y2%3D%2224.9979%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%2318181B%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2318181B%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint4_linear_2595_7273%22%20x1%3D%22163.5%22%20y1%3D%22-2.30278e-07%22%20x2%3D%22164.091%22%20y2%3D%2224.9979%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%2318181B%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2318181B%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint5_linear_2595_7273%22%20x1%3D%22505.653%22%20y1%3D%22-17.0791%22%20x2%3D%22506.244%22%20y2%3D%227.91876%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%2318181B%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2318181B%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3CclipPath%20id%3D%22clip0_2595_7273%22%3E%0A%3Crect%20width%3D%22341%22%20height%3D%22164%22%20fill%3D%22white%22%20transform%3D%22translate(0.152832%200.920898)%22%2F%3E%0A%3C%2FclipPath%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A" alt="documentation icon" class="documentation-image-color-dark h-32 sm:h-34" data-v-ff49b321> <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%22342%22%20height%3D%22165%22%20viewBox%3D%220%200%20342%20165%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20clip-path%3D%22url(%23clip0_2687_3977)%22%3E%0A%3Cpath%20d%3D%22M0.152832%20131.851H154.28%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M215.399%20107.359H349.153%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M0.152832%2077.2178L116.191%2077.2178%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M36.1528%20106.921L152.191%20106.921%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M202.153%2042.9209L317.305%2042.9209%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M218.153%2076.9209L345.305%2076.9209%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M285.947%208.45605V166.979%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M252.602%2016.8311V107.36%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M171.153%2016.9209V107.45%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M218.153%2016.9209V43.4501%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M122.153%2016.9211L327.45%2016.9209%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M1.92432%2043.3086H148.163%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M122.392%2016.4209V55.3659%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M36.084%200.920898L36.084%20176.921%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Cpath%20d%3D%22M75.4448%2043.249V175.152%22%20stroke%3D%22%23E4E4E7%22%2F%3E%0A%3Ccircle%20opacity%3D%220.7%22%20cx%3D%2275.4448%22%20cy%3D%2277.2178%22%20r%3D%223.5%22%20fill%3D%22%23A1A1AA%22%2F%3E%0A%3Ccircle%20opacity%3D%220.7%22%20cx%3D%2236.1528%22%20cy%3D%22131.85%22%20r%3D%223.5%22%20fill%3D%22%23A1A1AA%22%2F%3E%0A%3Ccircle%20opacity%3D%220.7%22%20cx%3D%22285.947%22%20cy%3D%2242.9209%22%20r%3D%223.5%22%20fill%3D%22%23A1A1AA%22%2F%3E%0A%3Ccircle%20opacity%3D%220.7%22%20cx%3D%22252.602%22%20cy%3D%22107.359%22%20r%3D%223.5%22%20fill%3D%22%23A1A1AA%22%2F%3E%0A%3Cg%20filter%3D%22url(%23filter0_d_2687_3977)%22%3E%0A%3Cpath%20d%3D%22M122.846%2050.7109L163.067%2026.0929C166.656%2023.9507%20171.117%2023.8611%20174.77%2025.8579L217.894%2049.0819C221.524%2051.0665%20223.807%2054.8133%20223.892%2058.9246L224.15%20104.352C224.235%20108.448%20222.13%20112.287%20218.609%20114.46L177.783%20139.658C174.174%20141.886%20169.638%20142.011%20165.931%20139.984L123.774%20116.935C120.045%20114.896%20117.125%20111.001%20117.153%20106.776L117.153%2060.5974C117.18%2056.5529%20119.338%2052.8048%20122.846%2050.7109Z%22%20fill%3D%22white%22%2F%3E%0A%3Cpath%20d%3D%22M222.151%20104.393C222.22%20107.764%20220.487%20110.944%20217.571%20112.75C217.567%20112.753%20217.563%20112.755%20217.559%20112.758L176.733%20137.956C173.748%20139.798%20169.96%20139.907%20166.89%20138.229L124.733%20115.18C121.469%20113.395%20119.131%20110.069%20119.153%20106.79L119.153%20106.776L119.153%2060.6107C119.153%2060.6086%20119.153%2060.6065%20119.153%2060.6044C119.178%2057.2703%20120.958%2054.1669%20123.871%2052.4282L123.881%2052.4225L123.89%2052.4167L164.101%2027.8047C164.101%2027.8047%20164.101%2027.8047%20164.101%2027.8047C164.106%2027.8022%20164.11%2027.7997%20164.114%2027.7972C167.078%2026.0385%20170.793%2025.9632%20173.81%2027.6128L173.81%2027.6128L173.821%2027.6188L216.934%2050.8367C216.936%2050.8377%20216.938%2050.8387%20216.94%2050.8397C219.935%2052.4801%20221.817%2055.5878%20221.892%2058.9515L222.15%20104.363L222.15%20104.378L222.151%20104.393Z%22%20stroke%3D%22url(%23paint0_linear_2687_3977)%22%20stroke-width%3D%224%22%2F%3E%0A%3C%2Fg%3E%0A%3Cpath%20d%3D%22M192.349%2096.9158L190.63%2090.5186L183.778%2064.9088C183.55%2064.0605%20182.994%2063.3375%20182.233%2062.8988C181.472%2062.4601%20180.568%2062.3416%20179.72%2062.5693L173.323%2064.2877L173.116%2064.3498C172.807%2063.945%20172.409%2063.6168%20171.953%2063.3906C171.497%2063.1644%20170.995%2063.0463%20170.486%2063.0455H163.861C163.279%2063.0471%20162.707%2063.2043%20162.205%2063.501C161.703%2063.2043%20161.132%2063.0471%20160.549%2063.0455H153.924C153.045%2063.0455%20152.203%2063.3945%20151.582%2064.0157C150.96%2064.6369%20150.611%2065.4795%20150.611%2066.358V99.483C150.611%20100.362%20150.96%20101.204%20151.582%20101.825C152.203%20102.447%20153.045%20102.796%20153.924%20102.796H160.549C161.132%20102.794%20161.703%20102.637%20162.205%20102.34C162.707%20102.637%20163.279%20102.794%20163.861%20102.796H170.486C171.365%20102.796%20172.207%20102.447%20172.829%20101.825C173.45%20101.204%20173.799%20100.362%20173.799%2099.483V78.8627L177.836%2093.9346L179.554%20100.332C179.742%20101.039%20180.158%20101.665%20180.739%20102.11C181.32%20102.556%20182.031%20102.797%20182.763%20102.796C183.049%20102.791%20183.334%20102.756%20183.612%20102.692L190.009%20100.974C190.43%20100.861%20190.824%20100.665%20191.169%20100.399C191.514%20100.132%20191.802%2099.7997%20192.018%2099.4209C192.238%2099.047%20192.381%2098.6325%20192.438%2098.2021C192.495%2097.7717%20192.465%2097.3342%20192.349%2096.9158V96.9158ZM176.325%2075.4881L182.722%2073.7697L187.007%2089.7732L180.61%2091.4916L176.325%2075.4881ZM180.569%2065.7783L181.873%2070.5607L175.476%2072.2791L174.171%2067.4967L180.569%2065.7783ZM170.486%2066.358V91.2018H163.861V66.358H170.486ZM160.549%2066.358V71.3268H153.924V66.358H160.549ZM153.924%2099.483V74.6393H160.549V99.483H153.924ZM170.486%2099.483H163.861V94.5143H170.486V99.483ZM189.161%2097.7646L182.763%2099.483L181.459%2094.6799L187.877%2092.9615L189.161%2097.7646V97.7646Z%22%20fill%3D%22url(%23paint1_linear_2687_3977)%22%2F%3E%0A%3Crect%20x%3D%222.15283%22%20y%3D%22-3.0791%22%20width%3D%22327%22%20height%3D%2223%22%20fill%3D%22url(%23paint2_linear_2687_3977)%22%2F%3E%0A%3Crect%20width%3D%22327%22%20height%3D%2225%22%20transform%3D%22matrix(1%200%200%20-1%202.15283%20166.921)%22%20fill%3D%22url(%23paint3_linear_2687_3977)%22%2F%3E%0A%3Crect%20width%3D%22327%22%20height%3D%2225%22%20transform%3D%22matrix(0%201%201%200%200.152832%20-17.0791)%22%20fill%3D%22url(%23paint4_linear_2687_3977)%22%2F%3E%0A%3Crect%20x%3D%22342.153%22%20y%3D%22-17.0791%22%20width%3D%22327%22%20height%3D%2225%22%20transform%3D%22rotate(90%20342.153%20-17.0791)%22%20fill%3D%22url(%23paint5_linear_2687_3977)%22%2F%3E%0A%3C%2Fg%3E%0A%3Cdefs%3E%0A%3Cfilter%20id%3D%22filter0_d_2687_3977%22%20x%3D%2286.1528%22%20y%3D%22-6.5791%22%20width%3D%22169%22%20height%3D%22179%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%0A%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%0A%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%20result%3D%22hardAlpha%22%2F%3E%0A%3CfeOffset%2F%3E%0A%3CfeGaussianBlur%20stdDeviation%3D%2215.5%22%2F%3E%0A%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22out%22%2F%3E%0A%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200.831373%200%200%200%200%200.831373%200%200%200%200%200.847059%200%200%200%200.07%200%22%2F%3E%0A%3CfeBlend%20mode%3D%22normal%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22effect1_dropShadow_2687_3977%22%2F%3E%0A%3CfeBlend%20mode%3D%22normal%22%20in%3D%22SourceGraphic%22%20in2%3D%22effect1_dropShadow_2687_3977%22%20result%3D%22shape%22%2F%3E%0A%3C%2Ffilter%3E%0A%3ClinearGradient%20id%3D%22paint0_linear_2687_3977%22%20x1%3D%22118.202%22%20y1%3D%2260.3042%22%20x2%3D%22223.159%22%20y2%3D%22113.509%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%23D4D4D8%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%233F3F46%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint1_linear_2687_3977%22%20x1%3D%22150.495%22%20y1%3D%2271.0767%22%20x2%3D%22191.769%22%20y2%3D%2294.1139%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%23D4D4D8%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%233F3F46%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint2_linear_2687_3977%22%20x1%3D%22165.653%22%20y1%3D%22-3.0791%22%20x2%3D%22166.153%22%20y2%3D%2219.9209%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22white%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22white%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint3_linear_2687_3977%22%20x1%3D%22163.5%22%20y1%3D%22-2.30278e-07%22%20x2%3D%22164.091%22%20y2%3D%2224.9979%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22white%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22white%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint4_linear_2687_3977%22%20x1%3D%22163.5%22%20y1%3D%22-2.30278e-07%22%20x2%3D%22164.091%22%20y2%3D%2224.9979%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22white%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22white%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint5_linear_2687_3977%22%20x1%3D%22505.653%22%20y1%3D%22-17.0791%22%20x2%3D%22506.244%22%20y2%3D%227.91876%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22white%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22white%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3CclipPath%20id%3D%22clip0_2687_3977%22%3E%0A%3Crect%20width%3D%22341%22%20height%3D%22164%22%20fill%3D%22white%22%20transform%3D%22translate(0.152832%200.920898)%22%2F%3E%0A%3C%2FclipPath%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A" alt="documentation icon" class="documentation-image-light h-32 sm:h-34" data-v-ff49b321> <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%22342%22%20height%3D%22165%22%20viewBox%3D%220%200%20342%20165%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cg%20clip-path%3D%22url(%23clip0_2595_7193)%22%3E%0A%3Cpath%20d%3D%22M0.152832%20131.851H154.28%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M215.399%20107.359H349.153%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M0.152832%2077.2178L116.191%2077.2178%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M36.1528%20106.921L152.191%20106.921%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M202.153%2042.9209L317.305%2042.9209%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M218.153%2076.9209L345.305%2076.9209%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M285.947%208.45605V166.979%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M252.602%2016.8311V107.36%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M171.153%2016.9209V107.45%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M218.153%2016.9209V43.4501%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M122.153%2016.9211L327.45%2016.9209%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M1.92432%2043.3086H148.163%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M122.392%2016.4209V55.3659%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M36.084%200.920898L36.084%20176.921%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Cpath%20d%3D%22M75.4448%2043.249V175.152%22%20stroke%3D%22%2327272A%22%2F%3E%0A%3Ccircle%20opacity%3D%220.14%22%20cx%3D%2275.4448%22%20cy%3D%2277.2178%22%20r%3D%223.5%22%20fill%3D%22white%22%2F%3E%0A%3Ccircle%20opacity%3D%220.14%22%20cx%3D%2236.1528%22%20cy%3D%22131.85%22%20r%3D%223.5%22%20fill%3D%22white%22%2F%3E%0A%3Ccircle%20opacity%3D%220.14%22%20cx%3D%22285.947%22%20cy%3D%2242.9209%22%20r%3D%223.5%22%20fill%3D%22white%22%2F%3E%0A%3Ccircle%20opacity%3D%220.14%22%20cx%3D%22252.602%22%20cy%3D%22107.359%22%20r%3D%223.5%22%20fill%3D%22white%22%2F%3E%0A%3Cg%20filter%3D%22url(%23filter0_d_2595_7193)%22%3E%0A%3Cpath%20d%3D%22M122.846%2050.7109L163.067%2026.0929C166.656%2023.9507%20171.117%2023.8611%20174.77%2025.8579L217.894%2049.0819C221.524%2051.0665%20223.807%2054.8133%20223.892%2058.9246L224.15%20104.352C224.235%20108.448%20222.13%20112.287%20218.609%20114.46L177.783%20139.658C174.174%20141.886%20169.638%20142.011%20165.931%20139.984L123.774%20116.935C120.045%20114.896%20117.125%20111.001%20117.153%20106.776L117.153%2060.5974C117.18%2056.5529%20119.338%2052.8048%20122.846%2050.7109Z%22%20fill%3D%22%2318181B%22%2F%3E%0A%3Cpath%20d%3D%22M123.871%2052.4282L123.881%2052.4225L123.89%2052.4167L164.101%2027.8047C167.083%2026.0291%20170.786%2025.9592%20173.81%2027.6128L173.81%2027.6128L173.821%2027.6188L216.934%2050.8367C216.936%2050.8376%20216.938%2050.8386%20216.939%2050.8395C219.938%2052.4814%20221.817%2055.5694%20221.892%2058.9515L222.15%20104.363L222.15%20104.378L222.151%20104.393C222.221%20107.772%20220.485%20110.952%20217.559%20112.758L176.733%20137.956C173.732%20139.808%20169.963%20139.909%20166.89%20138.229L124.733%20115.18C121.465%20113.393%20119.131%20110.089%20119.153%20106.79L119.153%20106.776L119.153%2060.6107C119.153%2060.6086%20119.153%2060.6065%20119.153%2060.6044C119.178%2057.2703%20120.958%2054.1669%20123.871%2052.4282Z%22%20stroke%3D%22url(%23paint0_linear_2595_7193)%22%20stroke-width%3D%224%22%2F%3E%0A%3C%2Fg%3E%0A%3Cpath%20d%3D%22M192.349%2096.9158L190.63%2090.5186L183.778%2064.9088C183.55%2064.0605%20182.994%2063.3375%20182.233%2062.8988C181.472%2062.4601%20180.568%2062.3416%20179.72%2062.5693L173.323%2064.2877L173.116%2064.3498C172.807%2063.945%20172.409%2063.6168%20171.953%2063.3906C171.497%2063.1644%20170.995%2063.0463%20170.486%2063.0455H163.861C163.279%2063.0471%20162.707%2063.2043%20162.205%2063.501C161.703%2063.2043%20161.132%2063.0471%20160.549%2063.0455H153.924C153.045%2063.0455%20152.203%2063.3945%20151.582%2064.0157C150.96%2064.6369%20150.611%2065.4795%20150.611%2066.358V99.483C150.611%20100.362%20150.96%20101.204%20151.582%20101.825C152.203%20102.447%20153.045%20102.796%20153.924%20102.796H160.549C161.132%20102.794%20161.703%20102.637%20162.205%20102.34C162.707%20102.637%20163.279%20102.794%20163.861%20102.796H170.486C171.365%20102.796%20172.207%20102.447%20172.829%20101.825C173.45%20101.204%20173.799%20100.362%20173.799%2099.483V78.8627L177.836%2093.9346L179.554%20100.332C179.742%20101.039%20180.158%20101.665%20180.739%20102.11C181.32%20102.556%20182.031%20102.797%20182.763%20102.796C183.049%20102.791%20183.334%20102.756%20183.612%20102.692L190.009%20100.974C190.43%20100.861%20190.824%20100.665%20191.169%20100.399C191.514%20100.132%20191.802%2099.7998%20192.018%2099.4209C192.238%2099.047%20192.381%2098.6325%20192.438%2098.2021C192.495%2097.7717%20192.465%2097.3342%20192.349%2096.9158ZM176.325%2075.4881L182.722%2073.7697L187.007%2089.7732L180.61%2091.4916L176.325%2075.4881ZM180.569%2065.7783L181.873%2070.5607L175.476%2072.2791L174.171%2067.4967L180.569%2065.7783ZM170.486%2066.358V91.2018H163.861V66.358H170.486ZM160.549%2066.358V71.3268H153.924V66.358H160.549ZM153.924%2099.483V74.6393H160.549V99.483H153.924ZM170.486%2099.483H163.861V94.5143H170.486V99.483ZM189.161%2097.7646L182.763%2099.483L181.459%2094.6799L187.877%2092.9615L189.161%2097.7646Z%22%20fill%3D%22url(%23paint1_linear_2595_7193)%22%2F%3E%0A%3Crect%20x%3D%222.15283%22%20y%3D%22-3.0791%22%20width%3D%22327%22%20height%3D%2223%22%20fill%3D%22url(%23paint2_linear_2595_7193)%22%2F%3E%0A%3Crect%20width%3D%22327%22%20height%3D%2225%22%20transform%3D%22matrix(1%200%200%20-1%202.15283%20166.921)%22%20fill%3D%22url(%23paint3_linear_2595_7193)%22%2F%3E%0A%3Crect%20width%3D%22327%22%20height%3D%2225%22%20transform%3D%22matrix(0%201%201%200%200.152832%20-17.0791)%22%20fill%3D%22url(%23paint4_linear_2595_7193)%22%2F%3E%0A%3Crect%20x%3D%22342.153%22%20y%3D%22-17.0791%22%20width%3D%22327%22%20height%3D%2225%22%20transform%3D%22rotate(90%20342.153%20-17.0791)%22%20fill%3D%22url(%23paint5_linear_2595_7193)%22%2F%3E%0A%3C%2Fg%3E%0A%3Cdefs%3E%0A%3Cfilter%20id%3D%22filter0_d_2595_7193%22%20x%3D%2286.1528%22%20y%3D%22-6.5791%22%20width%3D%22169%22%20height%3D%22179%22%20filterUnits%3D%22userSpaceOnUse%22%20color-interpolation-filters%3D%22sRGB%22%3E%0A%3CfeFlood%20flood-opacity%3D%220%22%20result%3D%22BackgroundImageFix%22%2F%3E%0A%3CfeColorMatrix%20in%3D%22SourceAlpha%22%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%20127%200%22%20result%3D%22hardAlpha%22%2F%3E%0A%3CfeOffset%2F%3E%0A%3CfeGaussianBlur%20stdDeviation%3D%2215.5%22%2F%3E%0A%3CfeComposite%20in2%3D%22hardAlpha%22%20operator%3D%22out%22%2F%3E%0A%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%201%200%200%200%200%201%200%200%200%200%201%200%200%200%200.07%200%22%2F%3E%0A%3CfeBlend%20mode%3D%22normal%22%20in2%3D%22BackgroundImageFix%22%20result%3D%22effect1_dropShadow_2595_7193%22%2F%3E%0A%3CfeBlend%20mode%3D%22normal%22%20in%3D%22SourceGraphic%22%20in2%3D%22effect1_dropShadow_2595_7193%22%20result%3D%22shape%22%2F%3E%0A%3C%2Ffilter%3E%0A%3ClinearGradient%20id%3D%22paint0_linear_2595_7193%22%20x1%3D%22118.202%22%20y1%3D%2260.3042%22%20x2%3D%22223.159%22%20y2%3D%22113.509%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22white%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2371717A%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint1_linear_2595_7193%22%20x1%3D%22150.495%22%20y1%3D%2271.0767%22%20x2%3D%22191.769%22%20y2%3D%2294.1139%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22white%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2371717A%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint2_linear_2595_7193%22%20x1%3D%22165.653%22%20y1%3D%22-3.0791%22%20x2%3D%22166.153%22%20y2%3D%2219.9209%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%2318181B%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2318181B%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint3_linear_2595_7193%22%20x1%3D%22163.5%22%20y1%3D%22-2.30278e-07%22%20x2%3D%22164.091%22%20y2%3D%2224.9979%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%2318181B%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2318181B%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint4_linear_2595_7193%22%20x1%3D%22163.5%22%20y1%3D%22-2.30278e-07%22%20x2%3D%22164.091%22%20y2%3D%2224.9979%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%2318181B%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2318181B%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint5_linear_2595_7193%22%20x1%3D%22505.653%22%20y1%3D%22-17.0791%22%20x2%3D%22506.244%22%20y2%3D%227.91876%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%2318181B%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2318181B%22%20stop-opacity%3D%220%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3CclipPath%20id%3D%22clip0_2595_7193%22%3E%0A%3Crect%20width%3D%22341%22%20height%3D%22164%22%20fill%3D%22white%22%20transform%3D%22translate(0.152832%200.920898)%22%2F%3E%0A%3C%2FclipPath%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A" alt="documentation icon" class="documentation-image-dark h-32 sm:h-34" data-v-ff49b321></div></a></div><div class="lg:min-h-min sm:min-h-[220px] md:min-h-[180px] col-span-2 sm:col-span-1 lg:col-span-6 text-black dark:text-white rounded-xl examples-container relative items-center justify-center border border-gray-200 dark:border-transparent hover:border-transparent" data-v-ff49b321><div class="gradient-border gradient-border-examples gradient-border-rect" data-v-ff49b321></div><div class="examples-gradient-right absolute right-0 inset-y-0 w-[20%] bg-gradient-to-l to-transparent from-blue-400 rounded-xl z-1 transition-opacity duration-300" data-v-ff49b321></div><a href="https://nuxt.com/docs/examples" target="_blank" class="py-6 px-5 rounded-xl flex items-center justify-center gap-x-4 bg-white dark:bg-gray-900 sm:min-h-[220px] md:min-h-[180px] lg:min-h-min" data-v-ff49b321><img src="data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2253%22%20height%3D%2258%22%20viewBox%3D%220%200%2053%2058%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cpath%20d%3D%22M49.1971%2043.7595C49.1113%2043.8209%2049.0231%2043.8796%2048.9325%2043.9357L29.0918%2056.2117C27.6504%2057.1035%2025.8212%2057.1564%2024.3387%2056.3439L3.85107%2045.1148C2.27157%2044.2491%201.14238%2042.6366%201.15291%2041.0494L1.15293%2041.0427L1.153%2018.552C1.15301%2018.5509%201.15302%2018.5499%201.15302%2018.5488C1.16485%2016.9324%202.02611%2015.4289%203.43319%2014.5869L3.43322%2014.587L3.44269%2014.5812L22.9844%202.59084C24.4169%201.73583%2026.2139%201.69824%2027.6729%202.49791L27.6729%202.49792L27.6784%202.50094L48.6303%2013.8121C48.6313%2013.8126%2048.6322%2013.8131%2048.6331%2013.8136C50.0797%2014.6078%2050.9898%2016.1132%2051.026%2017.7438L51.1517%2039.8672L51.1517%2039.8746L51.1519%2039.8821C51.1834%2041.4138%2050.4491%2042.8635%2049.1971%2043.7595Z%22%20fill%3D%22white%22%20stroke%3D%22url(%23paint0_linear_2613_3941)%22%20stroke-width%3D%222%22%2F%3E%0A%3Cpath%20d%3D%22M37.1528%2017.9209H15.1528C14.6224%2017.9209%2014.1137%2018.1316%2013.7386%2018.5067C13.3635%2018.8818%2013.1528%2019.3905%2013.1528%2019.9209V37.9209C13.1528%2038.4513%2013.3635%2038.96%2013.7386%2039.3351C14.1137%2039.7102%2014.6224%2039.9209%2015.1528%2039.9209H37.1528C37.6833%2039.9209%2038.192%2039.7102%2038.567%2039.3351C38.9421%2038.96%2039.1528%2038.4513%2039.1528%2037.9209V19.9209C39.1528%2019.3905%2038.9421%2018.8818%2038.567%2018.5067C38.192%2018.1316%2037.6833%2017.9209%2037.1528%2017.9209V17.9209ZM15.1528%2019.9209H37.1528V24.9209H15.1528V19.9209ZM15.1528%2026.9209H22.1528V37.9209H15.1528V26.9209ZM37.1528%2037.9209H24.1528V26.9209H37.1528V37.9209Z%22%20fill%3D%22url(%23paint1_linear_2613_3941)%22%2F%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id%3D%22paint0_linear_2613_3941%22%20x1%3D%220.662695%22%20y1%3D%2218.4025%22%20x2%3D%2251.7209%22%20y2%3D%2244.2212%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%238DEAFF%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23008AA9%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint1_linear_2613_3941%22%20x1%3D%2213.0804%22%20y1%3D%2222.6224%22%20x2%3D%2237.028%22%20y2%3D%2237.847%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%238DEAFF%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23008AA9%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A" alt="examples icon" class="examples-image-color-light" data-v-ff49b321> <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2253%22%20height%3D%2258%22%20viewBox%3D%220%200%2053%2058%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cpath%20d%3D%22M3.43319%2014.5869L3.43322%2014.587L3.44269%2014.5812L22.9844%202.59084C24.4246%201.73116%2026.2124%201.69742%2027.6729%202.49791L27.6729%202.49792L27.6784%202.50094L48.6303%2013.8121C48.6313%2013.8126%2048.6322%2013.8131%2048.6331%2013.8137C50.0812%2014.6086%2050.9896%2016.1043%2051.026%2017.7437L51.1517%2039.8672L51.1517%2039.8746L51.1519%2039.8821C51.1856%2041.5203%2050.346%2043.0611%2048.9325%2043.9357L29.0918%2056.2117C27.6424%2057.1085%2025.8227%2057.1572%2024.3387%2056.3439L3.85107%2045.1148C2.26984%2044.2481%201.14232%2042.646%201.15293%2041.0494V41.0427L1.153%2018.552C1.15301%2018.5509%201.15302%2018.5499%201.15302%2018.5488C1.16485%2016.9324%202.02611%2015.4289%203.43319%2014.5869Z%22%20fill%3D%22%2318181B%22%20stroke%3D%22url(%23paint0_linear_2595_7426)%22%20stroke-width%3D%222%22%2F%3E%0A%3Cpath%20d%3D%22M37.1528%2017.9209H15.1528C14.6224%2017.9209%2014.1137%2018.1316%2013.7386%2018.5067C13.3635%2018.8818%2013.1528%2019.3905%2013.1528%2019.9209V37.9209C13.1528%2038.4513%2013.3635%2038.96%2013.7386%2039.3351C14.1137%2039.7102%2014.6224%2039.9209%2015.1528%2039.9209H37.1528C37.6833%2039.9209%2038.192%2039.7102%2038.567%2039.3351C38.9421%2038.96%2039.1528%2038.4513%2039.1528%2037.9209V19.9209C39.1528%2019.3905%2038.9421%2018.8818%2038.567%2018.5067C38.192%2018.1316%2037.6833%2017.9209%2037.1528%2017.9209ZM15.1528%2019.9209H37.1528V24.9209H15.1528V19.9209ZM15.1528%2026.9209H22.1528V37.9209H15.1528V26.9209ZM37.1528%2037.9209H24.1528V26.9209H37.1528V37.9209Z%22%20fill%3D%22url(%23paint1_linear_2595_7426)%22%2F%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id%3D%22paint0_linear_2595_7426%22%20x1%3D%220.662695%22%20y1%3D%2218.4025%22%20x2%3D%2251.7209%22%20y2%3D%2244.2212%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%238DEAFF%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23008AA9%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint1_linear_2595_7426%22%20x1%3D%2213.0804%22%20y1%3D%2222.6224%22%20x2%3D%2237.028%22%20y2%3D%2237.847%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%238DEAFF%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%23008AA9%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A" alt="examples icon" class="examples-image-color-dark" data-v-ff49b321> <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2253%22%20height%3D%2258%22%20viewBox%3D%220%200%2053%2058%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cpath%20d%3D%22M49.1971%2043.7595C49.1113%2043.8209%2049.0231%2043.8796%2048.9325%2043.9357L29.0918%2056.2117C27.6504%2057.1035%2025.8212%2057.1564%2024.3387%2056.3439L3.85107%2045.1148C2.27157%2044.2491%201.14238%2042.6366%201.15291%2041.0494L1.15293%2041.0427L1.153%2018.552C1.15301%2018.5509%201.15302%2018.5499%201.15302%2018.5488C1.16485%2016.9324%202.02611%2015.4289%203.43319%2014.5869L3.43322%2014.587L3.44269%2014.5812L22.9844%202.59084C24.4169%201.73583%2026.2139%201.69824%2027.6729%202.49791L27.6729%202.49792L27.6784%202.50094L48.6303%2013.8121C48.6313%2013.8126%2048.6322%2013.8131%2048.6331%2013.8136C50.0797%2014.6078%2050.9898%2016.1132%2051.026%2017.7438L51.1517%2039.8672L51.1517%2039.8746L51.1519%2039.8821C51.1834%2041.4138%2050.4491%2042.8635%2049.1971%2043.7595Z%22%20fill%3D%22white%22%20stroke%3D%22url(%23paint0_linear_2691_4397)%22%20stroke-width%3D%222%22%2F%3E%0A%3Cpath%20d%3D%22M37.1528%2017.9209H15.1528C14.6224%2017.9209%2014.1137%2018.1316%2013.7386%2018.5067C13.3635%2018.8818%2013.1528%2019.3905%2013.1528%2019.9209V37.9209C13.1528%2038.4513%2013.3635%2038.96%2013.7386%2039.3351C14.1137%2039.7102%2014.6224%2039.9209%2015.1528%2039.9209H37.1528C37.6833%2039.9209%2038.192%2039.7102%2038.567%2039.3351C38.9421%2038.96%2039.1528%2038.4513%2039.1528%2037.9209V19.9209C39.1528%2019.3905%2038.9421%2018.8818%2038.567%2018.5067C38.192%2018.1316%2037.6833%2017.9209%2037.1528%2017.9209V17.9209ZM15.1528%2019.9209H37.1528V24.9209H15.1528V19.9209ZM15.1528%2026.9209H22.1528V37.9209H15.1528V26.9209ZM37.1528%2037.9209H24.1528V26.9209H37.1528V37.9209Z%22%20fill%3D%22url(%23paint1_linear_2691_4397)%22%2F%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id%3D%22paint0_linear_2691_4397%22%20x1%3D%220.662695%22%20y1%3D%2218.4025%22%20x2%3D%2251.7209%22%20y2%3D%2244.2212%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%23D4D4D8%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2371717A%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint1_linear_2691_4397%22%20x1%3D%2213.0804%22%20y1%3D%2222.6224%22%20x2%3D%2237.028%22%20y2%3D%2237.847%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22%23D4D4D8%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2371717A%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A" alt="examples icon" class="examples-image-light" data-v-ff49b321> <img src="data:image/svg+xml;charset=utf-8,%3Csvg%20width%3D%2253%22%20height%3D%2258%22%20viewBox%3D%220%200%2053%2058%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cpath%20d%3D%22M3.43319%2014.5869L3.43322%2014.587L3.44269%2014.5812L22.9844%202.59084C24.4246%201.73116%2026.2124%201.69742%2027.6729%202.49791L27.6729%202.49792L27.6784%202.50094L48.6303%2013.8121C48.6313%2013.8126%2048.6322%2013.8131%2048.6331%2013.8137C50.0812%2014.6086%2050.9896%2016.1043%2051.026%2017.7437L51.1517%2039.8672L51.1517%2039.8746L51.1519%2039.8821C51.1856%2041.5203%2050.346%2043.0611%2048.9325%2043.9357L29.0918%2056.2117C27.6424%2057.1085%2025.8227%2057.1572%2024.3387%2056.3439L3.85107%2045.1148C2.26984%2044.2481%201.14232%2042.646%201.15293%2041.0494V41.0427L1.153%2018.552C1.15301%2018.5509%201.15302%2018.5499%201.15302%2018.5488C1.16485%2016.9324%202.02611%2015.4289%203.43319%2014.5869Z%22%20fill%3D%22%2318181B%22%20stroke%3D%22url(%23paint0_linear_2595_7182)%22%20stroke-width%3D%222%22%2F%3E%0A%3Cpath%20d%3D%22M37.1528%2017.9209H15.1528C14.6224%2017.9209%2014.1137%2018.1316%2013.7386%2018.5067C13.3635%2018.8818%2013.1528%2019.3905%2013.1528%2019.9209V37.9209C13.1528%2038.4513%2013.3635%2038.96%2013.7386%2039.3351C14.1137%2039.7102%2014.6224%2039.9209%2015.1528%2039.9209H37.1528C37.6833%2039.9209%2038.192%2039.7102%2038.567%2039.3351C38.9421%2038.96%2039.1528%2038.4513%2039.1528%2037.9209V19.9209C39.1528%2019.3905%2038.9421%2018.8818%2038.567%2018.5067C38.192%2018.1316%2037.6833%2017.9209%2037.1528%2017.9209ZM15.1528%2019.9209H37.1528V24.9209H15.1528V19.9209ZM15.1528%2026.9209H22.1528V37.9209H15.1528V26.9209ZM37.1528%2037.9209H24.1528V26.9209H37.1528V37.9209Z%22%20fill%3D%22url(%23paint1_linear_2595_7182)%22%2F%3E%0A%3Cdefs%3E%0A%3ClinearGradient%20id%3D%22paint0_linear_2595_7182%22%20x1%3D%220.662695%22%20y1%3D%2218.4025%22%20x2%3D%2251.7209%22%20y2%3D%2244.2212%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22white%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2371717A%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3ClinearGradient%20id%3D%22paint1_linear_2595_7182%22%20x1%3D%2213.0804%22%20y1%3D%2222.6224%22%20x2%3D%2237.028%22%20y2%3D%2237.847%22%20gradientUnits%3D%22userSpaceOnUse%22%3E%0A%3Cstop%20stop-color%3D%22white%22%2F%3E%0A%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2371717A%22%2F%3E%0A%3C%2FlinearGradient%3E%0A%3C%2Fdefs%3E%0A%3C%2Fsvg%3E%0A" alt="examples icon" class="examples-image-dark" data-v-ff49b321><div class="flex flex-col space-y text-black dark:text-white" data-v-ff49b321><h3 class="font-semibold text-xl" data-v-ff49b321>Examples</h3><p class="text-gray-700 dark:text-gray-300" data-v-ff49b321>Explore different way of using Nuxt features and get inspired with our list of examples.</p></div></a></div></div></div><footer class="relative border-t bg-white dark:bg-black border-gray-200 dark:border-gray-900 w-full h-[70px] flex items-center" data-v-ff49b321><div class="absolute inset-x-0 flex items-center justify-center -top-3" data-v-ff49b321><a href="https://nuxt.com" target="_blank" data-v-ff49b321><svg width="70" height="20" viewBox="0 0 70 20" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-ff49b321><ellipse cx="34.6528" cy="10.4209" rx="34.5" ry="9.5" fill="white" class="dark:hidden" data-v-ff49b321></ellipse><ellipse cx="34.6528" cy="10.4209" rx="34.5" ry="9.5" fill="black" class="hidden dark:block" data-v-ff49b321></ellipse><path d="M36.0605 15.9209H42.6256C42.8341 15.9209 43.0389 15.8655 43.2195 15.7602C43.4001 15.6548 43.55 15.5033 43.6543 15.3209C43.7585 15.1384 43.8133 14.9315 43.8132 14.7208C43.8131 14.5102 43.7581 14.3033 43.6537 14.1209L39.2448 6.40667C39.1406 6.22427 38.9907 6.0728 38.8101 5.96748C38.6296 5.86217 38.4248 5.80672 38.2163 5.80672C38.0078 5.80672 37.803 5.86217 37.6225 5.96748C37.4419 6.0728 37.292 6.22427 37.1878 6.40667L36.0605 8.38048L33.8563 4.52076C33.752 4.33837 33.602 4.18692 33.4214 4.08163C33.2409 3.97633 33.036 3.9209 32.8275 3.9209C32.619 3.9209 32.4141 3.97633 32.2335 4.08163C32.053 4.18692 31.903 4.33837 31.7987 4.52076L26.3123 14.1209C26.2079 14.3033 26.1529 14.5102 26.1528 14.7208C26.1527 14.9315 26.2076 15.1384 26.3118 15.3209C26.416 15.5033 26.5659 15.6548 26.7465 15.7602C26.9271 15.8655 27.1319 15.9209 27.3405 15.9209H31.4615C33.0943 15.9209 34.2984 15.1964 35.127 13.7829L37.1385 10.2638L38.216 8.38048L41.4496 14.0376H37.1385L36.0605 15.9209ZM31.3943 14.0356L28.5184 14.035L32.8294 6.49263L34.9805 10.2638L33.5402 12.7844C32.99 13.7015 32.3649 14.0356 31.3943 14.0356Z" fill="#00DC82" data-v-ff49b321></path></svg></a></div><div class="mx-auto sm:px-6 lg:px-8 px-4 w-full" data-v-ff49b321><div class="flex flex-col items-center gap-3 sm:flex-row sm:justify-between" data-v-ff49b321><div class="flex flex-col-reverse items-center gap-3 sm:flex-row" data-v-ff49b321><span class="text-sm text-gray-700 dark:text-gray-300" data-v-ff49b321>\xA9 2022 Nuxt - MIT License</span></div><ul class="flex items-center justify-end gap-3" data-v-ff49b321><li data-v-ff49b321><a href="https://chat.nuxt.dev" target="_blank" class="focus-visible:ring-2 text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white" data-v-ff49b321><svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-ff49b321><path d="M13.3705 1.07322C13.3663 1.06497 13.3594 1.05851 13.351 1.05499C12.3785 0.599487 11.3522 0.274675 10.2978 0.0886873C10.2882 0.0868693 10.2783 0.0881809 10.2695 0.0924354C10.2607 0.0966899 10.2534 0.103671 10.2487 0.112385C10.109 0.371315 9.98212 0.637279 9.86863 0.909263C8.73205 0.733138 7.57595 0.733138 6.43938 0.909263C6.32514 0.636589 6.19624 0.370559 6.05328 0.112385C6.04838 0.10386 6.04107 0.0970401 6.03232 0.0928132C6.02356 0.0885863 6.01377 0.0871486 6.0042 0.0886873C4.9497 0.274285 3.92333 0.599121 2.95092 1.05502C2.9426 1.05862 2.93558 1.06477 2.93082 1.07262C0.986197 4.03716 0.453491 6.92881 0.714819 9.78465C0.715554 9.79165 0.71766 9.79843 0.721013 9.80458C0.724365 9.81073 0.728896 9.81613 0.734334 9.82046C1.86667 10.6763 3.1332 11.3296 4.47988 11.7525C4.48937 11.7554 4.49949 11.7552 4.5089 11.7521C4.51831 11.7489 4.52655 11.7429 4.53251 11.7349C4.82175 11.3331 5.07803 10.9077 5.29876 10.4629C5.3018 10.4568 5.30353 10.4501 5.30384 10.4433C5.30416 10.4365 5.30305 10.4296 5.3006 10.4233C5.29814 10.4169 5.29439 10.4111 5.2896 10.4064C5.2848 10.4016 5.27906 10.3979 5.27277 10.3955C4.86862 10.2377 4.47736 10.0474 4.10266 9.82645C4.09586 9.82236 4.09014 9.81663 4.08602 9.80976C4.0819 9.80288 4.0795 9.79508 4.07903 9.78703C4.07856 9.77899 4.08004 9.77095 4.08334 9.76362C4.08664 9.7563 4.09166 9.74992 4.09794 9.74504C4.17657 9.68491 4.25524 9.62236 4.33032 9.55918C4.33699 9.55358 4.34506 9.54998 4.35362 9.5488C4.36218 9.54762 4.3709 9.54891 4.37879 9.55252C6.83362 10.6962 9.4913 10.6962 11.9171 9.55252C11.925 9.54868 11.9338 9.54721 11.9425 9.54829C11.9512 9.54936 11.9594 9.55293 11.9662 9.55858C12.0413 9.62176 12.1199 9.68491 12.1991 9.74504C12.2054 9.74987 12.2105 9.75621 12.2138 9.7635C12.2172 9.7708 12.2187 9.77882 12.2183 9.78687C12.2179 9.79492 12.2156 9.80274 12.2115 9.80964C12.2074 9.81654 12.2018 9.82232 12.195 9.82645C11.8211 10.0492 11.4295 10.2394 11.0243 10.3949C11.018 10.3974 11.0123 10.4012 11.0075 10.406C11.0028 10.4109 10.9991 10.4167 10.9967 10.4231C10.9943 10.4295 10.9932 10.4364 10.9936 10.4433C10.9939 10.4501 10.9957 10.4568 10.9988 10.4629C11.2232 10.9052 11.4791 11.3301 11.7645 11.7342C11.7703 11.7425 11.7785 11.7487 11.7879 11.7519C11.7974 11.7552 11.8076 11.7554 11.8171 11.7524C13.1662 11.331 14.4349 10.6776 15.5687 9.82046C15.5742 9.81635 15.5788 9.81108 15.5822 9.80501C15.5855 9.79893 15.5876 9.7922 15.5882 9.78525C15.9011 6.4836 15.0644 3.61565 13.3705 1.07322ZM5.66537 8.04574C4.92629 8.04574 4.31731 7.35337 4.31731 6.50305C4.31731 5.65274 4.91448 4.96032 5.66537 4.96032C6.42213 4.96032 7.02522 5.65875 7.01341 6.503C7.01341 7.35337 6.41622 8.04574 5.66537 8.04574ZM10.6496 8.04574C9.91051 8.04574 9.30153 7.35337 9.30153 6.50305C9.30153 5.65274 9.8987 4.96032 10.6496 4.96032C11.4064 4.96032 12.0094 5.65875 11.9976 6.503C11.9976 7.35337 11.4064 8.04574 10.6496 8.04574Z" fill="currentColor" data-v-ff49b321></path></svg></a></li><li data-v-ff49b321><a href="https://twitter.nuxt.dev" target="_blank" class="focus-visible:ring-2 text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white" data-v-ff49b321><svg width="18" height="14" viewBox="0 0 18 14" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-ff49b321><path d="M17.486 1.75441C16.8596 2.02615 16.1972 2.20579 15.5193 2.28774C16.2345 1.86051 16.7704 1.18839 17.0277 0.396073C16.3556 0.796126 15.62 1.07799 14.8527 1.22941C14.3398 0.673216 13.6568 0.302987 12.9108 0.176783C12.1649 0.0505786 11.3981 0.175539 10.7308 0.532064C10.0635 0.88859 9.53345 1.45652 9.2237 2.14677C8.91396 2.83702 8.84208 3.61056 9.01934 4.34607C7.66053 4.27734 6.33137 3.92353 5.11822 3.30762C3.90506 2.69171 2.83504 1.82748 1.97767 0.771073C1.67695 1.29621 1.51894 1.89093 1.51934 2.49607C1.51827 3.05806 1.65618 3.61159 1.9208 4.10738C2.18541 4.60317 2.56852 5.02583 3.036 5.33774C2.49265 5.32296 1.96091 5.17716 1.486 4.91274V4.95441C1.49008 5.74182 1.766 6.50365 2.2671 7.11104C2.7682 7.71844 3.46372 8.13411 4.236 8.28774C3.93872 8.37821 3.63007 8.42591 3.31934 8.42941C3.10424 8.42689 2.88969 8.40739 2.67767 8.37107C2.89759 9.04842 3.32319 9.64036 3.89523 10.0645C4.46728 10.4887 5.15732 10.724 5.86934 10.7377C4.66701 11.6838 3.18257 12.2001 1.65267 12.2044C1.37412 12.2053 1.09578 12.1886 0.819336 12.1544C2.38136 13.163 4.20168 13.6983 6.061 13.6961C7.34408 13.7094 8.61695 13.4669 9.80527 12.9828C10.9936 12.4987 12.0735 11.7826 12.982 10.8765C13.8905 9.97033 14.6093 8.89223 15.0965 7.70516C15.5836 6.51809 15.8294 5.24585 15.8193 3.96274C15.8193 3.82107 15.8193 3.67107 15.8193 3.52107C16.4732 3.03342 17.0372 2.43559 17.486 1.75441Z" fill="currentColor" data-v-ff49b321></path></svg></a></li><li data-v-ff49b321><a href="https://github.nuxt.dev" target="_blank" class="focus-visible:ring-2 text-gray-700 hover:text-black dark:text-gray-300 dark:hover:text-white" data-v-ff49b321><svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-ff49b321><path d="M9.15269 0.792969C7.17392 0.793051 5.25974 1.49723 3.75266 2.77951C2.24558 4.06179 1.24394 5.83849 0.92697 7.7917C0.609997 9.74492 0.998373 11.7472 2.02261 13.4403C3.04684 15.1333 4.6401 16.4067 6.51729 17.0325C6.93396 17.1055 7.09021 16.8555 7.09021 16.6367C7.09021 16.4388 7.07978 15.7825 7.07978 15.0846C4.98603 15.47 4.44436 14.5742 4.27769 14.1055C4.09276 13.6496 3.79959 13.2456 3.42353 12.9284C3.13186 12.7721 2.71519 12.3867 3.4131 12.3763C3.67959 12.4052 3.93518 12.498 4.15822 12.6467C4.38125 12.7953 4.56516 12.9956 4.69436 13.2305C4.80833 13.4352 4.96159 13.6155 5.14535 13.7609C5.32911 13.9063 5.53975 14.014 5.76522 14.0779C5.99068 14.1418 6.22653 14.1605 6.45926 14.1331C6.69198 14.1056 6.917 14.0325 7.12143 13.918C7.1575 13.4943 7.34631 13.0982 7.65269 12.8034C5.79853 12.5951 3.86103 11.8763 3.86103 8.68883C3.84931 7.86062 4.15493 7.05931 4.71519 6.44924C4.46043 5.72943 4.49024 4.93948 4.79853 4.24091C4.79853 4.24091 5.49642 4.02215 7.09019 5.09508C8.45376 4.72005 9.89328 4.72005 11.2569 5.09508C12.8506 4.01174 13.5485 4.24091 13.5485 4.24091C13.8569 4.93947 13.8867 5.72943 13.6319 6.44924C14.1938 7.05826 14.4997 7.86027 14.486 8.68883C14.486 11.8867 12.5381 12.5951 10.6839 12.8034C10.8828 13.005 11.036 13.247 11.133 13.513C11.2301 13.779 11.2688 14.0628 11.2464 14.3451C11.2464 15.4597 11.236 16.3555 11.236 16.6367C11.236 16.8555 11.3923 17.1159 11.8089 17.0326C13.6828 16.4016 15.2715 15.1253 16.2914 13.4313C17.3112 11.7374 17.6959 9.73616 17.3768 7.78483C17.0576 5.83351 16.0553 4.05911 14.5489 2.77839C13.0425 1.49768 11.1299 0.793998 9.15269 0.792969Z" fill="currentColor" data-v-ff49b321></path></svg></a></li></ul></div></div></footer></div>`);
-    };
-  }
-};
-const _sfc_setup$1 = _sfc_main$1.setup;
-_sfc_main$1.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("node_modules/@nuxt/ui-templates/dist/templates/welcome.vue");
-  return _sfc_setup$1 ? _sfc_setup$1(props, ctx) : void 0;
-};
-const AppComponent = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["__scopeId", "data-v-ff49b321"]]);
-const _sfc_main = {
-  __name: "nuxt-root",
-  __ssrInlineRender: true,
-  setup(__props) {
-    const ErrorComponent = defineAsyncComponent(() => import("./_nuxt/error-component.02dbe2a7.js").then((r) => r.default || r));
-    const nuxtApp = useNuxtApp();
-    nuxtApp.deferHydration();
-    provide("_route", useRoute());
-    nuxtApp.hooks.callHookWith((hooks) => hooks.map((hook) => hook()), "vue:setup");
-    const error = useError();
-    onErrorCaptured((err, target, info) => {
-      nuxtApp.hooks.callHook("vue:error", err, target, info).catch((hookError) => console.error("[nuxt] Error in `vue:error` hook", hookError));
-      {
-        callWithNuxt(nuxtApp, showError, [err]);
+  router.afterEach(async (to) => {
+    delete nuxtApp._processingMiddleware;
+    if (false) {}
+    if (to.matched.length === 0) {
+      (0,_app__WEBPACK_IMPORTED_MODULE_5__.callWithNuxt)(nuxtApp, _app__WEBPACK_IMPORTED_MODULE_5__.showError, [(0,h3__WEBPACK_IMPORTED_MODULE_3__.createError)({
+        statusCode: 404,
+        fatal: false,
+        statusMessage: `Page not found: ${to.fullPath}`
+      })]);
+    } else if (true) {
+      const currentURL = to.fullPath || "/";
+      if (!(0,ufo__WEBPACK_IMPORTED_MODULE_4__.isEqual)(currentURL, initialURL)) {
+        await (0,_app__WEBPACK_IMPORTED_MODULE_5__.callWithNuxt)(nuxtApp, _app__WEBPACK_IMPORTED_MODULE_5__.navigateTo, [currentURL]);
       }
-    });
-    return (_ctx, _push, _parent, _attrs) => {
-      ssrRenderSuspense(_push, {
-        default: () => {
-          if (unref(error)) {
-            _push(ssrRenderComponent(unref(ErrorComponent), { error: unref(error) }, null, _parent));
-          } else {
-            _push(ssrRenderComponent(unref(AppComponent), null, null, _parent));
-          }
-        },
-        _: 1
+    }
+  });
+  nuxtApp.hooks.hookOnce("app:created", async () => {
+    try {
+      await router.replace({
+        ...router.resolve(initialURL),
+        name: void 0,
+        force: true
       });
-    };
+    } catch (error2) {
+      (0,_app__WEBPACK_IMPORTED_MODULE_5__.callWithNuxt)(nuxtApp, _app__WEBPACK_IMPORTED_MODULE_5__.showError, [error2]);
+    }
+  });
+  return { provide: { router } };
+},1));
+
+
+/***/ }),
+
+/***/ "./node_modules/nuxt/dist/pages/runtime/validate.mjs":
+/*!***********************************************************!*\
+  !*** ./node_modules/nuxt/dist/pages/runtime/validate.mjs ***!
+  \***********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var unctx__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! unctx */ "unctx");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! #app */ "./node_modules/nuxt/dist/app/index.mjs");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((0,_app__WEBPACK_IMPORTED_MODULE_1__.defineNuxtRouteMiddleware)(async (to) => {let __temp, __restore;
+  if (!to.meta?.validate) {
+    return;
   }
-};
-const _sfc_setup = _sfc_main.setup;
-_sfc_main.setup = (props, ctx) => {
-  const ssrContext = useSSRContext();
-  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("node_modules/nuxt/dist/app/components/nuxt-root.vue");
-  return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
-};
+  const result = (([__temp,__restore]=(0,unctx__WEBPACK_IMPORTED_MODULE_0__.executeAsync)(()=>Promise.resolve(to.meta.validate(to)))),__temp=await __temp,__restore(),__temp);
+  if (typeof result === "boolean") {
+    return result;
+  }
+  return (0,_app__WEBPACK_IMPORTED_MODULE_1__.createError)(result);
+},1));
+
+
+/***/ })
+
+/******/ });
+/************************************************************************/
+/******/ // The module cache
+/******/ var __webpack_module_cache__ = {};
+/******/ 
+/******/ // The require function
+/******/ function __webpack_require__(moduleId) {
+/******/ 	// Check if module is in cache
+/******/ 	var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 	if (cachedModule !== undefined) {
+/******/ 		return cachedModule.exports;
+/******/ 	}
+/******/ 	// Create a new module (and put it into the cache)
+/******/ 	var module = __webpack_module_cache__[moduleId] = {
+/******/ 		id: moduleId,
+/******/ 		// no module.loaded needed
+/******/ 		exports: {}
+/******/ 	};
+/******/ 
+/******/ 	// Execute the module function
+/******/ 	__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 
+/******/ 	// Return the exports of the module
+/******/ 	return module.exports;
+/******/ }
+/******/ 
+/******/ // expose the modules object (__webpack_modules__)
+/******/ __webpack_require__.m = __webpack_modules__;
+/******/ 
+/************************************************************************/
+/******/ /* webpack/runtime/compat get default export */
+/******/ (() => {
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = (module) => {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			() => (module['default']) :
+/******/ 			() => (module);
+/******/ 		__webpack_require__.d(getter, { a: getter });
+/******/ 		return getter;
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/define property getters */
+/******/ (() => {
+/******/ 	// define getter functions for harmony exports
+/******/ 	__webpack_require__.d = (exports, definition) => {
+/******/ 		for(var key in definition) {
+/******/ 			if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 				Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 			}
+/******/ 		}
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/ensure chunk */
+/******/ (() => {
+/******/ 	__webpack_require__.f = {};
+/******/ 	// This file contains only the entry chunk.
+/******/ 	// The chunk loading function for additional chunks
+/******/ 	__webpack_require__.e = (chunkId) => {
+/******/ 		return Promise.all(Object.keys(__webpack_require__.f).reduce((promises, key) => {
+/******/ 			__webpack_require__.f[key](chunkId, promises);
+/******/ 			return promises;
+/******/ 		}, []));
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/get javascript chunk filename */
+/******/ (() => {
+/******/ 	// This function allow to reference async chunks
+/******/ 	__webpack_require__.u = (chunkId) => {
+/******/ 		// return url for filenames based on template
+/******/ 		return "" + chunkId + ".mjs";
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/get mini-css chunk filename */
+/******/ (() => {
+/******/ 	// This function allow to reference async chunks
+/******/ 	__webpack_require__.miniCssF = (chunkId) => {
+/******/ 		// return url for filenames based on template
+/******/ 		return undefined;
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/hasOwnProperty shorthand */
+/******/ (() => {
+/******/ 	__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/make namespace object */
+/******/ (() => {
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = (exports) => {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/publicPath */
+/******/ (() => {
+/******/ 	__webpack_require__.p = "/_nuxt/";
+/******/ })();
+/******/ 
+/******/ /* webpack/runtime/import chunk loading */
+/******/ (() => {
+/******/ 	// no baseURI
+/******/ 	
+/******/ 	// object to store loaded and loading chunks
+/******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 	// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 	var installedChunks = {
+/******/ 		"app": 0
+/******/ 	};
+/******/ 	
+/******/ 	var installChunk = (data) => {
+/******/ 		var {ids, modules, runtime} = data;
+/******/ 		// add "modules" to the modules object,
+/******/ 		// then flag all "ids" as loaded and fire callback
+/******/ 		var moduleId, chunkId, i = 0;
+/******/ 		for(moduleId in modules) {
+/******/ 			if(__webpack_require__.o(modules, moduleId)) {
+/******/ 				__webpack_require__.m[moduleId] = modules[moduleId];
+/******/ 			}
+/******/ 		}
+/******/ 		if(runtime) runtime(__webpack_require__);
+/******/ 		for(;i < ids.length; i++) {
+/******/ 			chunkId = ids[i];
+/******/ 			if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 				installedChunks[chunkId][0]();
+/******/ 			}
+/******/ 			installedChunks[ids[i]] = 0;
+/******/ 		}
+/******/ 	
+/******/ 	}
+/******/ 	
+/******/ 	__webpack_require__.f.j = (chunkId, promises) => {
+/******/ 			// import() chunk loading for javascript
+/******/ 			var installedChunkData = __webpack_require__.o(installedChunks, chunkId) ? installedChunks[chunkId] : undefined;
+/******/ 			if(installedChunkData !== 0) { // 0 means "already installed".
+/******/ 	
+/******/ 				// a Promise means "currently loading".
+/******/ 				if(installedChunkData) {
+/******/ 					promises.push(installedChunkData[1]);
+/******/ 				} else {
+/******/ 					if(true) { // all chunks have JS
+/******/ 						// setup Promise in chunk cache
+/******/ 						var promise = import("./" + __webpack_require__.u(chunkId)).then(installChunk, (e) => {
+/******/ 							if(installedChunks[chunkId] !== 0) installedChunks[chunkId] = undefined;
+/******/ 							throw e;
+/******/ 						});
+/******/ 						var promise = Promise.race([promise, new Promise((resolve) => (installedChunkData = installedChunks[chunkId] = [resolve]))])
+/******/ 						promises.push(installedChunkData[1] = promise);
+/******/ 					} else installedChunks[chunkId] = 0;
+/******/ 				}
+/******/ 			}
+/******/ 	};
+/******/ 	
+/******/ 	// no external install chunk
+/******/ 	
+/******/ 	// no on chunks loaded
+/******/ })();
+/******/ 
+/************************************************************************/
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+/*!**********************************************!*\
+  !*** ./node_modules/nuxt/dist/app/entry.mjs ***!
+  \**********************************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "vue");
+/* harmony import */ var ofetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ofetch */ "ofetch");
+/* harmony import */ var _build_paths_mjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! #build/paths.mjs */ "./.nuxt/paths.mjs");
+/* harmony import */ var _app__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! #app */ "./node_modules/nuxt/dist/app/index.mjs");
+/* harmony import */ var _build_css__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! #build/css */ "./.nuxt/css.mjs");
+/* harmony import */ var _build_plugins__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! #build/plugins */ "./.nuxt/plugins/server.mjs");
+/* harmony import */ var _build_root_component_mjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! #build/root-component.mjs */ "./.nuxt/root-component.mjs");
+/* harmony import */ var _build_nuxt_config_mjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! #build/nuxt.config.mjs */ "./.nuxt/nuxt.config.mjs");
+
+
+
+
+
+
+
+
 if (!globalThis.$fetch) {
-  globalThis.$fetch = $fetch.create({
-    baseURL: baseURL()
+  globalThis.$fetch = ofetch__WEBPACK_IMPORTED_MODULE_1__.$fetch.create({
+    baseURL: (0,_build_paths_mjs__WEBPACK_IMPORTED_MODULE_2__.baseURL)()
   });
 }
 let entry;
-const plugins = normalizePlugins(_plugins);
-{
+const plugins = (0,_app__WEBPACK_IMPORTED_MODULE_3__.normalizePlugins)(_build_plugins__WEBPACK_IMPORTED_MODULE_5__["default"]);
+if (true) {
   entry = async function createNuxtAppServer(ssrContext) {
-    const vueApp = createApp(_sfc_main);
-    const nuxt = createNuxtApp({ vueApp, ssrContext });
+    const vueApp = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)(_build_root_component_mjs__WEBPACK_IMPORTED_MODULE_6__["default"]);
+    const nuxt = (0,_app__WEBPACK_IMPORTED_MODULE_3__.createNuxtApp)({ vueApp, ssrContext });
     try {
-      await applyPlugins(nuxt, plugins);
+      await (0,_app__WEBPACK_IMPORTED_MODULE_3__.applyPlugins)(nuxt, plugins);
       await nuxt.hooks.callHook("app:created", vueApp);
     } catch (err) {
       await nuxt.callHook("app:error", err);
@@ -796,11 +3935,12 @@ const plugins = normalizePlugins(_plugins);
     return vueApp;
   };
 }
-const entry$1 = (ctx) => entry(ctx);
-export {
-  _export_sfc as _,
-  __nuxt_component_0 as a,
-  entry$1 as default,
-  useHead as u
-};
+if (false) {}
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ((ctx) => entry(ctx));
+
+})();
+
+var __webpack_exports__default = __webpack_exports__["default"];
+export { __webpack_exports__default as default };
+
 //# sourceMappingURL=server.mjs.map
