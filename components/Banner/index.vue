@@ -1,7 +1,7 @@
 <template>
     <div class="banner e c">
         <div class="col-s">
-            <Logo imgUrl="index1.png" name="maylisa" imgWidth=240 imgHeight=240 />
+            <Logo imgUrl="index1.png" name="maylisa" imgWidth="240" imgHeight="240" />
             <H2>جامعة الامام عبداالله بن سعود</H2>
         </div>
         

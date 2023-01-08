@@ -1,5 +1,7 @@
 const env = require('./env')
 const path = require('path')
+import sitemap from './plugins/sitemap'
+import i18nRoutes from './plugins/i18nRoutes'
 export default {
   publicRuntimeConfig: {
     APP_TITLE: process.env.APP_TITLE,
@@ -23,18 +25,20 @@ module.exports = {
         {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'}
       ],
     },
-    pageTransition: {
-        name: 'page',
-        mode: 'out-in',
-        beforeEnter (el) {
-          console.log('Before enter...');
-        }
-    },
+    // pageTransition: {
+    //     name: 'page',
+    //     mode: 'out-in',
+    //     beforeEnter (el) {
+    //       console.log('Before enter...');
+    //     }
+    // },
     css: [
         'assets/css/index.scss'
     ],
-    builder:'webpack',
-    
+    plugins: [
+      {src: "~plugins/route.js"},
+      {src: "~plugins/bus.js"},
+    ],
     components: true,
     resolve: {
         alias: {
@@ -52,8 +56,36 @@ module.exports = {
         //extensions: [".ts", ".js", ".vue", ".json", ".mjs"],
         extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue"],
     },
- 
+
+    modules: [
+      'nuxt-i18n',
+      '@nuxtjs/sitemap',
+      
+    ]
+   ,
+   i18n: {
+    parsePages: false,
+    pages: i18nRoutes,
     
+    locales: [
+      {
+        name: 'العربية',
+        code: 'ar',
+        iso: 'ar-AR',
+        file: 'ar-AR.js'
+      },
+      {
+        name: 'English',
+        code: 'en',
+        iso: 'en-US',
+        file: 'en-US.js'
+      },
+    ],
+    langDir: 'lang/',
+    defaultLocale: 'ar',
+  },
+    sitemap: sitemap,
+   
     //   modules: [
     //     '@nuxtjs/style-resources',
     //     {
@@ -67,4 +99,6 @@ module.exports = {
    
 
 }
+
+
 

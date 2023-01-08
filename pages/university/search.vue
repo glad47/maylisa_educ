@@ -9,3 +9,13 @@
 
 <style scoped lang='scss'>
 </style>
+<script >
+export default {
+  nuxtI18n: {
+    paths: {
+      ar: encodeURI('ابحث عن جامعة'),
+      en: '/search for university'
+    }
+  },
+}
+</script>

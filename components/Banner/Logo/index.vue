@@ -10,8 +10,8 @@
 // import { ref } from "vue";
 const props = defineProps({
 	imgUrl: String,
-	imgWidth: Number,
-	imgHeight: Number,
+	imgWidth: String,
+	imgHeight: String,
 	name: String,
 });
 
