@@ -1,21 +1,29 @@
+<!--
+ * @Description: 
+ * @Version: 2.0
+ * @Author: Aziz
+ * @Date: 2023-01-06 19:20:02
+ * @LastEditors: Aziz
+ * @LastEditTime: 2023-01-10 04:21:28
+-->
 <template class="main">
    <div>
     <div v-for="(item, index) in listx">
     {{ item }}
     </div>
     <h1>Lang navigation</h1>
-    <div @click="toggleLanguage(false)">
-        <nuxt-link  :to="switchLocalePath('ar')">العربية</nuxt-link>
-    </div>
-    <div @click="toggleLanguage(true)">
-        <nuxt-link  :to="switchLocalePath('en')">English</nuxt-link>
-    </div>
+    <nuxt-link :to="switchLocalePath('ar')">العربية</nuxt-link>
+    <nuxt-link  :to="switchLocalePath('en')">English</nuxt-link>
+    
      
       
   
         <div>
-            {{ languageStatus }}
+            {{ whichLanguage }}
+           
         </div>
+
+        <banner></banner>
   
     </div>
  
@@ -25,20 +33,22 @@
 
 <script>
 import i18nRoutes from '../plugins/i18nRoutes';
-import { mapActions, mapGetters, mapMutations } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import {getToken} from '@utils/token'
 export default {
   data() {
     return {
-        listx:[]
+        listx:[],
     };
 
   },
   computed:{
-    ...mapGetters({
-        languageStatus: 'env/getEn'
-    })
+    
+    
   },
   mounted(){
+
+    // setToken("welcoming", "hi")
     // var lists= i18nRoutes
     // console.log(lists)
     // for (var item in lists) {
@@ -51,14 +61,29 @@ export default {
     // })
   },
   methods:{
-    toggleLanguage : (newState) => {
-        console.log("inside toggle function")
-        console.log($store)
-        // this.$store.dispatch('env/toggleEn',newState)
-    }
-    // ...mapMutations({
-    //     toggleLanguage : 'env/TOGGLE_EN'
-    // })
+    // toggleLanguage : (newState) => {
+    //     console.log("inside toggle function")
+    //     console.log(this.$store)
+    //     // this.$store.dispatch('env/toggleEn',newState)
+    // }
+    handleChange(value) {
+      console.log(`selected ${value}`);
+    },
+    handleBlur() {
+      console.log('blur');
+    },
+    handleFocus() {
+      console.log('focus');
+    },
+    filterOption(input, option) {
+      return (
+        option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0
+      );
+    },
+    ...mapActions({
+        
+        toggleLanguage : 'env/toggleEn'
+    })
   }
   
 }

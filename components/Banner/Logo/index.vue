@@ -15,5 +15,5 @@ const props = defineProps({
 	name: String,
 });
 
-const newImageUrl= require(`~/assets/img/${props.imgUrl}`);
+const newImageUrl= require(`@img/${props.imgUrl}`);
 </script>

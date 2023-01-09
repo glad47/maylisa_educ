@@ -1,9 +1,66 @@
+<!--
+ * @Description: 
+ * @Version: 2.0
+ * @Author: Aziz
+ * @Date: 2023-01-07 01:40:27
+ * @LastEditors: Aziz
+ * @LastEditTime: 2023-01-10 05:06:46
+-->
 <template>
-    <div class="banner e c">
-        <div class="col-s">
-            <Logo imgUrl="index1.png" name="maylisa" imgWidth="240" imgHeight="240" />
-            <H2>جامعة الامام عبداالله بن سعود</H2>
+    <div class="banner e col-e">
+        <div class="options col-12 row-sp">
+            <div class="col-5 row-sp">
+                <!-- category selection -->
+                <div   class="e c" >
+                    <SelectDefault 
+                    @handleChange="handleChangeFilter" 
+                    :list=" universityCategories[whichLanguage]"
+                    :placeholder="placeholderFilter[whichLanguage]"
+                    :optionFilterProp="optionFilterPropFilter"
+                    :showSearch="showSearchFilter"
+                    :chosen="updateCurrnetCat"
+                    :noContentFound="notFoundContent[whichLanguage]"
+                    />
+               
+                </div>
+                <!-- university selection -->
+                <div class="e c">
+                    <SelectDefault 
+                    @handleChange="handleChange" 
+                    :list="!!fitlerdListOfUniversity  ? fitlerdListOfUniversity : listOfUniversity[whichLanguage]"
+                    :placeholder="placeholderSelect[whichLanguage]"
+                    :optionFilterProp="optionFilterProp"
+                    :showSearch="showSearch"
+                    :chosen="updateCurrnetUniversity"
+                    :noContentFound="notFoundContent[whichLanguage]"
+                    />
+                </div>
+            </div>
+            <div class="col-7 row-e">
+                <div  class="e c"> 
+                    <Search 
+                    @handleSearch="handleSearch"
+                    @handleChange="handleChangeSearch"
+                    :list="listSearched"
+                    :placeholder="placeholderSearch[whichLanguage]"
+                    :noContentFound="notFoundContent[whichLanguage]"
+                    :searchPharse="updateCurrentSearch"
+                    />
+                </div>
+            </div>
         </div>
+        <div class="col-e">
+            <Logo imgUrl="index1.png" name="maylisa" imgWidth="240" imgHeight="240" />
+          
+        </div>
+        <div class="col-e" style="margin-bottom:40px;">
+            <H2>جامعة الامام عبداالله بن سعود</H2>
+        
+        </div>
+        <!-- <div v-else class="col-e">
+            <Logo imgUrl="index1.png" name="maylisa" imgWidth="240" imgHeight="240" />
+            <H2>University of Almam Abdulah bin Saud</H2>
+        </div> -->
         
     </div>
 </template>
@@ -19,10 +76,179 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', end
 
  height: 450px;
  margin: 0px;
+ position: relative;
+ .options{
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    // background: #000;
+    top: 0;
+ }
 }
 </style>
 
 <script setup>
 import Logo from "./Logo/index";
+import whichLang from "@plugins/discoverLang"
+import { computed, onMounted, watch,ref } from "vue";
+
+        
+           const updateCurrnetCat=ref(undefined);
+           const updateCurrnetUniversity= ref(undefined)
+           const updateCurrentSearch=ref(undefined)
+           const fitlerdListOfUniversity= ref(undefined)
+           const listSearched= ref([])
+           const notFoundContent= ref({
+            "ar":"لاتوجد جامعات",
+            "en":"no universities found" 
+           })
+           const listOfUniversity=ref({
+            "ar":[
+                {id:1, name: "جامعة عبد المحسن", cat:"2"},
+                {id:2, name:"جامعة الفتح",cat:"5,3,2"},
+                {id:3, name: "جامعة عبد الله", cat:"4"},
+                {id:4, name:"جامعة الاقصى", cat: "5"},
+            ],
+            "en":[
+                {id:1, name: "university 1 ewqjhfh j ehjragjhg ",cat:"2"},
+                {id:2, name:"university dwbjkafhwkj gkjelwgqfkerwgkl",cat:"3"},
+                {id:3, name: "university 2 ewqjhfh j ehjragjhg ",cat:"4"},
+                {id:4, name:"university drwgkl",cat: "5"}
+            ]
+           })
+            const universityCategories= ref({
+            "ar":[
+                {id:1, name:"الكل"},
+                {id:2, name:"الجامعات الحكومية"},
+                {id:3, name:"الجامعات الخاصة"},
+                {id:4, name:"افضل عشر جامعات"},
+                {id:5, name:"افضل جامعات الهندسة"},
+                {id:6, name:"افضل جامعات الطب"},
+                {id:7, name:"افضل جامعات الاقتصاد"},
+                {id:8, name:"ارخص خمس جامعات"},
+
+            ],
+            "en":[
+                {id:1, name:"All"},
+                {id:2, name:"Public Universities"},
+                {id:3, name:"Private Universities"},
+                {id:4, name:"The best 10 universities"},
+                {id:5, name:"Best Engineering universities"},
+                {id:6, name:"Best Medical universities"},
+                {id:7, name:"Best universities for Economic"},
+                {id:8, name:"The most 5 cheapest universities"},
+            ]
+        })
+
+         //for choose universites params
+    
+         const placeholderSelect=ref({
+            "ar":"اختر جامعة",
+            "en":"choose university"
+        })
+        const optionFilterProp=ref("")
+        const showSearch=ref(false)
+
+
+         //for choose categories params
+      
+        const placeholderFilter=ref({
+            "ar":"اختر فئة",
+            "en":"choose category"
+        })
+        const optionFilterPropFilter= ref("")
+        const showSearchFilter=ref(false)
+        //for search params
+
+        const placeholderSearch=ref({
+            "ar":"ابحث عن جامعة",
+            "en":"search for university"
+        })
+        //update the current cat needed to be afterr mounted
+        onMounted(() => {
+            updateCurrnetCat.value= universityCategories.value[whichLang()][0].name
+            // console.log("**********************")
+            // console.log(width.value)
+            // console.log(height.value)
+        })
+
+       
+        
+
+        const handleChange = (value) => {
+         console.log(`selected ${value}`);
+         updateCurrnetUniversity.value= value
+        }
+
+        const handleChangeFilter = (value) => {
+        updateCurrnetUniversity.value= undefined    
+        updateCurrnetCat.value=value
+        fitlerdListOfUniversity.value=[]
+         var tem= universityCategories.value[whichLang()].filter((item) => {
+            return item.name == value
+         })  
+         var item= tem[0]
+         console.log(item.id)
+         if(item.id != 1){
+            listOfUniversity.value[whichLang()].map((uni) => {
+           
+            if(uni.cat.includes(item.id)){
+              
+                fitlerdListOfUniversity.value.push(uni)
+            }
+         })
+         fitlerdListOfUniversity.value.sort((a,b) => {
+            console.log("inside the sort")
+            return a.id - b.id
+         })
+        }else{
+            fitlerdListOfUniversity.value= undefined 
+        }
+        listOfUniversity.value= listOfUniversity.value
+    }
+    const handleSearch= (value) => {
+        updateCurrentSearch.value= undefined
+        listSearched.value=[]
+        
+        
+        if(value == ''){
+            return
+            updateCurrentSearch.value= undefined
+            listSearched.value=[]
+        }
+        
+        listOfUniversity.value[whichLang()].map((uni) => {
+            console.log(uni.name.toLowerCase().indexOf(value.toLowerCase()))
+           if(uni.name.toLowerCase().indexOf(value.toLowerCase()) >= 0){
+            console.log("inside")
+            listSearched.value.push(uni)
+           }    
+         })
+         
+         console.log("Search for " + value )
+         updateCurrentSearch.value= value
+    }
+    
+
+    const handleChangeSearch= (value) => {
+        console.log("*****handle change****")
+        console.log(value)
+        var tem= listOfUniversity.value[whichLang()].filter((item) => {
+            return item.name == value
+         })  
+         var item= tem[0]
+         listSearched.value= [] 
+        listSearched.value.push(item)
+        updateCurrentSearch.value= item.name
+        updateCurrnetCat.value= universityCategories.value[whichLang()][0].name
+        updateCurrnetUniversity.value= undefined  
+   
+    }
+
+
+         
+                   
+      
+       
 
 </script>

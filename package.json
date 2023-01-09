@@ -7,6 +7,7 @@
     "start": "nuxt start"
   },
   "dependencies": {
+    "ant-design-vue": "^1.7.4",
     "nuxt": "^2.15.8",
     "nuxt-bus": "^0.9.3",
     "nuxt-i18n": "^6.28.1",
@@ -14,8 +15,11 @@
     "vue": "^2.7.14"
   },
   "devDependencies": {
-    "@nuxtjs/i18n": "^8.0.0-beta.7",
     "@nuxtjs/sitemap": "^2.4.0",
+    "antd-theme-generator": "^1.2.6",
+    "js-cookie": "^3.0.1",
+    "less": "^3.0.0",
+    "less-loader": "^5.0.0",
     "node-sass": "^4.14.1",
     "sass-loader": "^7.3.1"
   }

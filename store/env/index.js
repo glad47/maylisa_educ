@@ -1,3 +1,9 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
+import { getToken,setToken } from '@utils/token'
+
+Vue.use(Vuex)
+
 export const state = () => ({
     //indicate wether the chosen language is english or not
     en: false
@@ -18,7 +24,7 @@ export const state = () => ({
 
   export const actions = {
     toggleEn({ commit },newState) {
-        console.log("actions")
+      setToken("en",newState)
       commit('TOGGLE_EN',newState)
     }
   }

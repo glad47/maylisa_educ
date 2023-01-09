@@ -1,5 +1,6 @@
 const env = require('./env')
 const path = require('path')
+import { resolve } from 'path'
 import sitemap from './plugins/sitemap'
 import i18nRoutes from './plugins/i18nRoutes'
 export default {
@@ -33,29 +34,17 @@ module.exports = {
     //     }
     // },
     css: [
-        'assets/css/index.scss'
+        'assets/css/index.scss',
     ],
     plugins: [
       {src: "~plugins/route.js"},
       {src: "~plugins/bus.js"},
+      {src: "~plugins/discoverLang.js"},
+      {src: "~plugins/antd-ui.js"},
+     
     ],
     components: true,
-    resolve: {
-        alias: {
-            // 设置 `@` 指向 `src` 目录
-            "@": path.resolve(__dirname, "./"),
-            "@assets": path.resolve("assets"),
-            "@img": path.resolve("assets/img"),
-            "@comps": path.resolve("components"),
-            "@utils": path.resolve("utils"),
-            "@pages": path.resolve("pages"),
-            // "@store": path.resolve("src/store"),
-            // "@api": path.resolve("src/api"),
-            // "@plugins": path.resolve("src/plugins"),
-        },
-        //extensions: [".ts", ".js", ".vue", ".json", ".mjs"],
-        extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue"],
-    },
+   
 
     modules: [
       'nuxt-i18n',
@@ -85,7 +74,46 @@ module.exports = {
     defaultLocale: 'ar',
   },
     sitemap: sitemap,
-   
+   build : {
+    extend(config){
+      config.resolve.alias['@utils']= path.join(__dirname,'./utils')
+      config.resolve.alias['@assets']= path.join(__dirname,'./assets')
+      config.resolve.alias['@img']= path.join(__dirname,'./assets/img')
+      config.resolve.alias['@comps']= path.join(__dirname,'./components')
+      config.resolve.alias['@pages']= path.join(__dirname,'./pages')
+      config.resolve.alias['@plugins']= path.join(__dirname,'./plugins')
+      config.resolve.alias['@antd']= path.join(__dirname,'./node_modules/ant-design-vue')
+    },
+    loaders: {
+      less: {
+        lessOptions: {
+          javascriptEnabled: true,
+          modifyVars: {
+            // modifyVars 可用来自定义主题
+            // 'primary-color': '#41b883',
+            // 'layout-body-background': '#fff',
+          },
+        },
+     },
+   },
+ 
+  //   resolve: {
+  //     alias: {
+  //         // 设置 `@` 指向 `src` 目录
+  //         "@": path.resolve(__dirname, "./"),
+  //         "@assets": path.resolve("assets"),
+  //         "@img": path.resolve("assets/img"),
+  //         "@comps": path.resolve("components"),
+  //         "utils": path.resolve("./utils"),
+  //         "@pages": path.resolve("pages"),
+  //         // "@store": path.resolve("src/store"),
+  //         // "@api": path.resolve("src/api"),
+  //         // "@plugins": path.resolve("src/plugins"),
+  //     },
+  //     //extensions: [".ts", ".js", ".vue", ".json", ".mjs"],
+  //     // extensions: [".mjs", ".js", ".ts", ".jsx", ".tsx", ".json", ".vue"],
+  // },
+   }
     //   modules: [
     //     '@nuxtjs/style-resources',
     //     {
