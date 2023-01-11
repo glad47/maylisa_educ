@@ -4,10 +4,12 @@
  * @Author: Aziz
  * @Date: 2023-01-07 01:40:27
  * @LastEditors: Aziz
- * @LastEditTime: 2023-01-11 05:05:25
+ * @LastEditTime: 2023-01-11 20:41:04
 -->
 <template>
-    <div class="banner e col-e">
+    
+    <div class="banner c">
+        <div class="bannerContent main e col-e">
         <div class="arrow col-12 c row-b">
             <div :class="currentPos == 0 ? 'leftNoPointer' : 'left' " @click="() => {
                decCurrent() 
@@ -29,8 +31,8 @@
             alt="right_arrow"/>
         </div>
         </div>
-        <div class="options col-12 row-sp">
-            <div class="col-4 row-sp">
+        <div class="options col-12 row-b">
+            <div class="col-4 row-b">
                 <!-- category selection -->
                 <div   class="e c" >
                     <SelectDefault 
@@ -82,7 +84,7 @@
             <Logo imgUrl="index1.png" name="maylisa" imgWidth="240" imgHeight="240" />
             <H2>University of Almam Abdulah bin Saud</H2>
         </div> -->
-        
+    </div>
     </div>
 </template>
 
@@ -97,8 +99,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', end
 
  height: 450px;
  margin: 0px;
- position: relative;
-
+ 
+ .bannerContent{
+    position: relative;
+    height: 450px;
  .arrow{
     width: 100%;
     height: 150px;
@@ -106,18 +110,18 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', end
     top:140px;
     .leftNoPointer{
         position: relative;
-        margin-left: 20px;
+        // margin-left: 20px;
         cursor: not-allowed;
     }
     .left{
         position: relative;
-        margin-left: 20px;
+        // margin-left: 20px;
         cursor: pointer;
         
         .hoverBox{
             position: absolute;
-            width: 64px;
-            left: -20px;
+            width: 44px;
+            left: 0;
             height: 150px;
             background: rgba(135 , 206, 250, 0.3);
             z-index: -1;
@@ -133,17 +137,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', end
 
     .rightNoPointer{
         position: relative;
-        margin-right: 20px;
+        // margin-right: 20px;
         cursor: not-allowed;
     }
     .right{
         position: relative;
-        margin-right: 20px;
+        // margin-right: 20px;
         cursor: pointer;
         .hoverBox{
             position: absolute;
-            width: 64px;
-            right: -20px;
+            width: 44px;
+            right: 0;
             height: 150px;
             background: rgba(135 , 206, 250, 0.3);
             z-index: -1;
@@ -155,6 +159,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', end
     .right:hover .hoverBox {
         z-index: 2;
     }
+
  }
  .options{
     width: 100%;
@@ -164,10 +169,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', end
     top: 10px;
  }
  .univeristName{
-    font-family: 'Mada', serif!important;
+    font-family: 'Mada', sans-serif!important;
     font-weight: 900!important;
     color: #b7b7b7!important;
  }
+}
 }
 </style>
 

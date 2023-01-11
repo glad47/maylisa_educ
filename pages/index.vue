@@ -4,7 +4,7 @@
  * @Author: Aziz
  * @Date: 2023-01-06 19:20:02
  * @LastEditors: Aziz
- * @LastEditTime: 2023-01-11 05:40:32
+ * @LastEditTime: 2023-01-12 07:03:09
 -->
 <template class="col-12">
    <div>
@@ -30,8 +30,11 @@
           
            
         </div> -->
-
-        <Content />
+        <Content  />
+        <ContentWithImage style="margin-top: 40px;" />
+        <ContentList style="margin-top: 40px;" />
+        <ContentOneColumn style="margin-top: 40px;" />
+        <!-- <ImageDisplay /> -->
         
   
     </div>

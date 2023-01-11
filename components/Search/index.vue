@@ -61,64 +61,19 @@ import { onMounted,computed,ref,watchEffect,toRefs } from 'vue';
 </script>
 <style lang="scss" scoped>
 .widthOfSelect{
-    width:500px;
-    margin-right:30px;
+    width:400px;
+    // margin-right:30px;
 }
-@media screen and (max-width: 1920px) {
-   .widthOfSelect{
-    width: 500px;
-}
-}
-@media screen and (max-width: 1600px) {
-   .widthOfSelect{
-    width: 480px;
-}
-}
-@media screen and (max-width: 1536px) {
-   .widthOfSelect{
-    width: 460px;
-}
-}
-@media screen and (max-width: 1450px) {
-   .widthOfSelect{
-    width: 430px;
-   }
-    
-}
-@media screen and (max-width: 1366px) {
-   .widthOfSelect{
-    width: 420px;
-   }
-    
-}
+
 @media screen and (max-width: 1280px) {
     .widthOfSelect{
-     width: 380px;
-     margin-right:20px;
+     width: 350px;
     }
 }  
-@media screen and (max-width: 1180px) {
-    .widthOfSelect{
-     width: 330px;
-     margin-right:20px;
-    }
-} 
-@media screen and (max-width: 1080px) {
+@media screen and (max-width: 1000px) {
     .widthOfSelect{
      width: 300px;
-     margin-right:10px;
-    }
-}  
-@media screen and (max-width: 800px) {
-    .widthOfSelect{
-     width: 280px;
-     margin-right:5px;
-    }
-}   
-@media screen and (max-width: 768px) {
-    .widthOfSelect{
-     width: 260px;
-     
     }
 } 
+ 
 </style>
