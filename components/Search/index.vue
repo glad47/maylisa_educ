@@ -3,15 +3,17 @@
         <a-select v-if="props"
         class="widthOfSelect"
         show-search
+        
         v-model="searchPharse"
         :placeholder="props.placeholder"
         :default-active-first-option="false"
-        :show-arrow="false"
         :filter-option="false"
         :not-found-content="null"
         @search="handleSearch"
         @change="handleChange"
   >
+  <a-icon slot="suffixIcon" type="search" />
+  <!-- <SearchOutlined /> -->
   <a-select-option v-for="item in list" :key="item.name">
       {{ item.name}}
     </a-select-option>
@@ -59,58 +61,64 @@ import { onMounted,computed,ref,watchEffect,toRefs } from 'vue';
 </script>
 <style lang="scss" scoped>
 .widthOfSelect{
-    width:320px;
+    width:500px;
+    margin-right:30px;
 }
-// @media screen and (max-width: 1920px) {
-//    .widthOfSelect{
-//     width: 350px;
-// }
-// }
-// @media screen and (max-width: 1600px) {
-//    .widthOfSelect{
-//     width: 310px;
-// }
-// }
-// @media screen and (max-width: 1536px) {
-//    .widthOfSelect{
-//     width: 300px;
-// }
-// }
-// @media screen and (max-width: 1450px) {
-//    .widthOfSelect{
-//     width: 270px;
-//    }
+@media screen and (max-width: 1920px) {
+   .widthOfSelect{
+    width: 500px;
+}
+}
+@media screen and (max-width: 1600px) {
+   .widthOfSelect{
+    width: 480px;
+}
+}
+@media screen and (max-width: 1536px) {
+   .widthOfSelect{
+    width: 460px;
+}
+}
+@media screen and (max-width: 1450px) {
+   .widthOfSelect{
+    width: 430px;
+   }
     
-// }
-// @media screen and (max-width: 1366px) {
-//    .widthOfSelect{
-//     width: 260px;
-//    }
+}
+@media screen and (max-width: 1366px) {
+   .widthOfSelect{
+    width: 420px;
+   }
     
-// }
-// @media screen and (max-width: 1280px) {
-//     .widthOfSelect{
-//      width: 240px;
-//     }
-// }  
-// @media screen and (max-width: 1180px) {
-//     .widthOfSelect{
-//      width: 220px;
-//     }
-// } 
-// @media screen and (max-width: 1080px) {
-//     .widthOfSelect{
-//      width: 200px;
-//     }
-// }  
-// @media screen and (max-width: 800px) {
-//     .widthOfSelect{
-//      width: 160px;
-//     }
-// }   
-// @media screen and (max-width: 768px) {
-//     .widthOfSelect{
-//      width: 130px;
-//     }
-// } 
+}
+@media screen and (max-width: 1280px) {
+    .widthOfSelect{
+     width: 380px;
+     margin-right:20px;
+    }
+}  
+@media screen and (max-width: 1180px) {
+    .widthOfSelect{
+     width: 330px;
+     margin-right:20px;
+    }
+} 
+@media screen and (max-width: 1080px) {
+    .widthOfSelect{
+     width: 300px;
+     margin-right:10px;
+    }
+}  
+@media screen and (max-width: 800px) {
+    .widthOfSelect{
+     width: 280px;
+     margin-right:5px;
+    }
+}   
+@media screen and (max-width: 768px) {
+    .widthOfSelect{
+     width: 260px;
+     
+    }
+} 
 </style>

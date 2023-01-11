@@ -35,10 +35,10 @@ module.exports = {
     // },
     css: [
         'assets/css/index.scss',
+        'assets/css/animate.css',
     ],
     plugins: [
       {src: "~plugins/route.js"},
-      {src: "~plugins/bus.js"},
       {src: "~plugins/discoverLang.js"},
       {src: "~plugins/antd-ui.js"},
      
@@ -49,9 +49,29 @@ module.exports = {
     modules: [
       'nuxt-i18n',
       '@nuxtjs/sitemap',
+      '@nuxtjs/google-fonts'
       
     ]
    ,
+   googleFonts: {
+    download: true,
+    overwriting: false,
+    base64: true,
+    families: {
+      // display:"swap",
+     'Noto+Naskh+Arabic': {
+      wght: [400, 500, 600, 700]
+     },
+     'Mada': {
+        wght: [400,500,600,700,900],
+        
+     },
+     'Inter': {
+      wght: [100,200,300,400,500,600,700,800,900],
+      
+   },
+    }
+  },
    i18n: {
     parsePages: false,
     pages: i18nRoutes,

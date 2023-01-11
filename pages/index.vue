@@ -4,9 +4,9 @@
  * @Author: Aziz
  * @Date: 2023-01-06 19:20:02
  * @LastEditors: Aziz
- * @LastEditTime: 2023-01-10 04:21:28
+ * @LastEditTime: 2023-01-11 05:40:32
 -->
-<template class="main">
+<template class="col-12">
    <div>
     <div v-for="(item, index) in listx">
     {{ item }}
@@ -23,18 +23,44 @@
            
         </div>
 
-        <banner></banner>
+        <banner class=""></banner>
+        <!-- <div class="containAnime">
+            <div class=" blockerPage animated slow  animated.delay-3s  pageCurl-left"></div>
+            
+          
+           
+        </div> -->
+
+        <Content />
+        
   
     </div>
  
   
 </template>
-
+<style lang="scss">
+.containAnime{
+    position: relative;
+    .blockerPage{
+        position:absolute;
+        width: 100%;
+        height: 500px;
+        background: #fff;
+        z-index: -1;
+        .singleBox{
+        
+        }
+       
+        
+    }
+}
+</style>
 
 <script>
 import i18nRoutes from '../plugins/i18nRoutes';
 import { mapActions, mapGetters } from 'vuex'
 import {getToken} from '@utils/token'
+import bus from "@utils/bus"
 export default {
   data() {
     return {
@@ -47,7 +73,10 @@ export default {
     
   },
   mounted(){
-
+    console.log(bus)
+    bus.on("changeCurrentUniversity", (value) => {
+        console.log("Recieved Object" + value.name )
+    })
     // setToken("welcoming", "hi")
     // var lists= i18nRoutes
     // console.log(lists)

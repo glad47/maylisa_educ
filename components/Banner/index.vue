@@ -4,12 +4,33 @@
  * @Author: Aziz
  * @Date: 2023-01-07 01:40:27
  * @LastEditors: Aziz
- * @LastEditTime: 2023-01-10 05:06:46
+ * @LastEditTime: 2023-01-11 05:05:25
 -->
 <template>
     <div class="banner e col-e">
+        <div class="arrow col-12 c row-b">
+            <div :class="currentPos == 0 ? 'leftNoPointer' : 'left' " @click="() => {
+               decCurrent() 
+            }">
+            <div class="hoverBox"></div>
+            <img src="@img/components/banner/left_arrow.png"
+            width="44px"
+            height="150px"
+            alt="left_arrow"/>
+        </div>
+            <div :class="currentPos == endPos ? 'rightNoPointer' : 'right' " @click="() => {
+                
+                incCurrent()
+            }">
+            <div class="hoverBox"></div>    
+            <img src="@img/components/banner/right_arrow.png"
+            width="44px"
+            height="150px"
+            alt="right_arrow"/>
+        </div>
+        </div>
         <div class="options col-12 row-sp">
-            <div class="col-5 row-sp">
+            <div class="col-4 row-sp">
                 <!-- category selection -->
                 <div   class="e c" >
                     <SelectDefault 
@@ -31,7 +52,7 @@
                     :placeholder="placeholderSelect[whichLanguage]"
                     :optionFilterProp="optionFilterProp"
                     :showSearch="showSearch"
-                    :chosen="updateCurrnetUniversity"
+                    :chosen="updateCurrnetUniversitySelect"
                     :noContentFound="notFoundContent[whichLanguage]"
                     />
                 </div>
@@ -49,13 +70,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-e">
-            <Logo imgUrl="index1.png" name="maylisa" imgWidth="240" imgHeight="240" />
+        <div v-if="updateCurrnetUniversity != undefined" class="col-e" style="margin-bottom: 10px;">
+            <Logo  :imgUrl="updateCurrnetUniversity.name" :name="updateCurrnetUniversity.name" imgWidth="240" imgHeight="240" />
           
         </div>
-        <div class="col-e" style="margin-bottom:40px;">
-            <H2>جامعة الامام عبداالله بن سعود</H2>
-        
+        <div v-if="updateCurrnetUniversity != undefined" class="col-e " style="margin-bottom:40px;">
+            <!-- <H1 class="univeristName">جامعة الامام عبداالله بن سعود</H1> -->
+            <H1 class="univeristName">{{ updateCurrnetUniversity.name }}</H1>
         </div>
         <!-- <div v-else class="col-e">
             <Logo imgUrl="index1.png" name="maylisa" imgWidth="240" imgHeight="240" />
@@ -77,24 +98,89 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ededed', end
  height: 450px;
  margin: 0px;
  position: relative;
+
+ .arrow{
+    width: 100%;
+    height: 150px;
+    position: absolute;
+    top:140px;
+    .leftNoPointer{
+        position: relative;
+        margin-left: 20px;
+        cursor: not-allowed;
+    }
+    .left{
+        position: relative;
+        margin-left: 20px;
+        cursor: pointer;
+        
+        .hoverBox{
+            position: absolute;
+            width: 64px;
+            left: -20px;
+            height: 150px;
+            background: rgba(135 , 206, 250, 0.3);
+            z-index: -1;
+            
+            
+        } 
+       
+    }
+
+    .left:hover .hoverBox {
+        z-index: 2;
+    }
+
+    .rightNoPointer{
+        position: relative;
+        margin-right: 20px;
+        cursor: not-allowed;
+    }
+    .right{
+        position: relative;
+        margin-right: 20px;
+        cursor: pointer;
+        .hoverBox{
+            position: absolute;
+            width: 64px;
+            right: -20px;
+            height: 150px;
+            background: rgba(135 , 206, 250, 0.3);
+            z-index: -1;
+            
+            
+        } 
+    }
+
+    .right:hover .hoverBox {
+        z-index: 2;
+    }
+ }
  .options{
     width: 100%;
     height: 50px;
     position: absolute;
     // background: #000;
-    top: 0;
+    top: 10px;
+ }
+ .univeristName{
+    font-family: 'Mada', serif!important;
+    font-weight: 900!important;
+    color: #b7b7b7!important;
  }
 }
 </style>
 
 <script setup>
 import Logo from "./Logo/index";
-import whichLang from "@plugins/discoverLang"
+import whichLang from "@plugins/discoverLang";
+import bus from "@utils/bus";
 import { computed, onMounted, watch,ref } from "vue";
 
         
            const updateCurrnetCat=ref(undefined);
            const updateCurrnetUniversity= ref(undefined)
+           const updateCurrnetUniversitySelect= ref(undefined)
            const updateCurrentSearch=ref(undefined)
            const fitlerdListOfUniversity= ref(undefined)
            const listSearched= ref([])
@@ -104,16 +190,16 @@ import { computed, onMounted, watch,ref } from "vue";
            })
            const listOfUniversity=ref({
             "ar":[
-                {id:1, name: "جامعة عبد المحسن", cat:"2"},
+                {id:1, name: "جامعة عبدالمحسن", cat:"2"},
                 {id:2, name:"جامعة الفتح",cat:"5,3,2"},
-                {id:3, name: "جامعة عبد الله", cat:"4"},
+                {id:3, name: "جامعة عبدالله", cat:"4"},
                 {id:4, name:"جامعة الاقصى", cat: "5"},
             ],
             "en":[
-                {id:1, name: "university 1 ewqjhfh j ehjragjhg ",cat:"2"},
-                {id:2, name:"university dwbjkafhwkj gkjelwgqfkerwgkl",cat:"3"},
-                {id:3, name: "university 2 ewqjhfh j ehjragjhg ",cat:"4"},
-                {id:4, name:"university drwgkl",cat: "5"}
+                {id:1, name: "university of education",cat:"2"},
+                {id:2, name:"university of knowledge",cat:"3"},
+                {id:3, name: "university of science",cat:"4"},
+                {id:4, name:"university of sport",cat: "5"}
             ]
            })
             const universityCategories= ref({
@@ -164,24 +250,70 @@ import { computed, onMounted, watch,ref } from "vue";
             "ar":"ابحث عن جامعة",
             "en":"search for university"
         })
+
+
+        //slider data
+        const currentPos = ref(0)
+        const endPos= ref(0)
+
+
         //update the current cat needed to be afterr mounted
         onMounted(() => {
             updateCurrnetCat.value= universityCategories.value[whichLang()][0].name
+            endPos.value = listOfUniversity.value[whichLang()].length -1
+            updateCurrnetUniversity.value= listOfUniversity.value[whichLang()][0]
+            bus.emit("changeCurrentUniversity", updateCurrnetUniversity.value)
+            
             // console.log("**********************")
             // console.log(width.value)
             // console.log(height.value)
         })
 
-       
+       const incCurrent= () => {
+        if(currentPos.value <  endPos.value){
+            currentPos.value++
+            if(fitlerdListOfUniversity != undefined){}
+            updateCurrnetUniversity.value= !!fitlerdListOfUniversity.value ? fitlerdListOfUniversity.value[currentPos.value] : listOfUniversity.value[whichLang()][currentPos.value]
+        }
+        bus.emit("changeCurrentUniversity", updateCurrnetUniversity.value)
+
+        
+       }
+
+       const decCurrent= () => {
+        if(currentPos.value >  0){
+            currentPos.value--
+            updateCurrnetUniversity.value= !!fitlerdListOfUniversity.value ? fitlerdListOfUniversity.value[currentPos.value] : listOfUniversity.value[whichLang()][currentPos.value]
+        }
+
+        bus.emit("changeCurrentUniversity", updateCurrnetUniversity.value)
+       }
+
+
         
 
         const handleChange = (value) => {
          console.log(`selected ${value}`);
-         updateCurrnetUniversity.value= value
+         var item={}
+         updateCurrnetUniversitySelect.value= value
+         if(fitlerdListOfUniversity.value != undefined){
+            var tem= fitlerdListOfUniversity.value.filter((item) => {
+            return item.name == value
+         })  
+         item= tem[0]
+         }else{
+            var tem= listOfUniversity.value[whichLang()].filter((item) => {
+            return item.name == value
+         })  
+         item= tem[0]
+         }
+         
+         updateCurrnetUniversity.value= item
+         bus.emit("changeCurrentUniversity", updateCurrnetUniversity.value)
         }
 
         const handleChangeFilter = (value) => {
-        updateCurrnetUniversity.value= undefined    
+        updateCurrnetUniversitySelect.value= undefined    
         updateCurrnetCat.value=value
         fitlerdListOfUniversity.value=[]
          var tem= universityCategories.value[whichLang()].filter((item) => {
@@ -198,13 +330,24 @@ import { computed, onMounted, watch,ref } from "vue";
             }
          })
          fitlerdListOfUniversity.value.sort((a,b) => {
-            console.log("inside the sort")
+            // console.log("inside the sort")
             return a.id - b.id
          })
+
+         updateCurrnetUniversity.value= fitlerdListOfUniversity.value[0]
+
+         currentPos.value=0
+         endPos.value=fitlerdListOfUniversity.value.length - 1
         }else{
             fitlerdListOfUniversity.value= undefined 
+            updateCurrnetUniversity.value= listOfUniversity.value[whichLang()][0]
+            currentPos.value=0
+            endPos.value=listOfUniversity.value[whichLang()].length - 1 
         }
-        listOfUniversity.value= listOfUniversity.value
+
+        bus.emit("changeCurrentUniversity", updateCurrnetUniversity.value)
+        
+        
     }
     const handleSearch= (value) => {
         updateCurrentSearch.value= undefined
@@ -233,7 +376,13 @@ import { computed, onMounted, watch,ref } from "vue";
     const handleChangeSearch= (value) => {
         console.log("*****handle change****")
         console.log(value)
+        var count = -1
+        var curr= 0
         var tem= listOfUniversity.value[whichLang()].filter((item) => {
+            count++
+            if(item.name == value){
+                curr= count
+            }
             return item.name == value
          })  
          var item= tem[0]
@@ -241,7 +390,11 @@ import { computed, onMounted, watch,ref } from "vue";
         listSearched.value.push(item)
         updateCurrentSearch.value= item.name
         updateCurrnetCat.value= universityCategories.value[whichLang()][0].name
-        updateCurrnetUniversity.value= undefined  
+        updateCurrnetUniversitySelect.value= undefined 
+        updateCurrnetUniversity.value= item
+        bus.emit("changeCurrentUniversity", updateCurrnetUniversity.value)
+        currentPos.value=curr
+        endPos.value= listOfUniversity.value[whichLang()].length - 1  
    
     }
 

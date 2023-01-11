@@ -4,7 +4,7 @@
  * @Author: Aziz
  * @Date: 2023-01-09 15:28:44
  * @LastEditors: Aziz
- * @LastEditTime: 2023-01-10 04:07:46
+ * @LastEditTime: 2023-01-11 06:38:10
 -->
 <template>
     <div >
@@ -29,7 +29,7 @@
 </template>
 <script setup>
 import { onMounted,computed,ref,watchEffect,toRefs } from 'vue';
-// import { ref,reactive } from 'vue';
+
 
     const emits = defineEmits(['handleChange', 'handleBlur', 'handleFocus','filterOption' ])
     const props = defineProps({
@@ -43,11 +43,7 @@ import { onMounted,computed,ref,watchEffect,toRefs } from 'vue';
    
     //convert the prop into ref
     const {chosen}= toRefs(props)
-    console.log("@@@@@@@@@@@@")
-   
-    // onMounted(() => {
-    //     defaultFilter.value= props.defaultFilter
-    // })
+  
  
     const handleChange = (value) => {
         emits('handleChange', value)
@@ -68,58 +64,58 @@ import { onMounted,computed,ref,watchEffect,toRefs } from 'vue';
 </script>
 <style lang="scss" scoped>
 .widthOfSelect{
-    width:320px;
+    width:280px;
 }
 @media screen and (max-width: 1920px) {
    .widthOfSelect{
-    width: 350px;
+    width: 280px;
 }
 }
 @media screen and (max-width: 1600px) {
    .widthOfSelect{
-    width: 310px;
+    width: 260px;
 }
 }
 @media screen and (max-width: 1536px) {
    .widthOfSelect{
-    width: 300px;
+    width: 240px;
 }
 }
 @media screen and (max-width: 1450px) {
    .widthOfSelect{
-    width: 270px;
+    width: 220px;
    }
     
 }
 @media screen and (max-width: 1366px) {
    .widthOfSelect{
-    width: 260px;
+    width: 200px;
    }
     
 }
 @media screen and (max-width: 1280px) {
     .widthOfSelect{
-     width: 240px;
+     width: 180px;
     }
 }  
 @media screen and (max-width: 1180px) {
     .widthOfSelect{
-     width: 220px;
+     width: 160px;
     }
 } 
 @media screen and (max-width: 1080px) {
     .widthOfSelect{
-     width: 200px;
+     width: 140px;
     }
 }  
 @media screen and (max-width: 800px) {
     .widthOfSelect{
-     width: 160px;
+     width: 120px;
     }
 }   
 @media screen and (max-width: 768px) {
     .widthOfSelect{
-     width: 130px;
+     width: 110px;
     }
 } 
 </style>
